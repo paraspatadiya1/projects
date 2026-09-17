@@ -1,0 +1,1106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paras Patadiya | Python & Django Developer</title>
+
+<meta name="description" content="Paras Patadiya — Python & Django Developer building modern, scalable and high-performance web applications.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   PARAS PATADIYA
+   PREMIUM F1 × DEVELOPER PORTFOLIO (WITH SCROLL-DRIVEN F1 CAR)
+============================================================ */
+
+:root{
+    --black:#040406;
+    --black2:#08080c;
+    --panel:#0b0b10;
+
+    --red:#ff2028;
+    --red2:#ff512f;
+    --orange:#ff9d00;
+    --yellow:#ffe600;
+
+    --cyan:#00e5ff;
+    --blue:#4b7dff;
+    --purple:#a45cff;
+    --green:#00f5a0;
+
+    --white:#f7f7fa;
+    --gray:#94949f;
+    --gray2:#656570;
+    --line:rgba(255,255,255,.09);
+
+    --display:"Space Grotesk",sans-serif;
+    --body:"Inter",sans-serif;
+    --mono:"JetBrains Mono",monospace;
+
+    --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:var(--body);
+    background:var(--black);
+    color:var(--white);
+    overflow-x:hidden;
+}
+
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; }
+img{ max-width:100%; display:block; }
+
+::selection{
+    background:var(--red);
+    color:white;
+}
+
+/* ============================================================
+   SCROLL-DRIVEN F1 CAR & TRACK CONTAINER
+============================================================ */
+.f1-track-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.f1-scroll-path {
+    width: 100%;
+    height: 100%;
+}
+
+.f1-scroll-path path {
+    fill: none;
+    stroke: rgba(255, 32, 40, 0.15);
+    stroke-width: 4;
+    stroke-dasharray: 8 6;
+}
+
+.f1-car-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 35px;
+    margin-top: -17.5px;
+    margin-left: -35px;
+    will-change: transform;
+    transition: transform 0.1s linear;
+}
+
+.f1-car-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 12px rgba(255, 32, 40, 0.8));
+}
+
+.f1-car-sparks {
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 10px;
+    background: radial-gradient(circle, var(--yellow) 0%, var(--orange) 50%, transparent 80%);
+    opacity: 0;
+    filter: blur(2px);
+    transition: opacity 0.2s ease;
+}
+
+.f1-car-container.moving .f1-car-sparks {
+    opacity: 1;
+}
+
+/* CUSTOM CURSOR */
+.cursor{
+    position:fixed;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:white;
+    mix-blend-mode:difference;
+    pointer-events:none;
+    z-index:10000;
+    transform:translate(-50%,-50%);
+    transition: width .25s ease, height .25s ease;
+}
+
+.cursor-ring{
+    position:fixed;
+    width:40px;
+    height:40px;
+    border:1px solid rgba(255,255,255,.45);
+    border-radius:50%;
+    pointer-events:none;
+    z-index:9999;
+    transform:translate(-50%,-50%);
+    transition: width .35s var(--ease), height .35s var(--ease), border-color .35s ease;
+}
+
+.cursor.active{ width:5px; height:5px; }
+.cursor-ring.active{ width:64px; height:64px; border-color:var(--red); background:rgba(255,30,30,.04); }
+
+/* LOADER */
+.loader{
+    position:fixed;
+    inset:0;
+    background:#020203;
+    z-index:20000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: opacity 1s var(--ease), visibility 1s;
+}
+
+.loader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+.loader-content{ width:min(520px,82%); }
+.loader-top{ display:flex; justify-space-between; margin-bottom:22px; font-family:var(--mono); font-size:9px; letter-spacing:3px; color:#666; }
+.loader-logo{ font-family:var(--display); font-size:clamp(60px,11vw,105px); font-weight:900; letter-spacing:-8px; line-height:.8; }
+.loader-logo span{ color:var(--red); }
+.loader-bar{ margin-top:38px; height:3px; background:#19191f; overflow:hidden; }
+.loader-bar span{ display:block; width:0; height:100%; background:linear-gradient(90deg, var(--red), var(--orange), var(--yellow)); animation: loadBar 2s cubic-bezier(.7,0,.2,1) forwards; }
+
+@keyframes loadBar{ to{ width:100%; } }
+.loader-status{ margin-top:15px; display:flex; justify-content:space-between; font-family:var(--mono); font-size:8px; color:#555; letter-spacing:2px; }
+
+/* BACKGROUND SYSTEM & RACETRACK ELEMENTS */
+.noise{ position:fixed; inset:0; pointer-events:none; z-index:9000; opacity:.028; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.grid{ position:fixed; inset:0; pointer-events:none; z-index:-2; opacity:.11; background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size:80px 80px; mask-image:linear-gradient(to bottom, black, transparent 90%); }
+
+.race-track-svg-container { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; opacity: 0.15; }
+.track-line { fill: none; stroke: url(#trackGrad); stroke-width: 60; stroke-linecap: round; stroke-dasharray: 200 40; filter: blur(2px); animation: trackFlow 40s linear infinite; }
+.track-line-racing-line { fill: none; stroke: var(--red); stroke-width: 3; stroke-dasharray: 12 8; opacity: 0.7; }
+
+@keyframes trackFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 2400; } }
+
+.apex-curb-left, .apex-curb-right { position: absolute; width: 18px; height: 100%; top: 0; pointer-events: none; z-index: 1; opacity: 0.25; }
+.apex-curb-left { left: 0; background: repeating-linear-gradient(45deg, var(--red), var(--red) 25px, #ffffff 25px, #ffffff 50px); }
+.apex-curb-right { right: 0; background: repeating-linear-gradient(-45deg, var(--red), var(--red) 25px, #ffffff 25px, #ffffff 50px); }
+
+.scan{ position:fixed; left:0; right:0; height:1px; background:linear-gradient(90deg, transparent, var(--cyan), var(--red), transparent); box-shadow:0 0 30px var(--cyan); opacity:.22; z-index:100; pointer-events:none; animation:scan 9s linear infinite; }
+@keyframes scan{ from{ top:-2%; } to{ top:102%; } }
+
+/* NAVIGATION */
+.nav{ position:fixed; top:20px; left:50%; transform:translateX(-50%); width:min(1320px,92%); height:68px; z-index:5000; display:flex; align-items:center; justify-content:space-between; padding:0 18px 0 22px; background:linear-gradient(135deg, rgba(18,18,24,.78), rgba(5,5,8,.62)); backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,.09); border-radius:16px; box-shadow:0 20px 70px rgba(0,0,0,.35); transition:transform .5s var(--ease), background .5s ease, border-color .5s ease; }
+.nav.scrolled{ background:rgba(5,5,8,.92); border-color:rgba(255,30,30,.22); box-shadow:0 20px 80px rgba(0,0,0,.55); }
+.logo{ position:relative; font-family:var(--display); font-weight:900; font-size:22px; letter-spacing:-2px; }
+.logo span{ color:var(--red); }
+.logo::after{ content:""; position:absolute; left:0; bottom:-7px; width:22px; height:2px; background:linear-gradient(90deg, var(--red), transparent); }
+.nav-links{ display:flex; align-items:center; gap:30px; list-style:none; }
+.nav-links a{ position:relative; font-family:var(--mono); font-size:9px; letter-spacing:1px; color:#777; transition:.3s; }
+.nav-links a:hover{ color:white; }
+.nav-links a::before{ content:""; position:absolute; left:-8px; top:50%; width:3px; height:3px; border-radius:50%; background:var(--red); opacity:0; transform:translateY(-50%) scale(0); transition:.3s var(--ease); }
+.nav-links a:hover::before{ opacity:1; transform:translateY(-50%) scale(1); }
+.nav-links a::after{ content:""; position:absolute; left:0; bottom:-9px; width:0; height:1px; background:linear-gradient(90deg, var(--red), var(--orange)); transition:.35s var(--ease); }
+.nav-links a:hover::after{ width:100%; }
+.nav-cta{ padding:11px 17px; border:1px solid rgba(255,255,255,.14); border-radius:8px; font-family:var(--mono); font-size:9px; letter-spacing:1px; background:rgba(255,255,255,.025); transition:.3s ease; }
+.nav-cta:hover{ color:white; background:var(--red); border-color:var(--red); box-shadow:0 0 35px rgba(255,30,30,.3); }
+.menu{ display:none; border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.025); color:white; width:42px; height:42px; border-radius:9px; font-size:19px; cursor:pointer; }
+
+/* RACING LIGHTS */
+.race-lights{ position:fixed; top:102px; left:50%; transform:translateX(-50%); z-index:4000; display:flex; gap:9px; padding:8px 14px; border:1px solid rgba(255,255,255,.07); background:rgba(0,0,0,.45); backdrop-filter:blur(12px); border-radius:30px; box-shadow:0 10px 40px rgba(0,0,0,.25); }
+.light{ width:8px; height:8px; border-radius:50%; background:#222228; transition:.3s ease; }
+.light.on{ background:var(--red); box-shadow:0 0 10px var(--red), 0 0 25px rgba(255,30,30,.55); }
+
+/* HERO */
+.hero{ position:relative; height:180vh; min-height:900px; background:#050507; }
+.hero-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; }
+.hero-bg{ position:absolute; inset:-8%; background-image:url("{% static 'images/car.jpg' %}"); background-size:cover; background-position:center; filter:brightness(.39) contrast(1.2) saturate(1.25); transform:scale(1.1); will-change:transform; }
+.hero-overlay{ position:absolute; inset:0; background:linear-gradient(90deg, #050507 0%, rgba(5,5,7,.96) 18%, rgba(5,5,7,.70) 40%, rgba(5,5,7,.20) 70%, rgba(5,5,7,.72) 100%), linear-gradient(to bottom, #050507 0%, transparent 23%, transparent 70%, #050507 100%); }
+.hero-overlay::after{ content:""; position:absolute; inset:0; background:radial-gradient(circle at 72% 52%, rgba(255,30,30,.16), transparent 25%); }
+.hero-red-glow{ position:absolute; width:650px; height:650px; right:-260px; top:12%; background:var(--red); opacity:.10; filter:blur(150px); border-radius:50%; }
+.hero-content{ position:absolute; width:min(1250px,90%); left:50%; top:50%; transform:translate(-50%,-50%); z-index:5; }
+.hero-small{ font-family:var(--mono); font-size:10px; letter-spacing:4px; color:var(--red); margin-bottom:32px; display:flex; align-items:center; gap:14px; }
+.hero-small::before{ content:""; width:48px; height:1px; background:var(--red); box-shadow:0 0 15px var(--red); }
+.hero-title{ font-family:var(--display); font-size:clamp(72px,11.5vw,175px); line-height:.73; letter-spacing:-12px; font-weight:900; text-transform:uppercase; max-width:1000px; }
+.hero-title .line{ display:block; }
+.hero-title .outline{ color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.42); text-shadow:0 0 35px rgba(255,255,255,.04); }
+.hero-title .gradient{ background:linear-gradient(90deg, var(--red) 0%, var(--orange) 52%, var(--yellow) 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero-sub{ margin-top:45px; max-width:560px; color:#a0a0aa; line-height:1.9; font-size:14px; }
+.hero-buttons{ display:flex; gap:12px; margin-top:32px; }
+
+.btn{ position:relative; display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:16px 23px; border-radius:8px; font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:1px; overflow:hidden; transition:transform .4s var(--ease), box-shadow .4s ease, border-color .3s ease; cursor:pointer; }
+.btn:hover{ transform:translateY(-4px); }
+.btn-red{ background:linear-gradient(120deg, var(--red), var(--red2)); box-shadow:0 15px 50px rgba(255,30,30,.23); }
+.btn-red::after{ content:""; position:absolute; top:0; left:-110%; width:65%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent); transform:skewX(-20deg); transition:.7s; }
+.btn-red:hover::after{ left:135%; }
+.btn-outline{ border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.025); }
+.btn-outline:hover{ border-color:var(--cyan); box-shadow:0 0 30px rgba(0,234,255,.12); }
+
+/* TELEMETRY */
+.telemetry{ position:absolute; right:5%; bottom:9%; width:350px; padding:20px; border:1px solid rgba(255,255,255,.11); background:linear-gradient(135deg, rgba(15,15,21,.75), rgba(5,5,8,.58)); backdrop-filter:blur(18px); box-shadow:0 30px 90px rgba(0,0,0,.45); }
+.telemetry::before{ content:""; position:absolute; top:-1px; left:-1px; width:70px; height:1px; background:var(--red); }
+.telemetry-title{ font-family:var(--mono); font-size:8px; color:#666; letter-spacing:3px; margin-bottom:18px; }
+.telemetry-row{ display:flex; justify-content:space-between; align-items:end; padding:12px 0; border-top:1px solid rgba(255,255,255,.06); }
+.telemetry-label{ font-family:var(--mono); font-size:8px; color:#666; letter-spacing:1px; }
+.telemetry-value{ font-family:var(--display); font-size:25px; font-weight:800; }
+.telemetry-value span{ font-family:var(--mono); font-size:9px; color:#777; }
+.telemetry-line{ position:absolute; bottom:0; left:0; width:0; height:2px; background:linear-gradient(90deg, var(--red), var(--yellow), var(--cyan)); transition:width 0.2s linear; }
+
+.hero-scroll{ position:absolute; bottom:28px; left:50%; transform:translateX(-50%); z-index:10; text-align:center; }
+.hero-scroll span{ display:block; font-family:var(--mono); font-size:7px; letter-spacing:4px; color:#666; margin-bottom:10px; }
+.scroll-line{ width:1px; height:55px; background:linear-gradient(var(--red), transparent); margin:auto; animation:scrollPulse 1.5s infinite; }
+@keyframes scrollPulse{ 0%,100%{ transform:scaleY(.5); transform-origin:top; } 50%{ transform:scaleY(1); } }
+
+/* SPEED LINES */
+.speed{ position:absolute; height:1px; background:linear-gradient(90deg, transparent, white, transparent); opacity:.18; }
+.speed.s1{ width:300px; right:8%; top:30%; }
+.speed.s2{ width:180px; right:20%; top:48%; }
+.speed.s3{ width:450px; right:-5%; top:68%; }
+
+/* SECTIONS */
+.section{ position:relative; min-height:100vh; padding:155px 0; overflow:hidden; }
+.container{ width:min(1250px,90%); margin:auto; }
+.section-label{ font-family:var(--mono); font-size:9px; letter-spacing:4px; color:var(--red); margin-bottom:20px; }
+.section-number{ position:absolute; right:5%; top:70px; font-family:var(--display); font-size:220px; line-height:1; font-weight:900; color:rgba(255,255,255,.022); pointer-events:none; }
+.section-title{ font-family:var(--display); font-size:clamp(52px,8vw,112px); line-height:.82; letter-spacing:-7px; font-weight:800; text-transform:uppercase; }
+.section-title .red{ color:var(--red); }
+.section-title .cyan{ color:var(--cyan); }
+.section-title .yellow{ color:var(--yellow); }
+
+/* DRIVER */
+.driver{ background:radial-gradient(circle at 78% 25%, rgba(155,92,255,.13), transparent 32%), linear-gradient(180deg, #07070c, #08080d); }
+.driver-wrap{ min-height:100vh; display:grid; grid-template-columns:1fr 1fr; gap:90px; align-items:center; }
+.driver-visual{ position:relative; width:min(500px,100%); aspect-ratio:3/4; margin:auto; border:1px solid rgba(255,255,255,.12); overflow:hidden; border-radius:22px; background:#09090d; box-shadow:0 50px 120px rgba(0,0,0,.65); }
+.driver-visual::before{ content:""; position:absolute; inset:0; z-index:4; background:linear-gradient(135deg, rgba(255,30,30,.12), transparent 30%, transparent 70%, rgba(0,234,255,.08)); pointer-events:none; }
+.driver-face, .driver-helmet{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.driver-face{ filter:saturate(1.08) contrast(1.12); }
+.driver-helmet{ z-index:2; clip-path:circle(0px at var(--mx,50%) var(--my,50%)); transition:clip-path .2s linear; }
+.driver-frame{ position:absolute; inset:15px; border:1px solid rgba(255,255,255,.14); z-index:5; pointer-events:none; }
+.driver-frame::before{ content:""; position:absolute; top:-1px; left:-1px; width:90px; height:90px; border-top:2px solid var(--red); border-left:2px solid var(--red); }
+.driver-frame::after{ content:""; position:absolute; bottom:-1px; right:-1px; width:90px; height:90px; border-bottom:2px solid var(--cyan); border-right:2px solid var(--cyan); }
+.driver-scan{ position:absolute; left:0; right:0; height:2px; top:0; z-index:7; background:linear-gradient(90deg, transparent, var(--cyan), transparent); box-shadow:0 0 25px var(--cyan); animation:driverScan 4s linear infinite; }
+@keyframes driverScan{ from{ top:0; } to{ top:100%; } }
+.driver-caption{ position:absolute; left:30px; bottom:30px; z-index:8; }
+.driver-caption small{ font-family:var(--mono); font-size:8px; color:var(--cyan); letter-spacing:3px; }
+.driver-caption h3{ margin-top:8px; font-family:var(--display); font-size:31px; letter-spacing:-1px; }
+.driver-copy p{ max-width:520px; color:#92929c; line-height:1.9; margin-top:30px; font-size:14px; }
+.driver-stat{ display:flex; gap:38px; margin-top:42px; padding-top:25px; border-top:1px solid rgba(255,255,255,.08); }
+.stat strong{ display:block; font-family:var(--display); font-size:36px; letter-spacing:-1px; }
+.stat span{ font-family:var(--mono); font-size:8px; color:#666; letter-spacing:2px; }
+
+.flag-canvas-wrapper { position: absolute; right: 4%; top: 10%; width: 220px; height: 140px; opacity: 0.65; pointer-events: none; z-index: 2; }
+.flag-canvas { width: 100%; height: 100%; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+
+.sector-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--cyan); border-radius: 4px; margin-bottom: 16px; }
+.sector-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+
+/* ABOUT */
+.about{ background:linear-gradient(180deg, #08080d, #09070a); }
+.about-layout{ margin-top:90px; display:grid; grid-template-columns:.8fr 1.2fr; gap:100px; align-items:start; }
+.about-text{ color:#92929c; line-height:2; font-size:14px; }
+.about-text strong{ color:white; }
+.quote{ margin-top:40px; padding:25px; border-left:3px solid var(--yellow); background:linear-gradient(90deg, rgba(255,230,0,.065), transparent); font-family:var(--mono); color:#aaa; font-size:10px; line-height:1.8; }
+
+/* TECH HUD */
+.hud{ position:relative; border:1px solid rgba(255,255,255,.1); background:linear-gradient(135deg, rgba(255,255,255,.035), rgba(255,255,255,.012)); box-shadow:0 30px 90px rgba(0,0,0,.25); }
+.hud::before{ content:""; position:absolute; top:-1px; left:-1px; width:90px; height:1px; background:var(--red); }
+.hud::after{ content:""; position:absolute; right:-1px; bottom:-1px; width:70px; height:1px; background:var(--cyan); }
+.hud-head{ padding:16px 20px; border-bottom:1px solid rgba(255,255,255,.08); display:flex; justify-content:space-between; font-family:var(--mono); font-size:8px; letter-spacing:2px; color:#777; }
+.hud-status{ color:var(--green); }
+
+.tech{ display:grid; grid-template-columns:55px 1fr 70px; gap:15px; align-items:center; padding:18px 20px; border-bottom:1px solid rgba(255,255,255,.06); transition:background .3s, transform .3s; }
+.tech:last-child{ border-bottom:0; }
+.tech:hover{ background:rgba(255,255,255,.035); transform:translateX(7px); }
+.tech-number{ font-family:var(--mono); font-size:9px; color:#555; }
+.tech-name{ font-family:var(--display); font-weight:700; font-size:15px; }
+.tech-type{ margin-top:5px; font-family:var(--mono); font-size:8px; color:#666; }
+.tech-score{ font-family:var(--mono); font-size:9px; text-align:right; }
+.tech-bar{ grid-column:2/4; height:3px; background:#1c1c22; margin-top:-7px; overflow:hidden; }
+.tech-bar i{ display:block; width:0; height:100%; background:linear-gradient(90deg, var(--red), var(--orange)); transition:width 1.5s var(--ease); }
+.tech:nth-child(3) .tech-bar i{ background:linear-gradient(90deg, var(--cyan), var(--blue)); }
+.tech:nth-child(4) .tech-bar i{ background:linear-gradient(90deg, var(--yellow), var(--orange)); }
+.tech:nth-child(5) .tech-bar i{ background:linear-gradient(90deg, var(--purple), var(--cyan)); }
+
+/* PROJECTS */
+.projects{ background:#050507; }
+.project-intro{ display:flex; justify-content:space-between; align-items:end; }
+.project-count{ font-family:var(--mono); font-size:9px; color:#666; letter-spacing:2px; }
+.project-stage{ margin-top:100px; position:relative; }
+.project{ min-height:540px; display:grid; grid-template-columns:80px 1fr 1fr; position:relative; overflow:hidden; border-top:1px solid rgba(255,255,255,.12); border-bottom:1px solid rgba(255,255,255,.05); transition:background .5s ease; }
+.project:hover{ background:rgba(255,255,255,.025); }
+.project::before{ content:""; position:absolute; left:0; top:0; width:2px; height:0; background:var(--red); transition:height .7s var(--ease); }
+.project:hover::before{ height:100%; }
+.project:nth-child(2)::before{ background:var(--cyan); }
+.project:nth-child(3)::before{ background:var(--yellow); }
+.project-number{ padding-top:35px; font-family:var(--mono); color:var(--red); font-size:11px; }
+.project:nth-child(2) .project-number{ color:var(--cyan); }
+.project:nth-child(3) .project-number{ color:var(--yellow); }
+.project-content{ padding:100px 40px; position:relative; z-index:2; }
+.project-content h3{ font-family:var(--display); font-size:clamp(45px,6vw,88px); line-height:.84; letter-spacing:-5px; text-transform:uppercase; }
+.project-content p{ max-width:430px; margin-top:30px; color:#888892; line-height:1.8; font-size:13px; }
+.project-tags{ margin-top:30px; display:flex; gap:7px; flex-wrap:wrap; }
+.project-tags span{ border:1px solid rgba(255,255,255,.1); padding:7px 9px; font-family:var(--mono); font-size:8px; color:#888; transition:.3s; }
+.project:hover .project-tags span{ border-color:rgba(255,255,255,.18); color:#aaa; }
+.project-visual{ position:relative; display:flex; align-items:center; justify-content:center; }
+.project-circle{ width:350px; height:350px; border-radius:50%; border:1px solid rgba(255,255,255,.08); position:relative; animation:rotate 15s linear infinite; }
+@keyframes rotate{ from{ transform: rotate(0deg); } to{ transform: rotate(360deg); } }
+.project-circle::before, .project-circle::after{ content:""; position:absolute; inset:30px; border:1px dashed rgba(255,255,255,.1); border-radius:50%; }
+.project-circle::after{ inset:80px; border-color:rgba(255,30,30,.3); }
+.project-orb{ position:absolute; width:90px; height:90px; border-radius:50%; background:var(--red); box-shadow:0 0 50px rgba(255,30,30,.6); top:20px; left:50%; transform:translateX(-50%); }
+.project:nth-child(2) .project-orb{ background:var(--cyan); box-shadow:0 0 50px rgba(0,234,255,.6); }
+.project:nth-child(3) .project-orb{ background:var(--yellow); box-shadow:0 0 50px rgba(255,230,0,.6); }
+.project-watermark{ position:absolute; right:-20px; bottom:-40px; font-family:var(--display); font-size:180px; font-weight:900; color:rgba(255,255,255,.025); pointer-events:none; }
+
+/* PROCESS */
+.process{ background:radial-gradient(circle at 20% 40%, rgba(0,234,255,.08), transparent 30%), #07070b; }
+.process-track{ margin-top:100px; position:relative; }
+.process-line{ position:absolute; top:50px; left:0; width:100%; height:1px; background:#24242a; }
+.process-progress{ position:absolute; top:50px; left:0; height:2px; width:0; background:linear-gradient(90deg, var(--red), var(--orange), var(--yellow), var(--cyan)); box-shadow:0 0 15px rgba(0,234,255,.3); }
+.process-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.process-item{ padding-top:80px; position:relative; }
+.process-dot{ position:absolute; top:42px; left:0; width:17px; height:17px; border-radius:50%; background:#1b1b20; border:2px solid #333; transition:.5s; }
+.process-item.active .process-dot{ background:var(--red); border-color:white; box-shadow:0 0 30px rgba(255,30,30,.7); }
+.process-item:nth-child(2).active .process-dot{ background:var(--orange); }
+.process-item:nth-child(3).active .process-dot{ background:var(--yellow); }
+.process-item:nth-child(4).active .process-dot{ background:var(--cyan); }
+.process-number{ font-family:var(--mono); color:#555; font-size:9px; }
+.process-item h3{ margin-top:20px; font-family:var(--display); font-size:28px; }
+.process-item p{ margin-top:14px; color:#777; font-size:12px; line-height:1.8; max-width:250px; }
+
+/* PIT STOP */
+.pit{ min-height:100vh; background:radial-gradient(circle at 50% 50%, rgba(255,30,30,.13), transparent 40%), #040405; display:flex; align-items:center; justify-content:center; text-align:center; position:relative; overflow:hidden; }
+.pit::before{ content:""; position:absolute; width:700px; height:700px; border:1px solid rgba(255,255,255,.035); border-radius:50%; }
+.pit::after{ content:""; position:absolute; width:500px; height:500px; border:1px dashed rgba(255,30,30,.09); border-radius:50%; }
+.pit-center{ width:min(1000px,90%); position:relative; z-index:2; }
+.pit-label{ font-family:var(--mono); font-size:9px; color:var(--yellow); letter-spacing:5px; }
+.pit-title{ margin-top:25px; font-family:var(--display); font-size:clamp(70px,13vw,170px); font-weight:900; line-height:.75; letter-spacing:-12px; text-transform:uppercase; }
+.pit-title span{ display:block; color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.4); }
+.pit-data{ margin-top:60px; display:flex; justify-content:center; gap:70px; }
+.pit-data-item strong{ display:block; font-family:var(--display); font-size:45px; }
+.pit-data-item span{ font-family:var(--mono); font-size:8px; color:#666; letter-spacing:3px; }
+
+/* CONTACT */
+.contact{ min-height:100vh; padding:140px 0; position:relative; background:#040406; }
+.contact-box{ border:1px solid rgba(255,255,255,.12); padding:60px; background:linear-gradient(135deg, rgba(20,20,28,.6), rgba(8,8,12,.8)); backdrop-filter:blur(20px); border-radius:16px; position:relative; overflow:hidden; }
+.contact-box::before{ content:""; position:absolute; top:0; left:0; width:100%; height:4px; background:repeating-linear-gradient(90deg, #fff, #fff 15px, #000 15px, #000 30px); }
+.contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; margin-top:40px; }
+.form-group{ margin-bottom:24px; }
+.form-group label{ display:block; font-family:var(--mono); font-size:9px; letter-spacing:2px; color:#888; margin-bottom:8px; }
+.form-control{ width:100%; padding:16px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1); border-radius:6px; color:white; font-family:var(--body); font-size:14px; transition:.3s; }
+.form-control:focus{ outline:none; border-color:var(--red); background:rgba(255,30,30,.02); box-shadow:0 0 20px rgba(255,30,30,.15); }
+
+@media (max-width:992px){
+    .driver-wrap, .about-layout, .contact-grid{ grid-template-columns:1fr; }
+    .nav-links{ display:none; }
+    .menu{ display:block; }
+    .process-grid{ grid-template-columns:1fr 1fr; gap:40px; }
+    .project{ grid-template-columns:1fr; }
+    .project-visual{ display:none; }
+    .f1-track-overlay { display: none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- DYNAMIC SCROLL-DRIVEN F1 CAR TRAJECTORY -->
+<div class="f1-track-overlay">
+    <svg class="f1-scroll-path" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+        <path id="motionPath" d="M 900,100 C 100,200 100,400 900,500 C 100,600 100,800 900,900" />
+    </svg>
+    <div class="f1-car-container" id="f1Car">
+        <div class="f1-car-sparks"></div>
+        <!-- HIGH-TECH F1 CAR VECTOR SVG -->
+        <svg class="f1-car-svg" viewBox="0 0 120 50">
+            <path d="M10,25 L30,15 L70,15 L95,20 L115,25 L95,30 L70,35 L30,35 Z" fill="#ff2028"/>
+            <path d="M45,20 L65,20 L60,30 L45,30 Z" fill="#040406"/>
+            <rect x="5" y="10" width="12" height="30" fill="#ffffff" rx="2"/>
+            <rect x="98" y="12" width="10" height="26" fill="#ffffff" rx="2"/>
+            <circle cx="30" cy="10" r="7" fill="#111" stroke="#ff9d00" stroke-width="2"/>
+            <circle cx="85" cy="10" r="7" fill="#111" stroke="#ff9d00" stroke-width="2"/>
+            <circle cx="30" cy="40" r="7" fill="#111" stroke="#ff9d00" stroke-width="2"/>
+            <circle cx="85" cy="40" r="7" fill="#111" stroke="#ff9d00" stroke-width="2"/>
+        </svg>
+    </div>
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+    <div class="loader-content">
+        <div class="loader-top">
+            <span>PARAS PATADIYA</span>
+            <span>TELEMETRY INIT</span>
+        </div>
+        <div class="loader-logo">F1<span>.</span>DEV</div>
+        <div class="loader-bar"><span></span></div>
+        <div class="loader-status">
+            <span>SYSTEM READY</span>
+            <span>GRID SETUP 100%</span>
+        </div>
+    </div>
+</div>
+
+<!-- BACKGROUND SYSTEM & GRID -->
+<div class="noise"></div>
+<div class="grid"></div>
+<div class="scan"></div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="mainNav">
+    <a href="#hero" class="logo">PARAS<span>.</span></a>
+    
+    <ul class="nav-links">
+        <li><a href="#driver">01 // DRIVER</a></li>
+        <li><a href="#about">02 // TELEMETRY</a></li>
+        <li><a href="#projects">03 // CIRCUITS</a></li>
+        <li><a href="#process">04 // STRATEGY</a></li>
+        <li><a href="#pit">05 // PIT LANE</a></li>
+        <li><a href="#contact">06 // FINISH LINE</a></li>
+    </ul>
+
+    <a href="#contact" class="nav-cta" id="revBtnNav">GET IN TOUCH</a>
+    <button class="menu" aria-label="Toggle Menu">☰</button>
+</nav>
+
+<!-- RACING LIGHTS -->
+<div class="race-lights">
+    <div class="light on"></div>
+    <div class="light on"></div>
+    <div class="light on"></div>
+    <div class="light on"></div>
+    <div class="light on"></div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-sticky">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-red-glow"></div>
+
+        <div class="speed s1"></div>
+        <div class="speed s2"></div>
+        <div class="speed s3"></div>
+
+        <div class="hero-content">
+            <div class="hero-small">PYTHON & DJANGO ARCHITECT</div>
+            <h1 class="hero-title">
+                <span class="line">BUILDING</span>
+                <span class="line outline">HIGH SPEED</span>
+                <span class="line gradient">SYSTEMS.</span>
+            </h1>
+            <p class="hero-sub">
+                Crafting robust backend architectures, dynamic APIs, and high-performance digital engines with modern Python technologies.
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-red" id="revBtn1">VIEW CIRCUITS</a>
+                <a href="#contact" class="btn btn-outline" id="revBtn2">PIT STOP</a>
+            </div>
+        </div>
+
+        <div class="telemetry">
+            <div class="telemetry-title">LIVE TELEMETRY</div>
+            <div class="telemetry-row">
+                <div class="telemetry-label">MAX SPEED</div>
+                <div class="telemetry-value"><span id="liveSpeed">0</span> <span>KM/H</span></div>
+            </div>
+            <div class="telemetry-row">
+                <div class="telemetry-label">ENGINE LATENCY</div>
+                <div class="telemetry-value">12 <span>MS</span></div>
+            </div>
+            <div class="telemetry-row">
+                <div class="telemetry-label">BACKEND GEAR</div>
+                <div class="telemetry-value"><span id="liveGear">1</span> <span>ST</span></div>
+            </div>
+            <div class="telemetry-line" id="telemetryLine"></div>
+        </div>
+
+        <div class="hero-scroll">
+            <span>SCROLL TO RACE</span>
+            <div class="scroll-line"></div>
+        </div>
+    </div>
+</section>
+
+<!-- DRIVER -->
+<section class="section driver" id="driver">
+    <div class="apex-curb-left"></div>
+    <div class="apex-curb-right"></div>
+    <span class="section-number">01</span>
+
+    <div class="race-track-svg-container">
+        <svg width="100%" height="100%" viewBox="0 0 1440 800" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="trackGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ff2028" stop-opacity="0.4" />
+                    <stop offset="100%" stop-color="#00e5ff" stop-opacity="0.1" />
+                </linearGradient>
+            </defs>
+            <path class="track-line" d="M-100,200 C300,50 400,600 800,400 C1200,200 1100,700 1540,500" />
+            <path class="track-line-racing-line" d="M-100,200 C300,50 400,600 800,400 C1200,200 1100,700 1540,500" />
+        </svg>
+    </div>
+
+    <div class="container">
+        <div class="sector-badge"><span class="sector-dot"></span> SECTOR 1 // DRIVER PROFILE</div>
+        <div class="section-label">// THE DRIVER AT THE WHEEL</div>
+        <h2 class="section-title">ENGINEERED FOR <span class="cyan">PRECISION</span></h2>
+
+        <div class="flag-canvas-wrapper">
+            <canvas id="greenFlagCanvas" class="flag-canvas"></canvas>
+        </div>
+
+        <div class="driver-wrap">
+            <div class="driver-visual" id="driverCard">
+                <img src="{% static 'images/driver.jpg' %}" alt="Paras Patadiya" class="driver-face">
+                <img src="{% static 'images/helmet.png' %}" alt="Driver Helmet" class="driver-helmet" id="driverHelmet">
+                <div class="driver-frame"></div>
+                <div class="driver-scan"></div>
+                <div class="driver-caption">
+                    <small>STATUS: IN COCKPIT</small>
+                    <h3>PARAS PATADIYA</h3>
+                </div>
+            </div>
+
+            <div class="driver-copy">
+                <p>
+                    I approach code like a Formula 1 team approaches race weekend: meticulously analyzing data, eliminating friction, and optimizing performance down to the millisecond.
+                </p>
+                <p>
+                    Specializing in Python, Django, and modern backend systems, I build web architectures that scale seamlessly under maximum load.
+                </p>
+
+                <div class="driver-stat">
+                    <div class="stat">
+                        <strong>04+</strong>
+                        <span>YEARS EXP</span>
+                    </div>
+                    <div class="stat">
+                        <strong>30+</strong>
+                        <span>DEPLOYS</span>
+                    </div>
+                    <div class="stat">
+                        <strong>99.9%</strong>
+                        <span>UPTIME RATE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="about">
+    <div class="apex-curb-left"></div>
+    <div class="apex-curb-right"></div>
+    <span class="section-number">02</span>
+
+    <div class="race-track-svg-container">
+        <svg width="100%" height="100%" viewBox="0 0 1440 800" preserveAspectRatio="none">
+            <path class="track-line" d="M-100,600 C200,100 600,700 1000,200 C1300,0 1200,800 1540,300" />
+            <path class="track-line-racing-line" d="M-100,600 C200,100 600,700 1000,200 C1300,0 1200,800 1540,300" />
+        </svg>
+    </div>
+
+    <div class="container">
+        <div class="sector-badge" style="color:var(--yellow)"><span class="sector-dot" style="background:var(--yellow);box-shadow:0 0 10px var(--yellow)"></span> SECTOR 2 // HARDWARE & STACK</div>
+        <div class="section-label">// SYSTEM SPECS & TELEMETRY</div>
+        <h2 class="section-title">THE TECH <span class="yellow">STACK</span></h2>
+
+        <div class="flag-canvas-wrapper">
+            <canvas id="yellowFlagCanvas" class="flag-canvas"></canvas>
+        </div>
+
+        <div class="about-layout">
+            <div class="about-text">
+                <p>
+                    Building high-speed web apps requires dynamic components tuned to perfection. From database management to API endpoint optimization, every element in my toolkit serves a distinct functional purpose.
+                </p>
+                <div class="quote">
+                    "Speed is nothing without control. Clean code architecture ensures stability at maximum velocity."
+                </div>
+            </div>
+
+            <div class="hud">
+                <div class="hud-head">
+                    <span>ACTIVE TELEMETRY</span>
+                    <span class="hud-status">● OPTIMAL PERFORMANCE</span>
+                </div>
+
+                <div class="tech">
+                    <span class="tech-number">01</span>
+                    <div>
+                        <div class="tech-name">PYTHON / DJANGO</div>
+                        <div class="tech-type">BACKEND ENGINE</div>
+                    </div>
+                    <div class="tech-score">98%</div>
+                    <div class="tech-bar"><i style="width:98%"></i></div>
+                </div>
+
+                <div class="tech">
+                    <span class="tech-number">02</span>
+                    <div>
+                        <div class="tech-name">REST APIs / FASTAPI</div>
+                        <div class="tech-type">DATA PIPELINES</div>
+                    </div>
+                    <div class="tech-score">92%</div>
+                    <div class="tech-bar"><i style="width:92%"></i></div>
+                </div>
+
+                <div class="tech">
+                    <span class="tech-number">03</span>
+                    <div>
+                        <div class="tech-name">POSTGRESQL / REDIS</div>
+                        <div class="tech-type">HIGH-SPEED STORAGE</div>
+                    </div>
+                    <div class="tech-score">90%</div>
+                    <div class="tech-bar"><i style="width:90%"></i></div>
+                </div>
+
+                <div class="tech">
+                    <span class="tech-number">04</span>
+                    <div>
+                        <div class="tech-name">DOCKER / AWS</div>
+                        <div class="tech-type">PIT INFRASTRUCTURE</div>
+                    </div>
+                    <div class="tech-score">85%</div>
+                    <div class="tech-bar"><i style="width:85%"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section projects" id="projects">
+    <div class="apex-curb-left"></div>
+    <div class="apex-curb-right"></div>
+    <span class="section-number">03</span>
+
+    <div class="container">
+        <div class="project-intro">
+            <div>
+                <div class="sector-badge" style="color:var(--red)"><span class="sector-dot" style="background:var(--red);box-shadow:0 0 10px var(--red)"></span> SECTOR 3 // CIRCUITS & PROJECTS</div>
+                <div class="section-label">// COMPLETED CIRCUITS</div>
+                <h2 class="section-title">FEATURED <span class="red">PROJECTS</span></h2>
+            </div>
+            <div class="project-count">TOTAL TRACKS: 03</div>
+        </div>
+
+        <div class="project-stage">
+            <div class="project">
+                <div class="project-number">01 // LAP</div>
+                <div class="project-content">
+                    <h3>ENTERPRISE SAAS PLATFORM</h3>
+                    <p>High-speed Django system handling massive query loads with Redis caching and complex PostgreSQL indexing.</p>
+                    <div class="project-tags">
+                        <span>PYTHON</span><span>DJANGO</span><span>REDIS</span><span>POSTGRES</span>
+                    </div>
+                </div>
+                <div class="project-visual">
+                    <div class="project-circle"><div class="project-orb"></div></div>
+                </div>
+                <div class="project-watermark">01</div>
+            </div>
+
+            <div class="project">
+                <div class="project-number">02 // LAP</div>
+                <div class="project-content">
+                    <h3>HIGH FREQUENCY API ENGINE</h3>
+                    <p>Asynchronous microservice ecosystem built with FastAPI, supporting sub-10ms response times for financial data routing.</p>
+                    <div class="project-tags">
+                        <span>FASTAPI</span><span>DOCKER</span><span>ASYNCIO</span><span>KAFKA</span>
+                    </div>
+                </div>
+                <div class="project-visual">
+                    <div class="project-circle"><div class="project-orb"></div></div>
+                </div>
+                <div class="project-watermark">02</div>
+            </div>
+
+            <div class="project">
+                <div class="project-number">03 // LAP</div>
+                <div class="project-content">
+                    <h3>AUTOMATED ANALYTICS PIPELINE</h3>
+                    <p>Distributed data processing engine parsing millions of telemetry logs daily with real-time analytics alerts.</p>
+                    <div class="project-tags">
+                        <span>PYTHON</span><span>CELERY</span><span>AWS</span><span>CLICKHOUSE</span>
+                    </div>
+                </div>
+                <div class="project-visual">
+                    <div class="project-circle"><div class="project-orb"></div></div>
+                </div>
+                <div class="project-watermark">03</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section process" id="process">
+    <div class="apex-curb-left"></div>
+    <div class="apex-curb-right"></div>
+    <span class="section-number">04</span>
+
+    <div class="container">
+        <div class="section-label">// RACE STRATEGY</div>
+        <h2 class="section-title">DEVELOPMENT <span class="cyan">WORKFLOW</span></h2>
+
+        <div class="process-track">
+            <div class="process-line"></div>
+            <div class="process-progress" id="processProgress"></div>
+
+            <div class="process-grid">
+                <div class="process-item active">
+                    <div class="process-dot"></div>
+                    <div class="process-number">LAP 01</div>
+                    <h3>DISCOVERY</h3>
+                    <p>Analyzing requirements, mapping data flows, and establishing system benchmarks.</p>
+                </div>
+
+                <div class="process-item active">
+                    <div class="process-dot"></div>
+                    <div class="process-number">LAP 02</div>
+                    <h3>ARCHITECTURE</h3>
+                    <p>Designing database schemas, domain models, and API endpoints for optimal speed.</p>
+                </div>
+
+                <div class="process-item active">
+                    <div class="process-dot"></div>
+                    <div class="process-number">LAP 03</div>
+                    <h3>EXECUTION</h3>
+                    <p>Writing clean, well-tested Python/Django code with continuous integration pipelines.</p>
+                </div>
+
+                <div class="process-item active">
+                    <div class="process-dot"></div>
+                    <div class="process-number">LAP 04</div>
+                    <h3>DEPLOYMENT</h3>
+                    <p>Fine-tuning servers, setting up caching layer, and launching with zero downtime.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PIT STOP -->
+<section class="section pit" id="pit">
+    <div class="apex-curb-left"></div>
+    <div class="apex-curb-right"></div>
+
+    <div class="pit-center">
+        <div class="pit-label">// SPEED TRAP RECORD</div>
+        <h2 class="pit-title">
+            PIT STOP<span>2.1 SEC</span>
+        </h2>
+        <div class="pit-data">
+            <div class="pit-data-item">
+                <strong>100%</strong>
+                <span>CODE COVERAGE</span>
+            </div>
+            <div class="pit-data-item">
+                <strong>0.00s</strong>
+                <span>DOWNTIME GOAL</span>
+            </div>
+            <div class="pit-data-item">
+                <strong>&lt;50ms</strong>
+                <span>AVG API RESPONSE</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+    <div class="apex-curb-left"></div>
+    <div class="apex-curb-right"></div>
+    <span class="section-number">05</span>
+
+    <div class="container">
+        <div class="contact-box">
+            <div class="flag-canvas-wrapper" style="width:100%; height:100%; left:0; top:0; opacity:0.08;">
+                <canvas id="chequeredFlagCanvas" class="flag-canvas"></canvas>
+            </div>
+
+            <div class="section-label">// CROSS THE FINISH LINE</div>
+            <h2 class="section-title">START YOUR <span class="red">ENGINE</span></h2>
+
+            <div class="contact-grid">
+                <div>
+                    <p style="color:#aaa; line-height:1.8; margin-bottom:30px;">
+                        Ready to build a high-performance web application or optimize your existing Django backend? Send a message to get on the starting grid.
+                    </p>
+                    <div style="font-family:var(--mono); font-size:12px; color:var(--cyan); margin-top:20px;">
+                        <div>EMAIL: contact@paraspatadiya.dev</div>
+                        <div style="margin-top:8px;">LOCATION: GUJARAT, INDIA</div>
+                    </div>
+                </div>
+
+                <form onsubmit="event.preventDefault(); alert('Transmission Sent!');">
+                    <div class="form-group">
+                        <label>DRIVER NAME</label>
+                        <input type="text" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>EMAIL ADDRESS</label>
+                        <input type="email" class="form-control" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>MESSAGE / TELEMETRY DATA</label>
+                        <textarea class="form-control" rows="4" placeholder="Describe your project requirements..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-red" style="width:100%" id="revBtn3">TRANSMIT MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JAVASCRIPT ANIMATIONS -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* ============================================================
+       1. LOADER HIDE
+    ============================================================ */
+    const loader = document.getElementById('loader');
+    setTimeout(() => {
+        loader.classList.add('hide');
+    }, 2000);
+
+    /* ============================================================
+       2. CUSTOM CURSOR
+    ============================================================ */
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+        cursorRing.style.left = `${e.clientX}px`;
+        cursorRing.style.top = `${e.clientY}px`;
+    });
+
+    const interactiveEls = document.querySelectorAll('a, button, .project, .tech, input, textarea');
+    interactiveEls.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('active');
+            cursorRing.classList.add('active');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
+            cursorRing.classList.remove('active');
+        });
+    });
+
+    /* ============================================================
+       3. F1 AUDIO SYNTHESIZER
+    ============================================================ */
+    const playF1EngineSound = () => {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if(!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(120, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(650, ctx.currentTime + 0.15);
+            osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.4);
+
+            gain.gain.setValueAtTime(0.08, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.start();
+            osc.stop(ctx.currentTime + 0.4);
+        } catch(e) {}
+    };
+
+    ['revBtnNav', 'revBtn1', 'revBtn2', 'revBtn3'].forEach(id => {
+        const btn = document.getElementById(id);
+        if(btn) btn.addEventListener('click', playF1EngineSound);
+    });
+
+    /* ============================================================
+       4. ANIMATED CANVAS FLAGS ENGINE
+    ============================================================ */
+    class WavingFlag {
+        constructor(canvasId, type) {
+            this.canvas = document.getElementById(canvasId);
+            if(!this.canvas) return;
+            this.ctx = this.canvas.getContext('2d');
+            this.type = type;
+            this.time = 0;
+            this.resize();
+            window.addEventListener('resize', () => this.resize());
+            this.animate();
+        }
+
+        resize() {
+            if(!this.canvas) return;
+            this.width = this.canvas.width = this.canvas.offsetWidth || 300;
+            this.height = this.canvas.height = this.canvas.offsetHeight || 200;
+        }
+
+        animate() {
+            if(!this.ctx) return;
+            this.time += 0.08;
+            this.ctx.clearRect(0, 0, this.width, this.height);
+
+            const cols = 12;
+            const rows = 8;
+            const cellW = this.width / cols;
+            const cellH = this.height / rows;
+
+            for(let i = 0; i < cols; i++) {
+                for(let j = 0; j < rows; j++) {
+                    const wave = Math.sin(this.time + i * 0.4 + j * 0.2) * 6;
+                    const x = i * cellW;
+                    const y = j * cellH + wave;
+
+                    if(this.type === 'chequered') {
+                        const isBlack = (i + j) % 2 === 0;
+                        this.ctx.fillStyle = isBlack ? '#040406' : '#ffffff';
+                    } else if(this.type === 'green') {
+                        this.ctx.fillStyle = '#00f5a0';
+                    } else if(this.type === 'yellow') {
+                        this.ctx.fillStyle = '#ffe600';
+                    }
+
+                    this.ctx.beginPath();
+                    this.ctx.fillRect(x, y, cellW + 1, cellH + 1);
+
+                    const shade = Math.cos(this.time + i * 0.4) * 0.15;
+                    this.ctx.fillStyle = shade > 0 ? `rgba(255,255,255,${shade})` : `rgba(0,0,0,${Math.abs(shade)})`;
+                    this.ctx.fillRect(x, y, cellW + 1, cellH + 1);
+                }
+            }
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    new WavingFlag('greenFlagCanvas', 'green');
+    new WavingFlag('yellowFlagCanvas', 'yellow');
+    new WavingFlag('chequeredFlagCanvas', 'chequered');
+
+    /* ============================================================
+       5. HELMET INTERACTION
+    ============================================================ */
+    const driverCard = document.getElementById('driverCard');
+    const driverHelmet = document.getElementById('driverHelmet');
+
+    if(driverCard && driverHelmet) {
+        driverCard.addEventListener('mousemove', (e) => {
+            const rect = driverCard.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            driverHelmet.style.setProperty('--mx', `${x}px`);
+            driverHelmet.style.setProperty('--my', `${y}px`);
+            driverHelmet.style.clipPath = `circle(110px at ${x}px ${y}px)`;
+        });
+
+        driverCard.addEventListener('mouseleave', () => {
+            driverHelmet.style.clipPath = `circle(0px at 50% 50%)`;
+        });
+    }
+
+    /* ============================================================
+       6. SCROLL-DRIVEN F1 CAR TRAJECTORY & TELEMETRY
+    ============================================================ */
+    const nav = document.getElementById('mainNav');
+    const telemetryLine = document.getElementById('telemetryLine');
+    const processProgress = document.getElementById('processProgress');
+
+    const f1Car = document.getElementById('f1Car');
+    const motionPath = document.getElementById('motionPath');
+
+    const liveSpeed = document.getElementById('liveSpeed');
+    const liveGear = document.getElementById('liveGear');
+
+    let pathLength = 0;
+    if(motionPath) {
+        pathLength = motionPath.getTotalLength();
+    }
+
+    let lastScroll = 0;
+    let sparksTimeout = null;
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollFraction = scrolled / maxScroll;
+
+        // Sticky Navbar
+        if(scrolled > 80) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+
+        // Hero Telemetry line loading
+        if(telemetryLine) telemetryLine.style.width = `${Math.min(scrollFraction * 300, 100)}%`;
+
+        // Process line progress
+        if(processProgress) {
+            const processSec = document.getElementById('process');
+            if(processSec) {
+                const rect = processSec.getBoundingClientRect();
+                if(rect.top < window.innerHeight && rect.bottom > 0) {
+                    const progress = Math.max(0, Math.min(100, ((window.innerHeight - rect.top) / rect.height) * 100));
+                    processProgress.style.width = `${progress}%`;
+                }
+            }
+        }
+
+        // F1 Car Position Update Along Path
+        if(motionPath && f1Car) {
+            const point = motionPath.getPointAtLength(scrollFraction * pathLength);
+            
+            // Calculate direction angle for smooth rotating along the curve
+            const nextPoint = motionPath.getPointAtLength(Math.min(pathLength, scrollFraction * pathLength + 5));
+            const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
+
+            f1Car.style.transform = `translate(${point.x}px, ${point.y}px) rotate(${angle}deg)`;
+
+            // Sparks Effect & Dynamic Speed HUD Update
+            const delta = Math.abs(scrolled - lastScroll);
+            const speedCalculated = Math.min(350, Math.round(delta * 12));
+            const gearCalculated = Math.min(8, Math.max(1, Math.ceil(speedCalculated / 45)));
+
+            if(liveSpeed) liveSpeed.innerText = speedCalculated;
+            if(liveGear) liveGear.innerText = gearCalculated;
+
+            f1Car.classList.add('moving');
+            clearTimeout(sparksTimeout);
+            sparksTimeout = setTimeout(() => {
+                f1Car.classList.remove('moving');
+                if(liveSpeed) liveSpeed.innerText = 0;
+                if(liveGear) liveGear.innerText = 1;
+            }, 150);
+
+            lastScroll = scrolled;
+        }
+    });
+
+});
+</script>
+</body>
+</html>
