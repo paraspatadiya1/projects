@@ -1,5 +1,0 @@
-cd C:\projects
-
-git add .
-git commit -m "Describe your changes"
-git push
