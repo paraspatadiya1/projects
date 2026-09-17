@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Patient Signup</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f7fc;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .signup-container {
+        width: 500px;
+        background-color: white;
+        padding: 35px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .signup-container h1 {
+        text-align: center;
+        color: #1677ff;
+        margin-bottom: 8px;
+    }
+
+    .signup-container .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 17px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 11px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #1677ff;
+    }
+
+    .signup-btn {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 6px;
+        background-color: #1677ff;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 8px;
+    }
+
+    .signup-btn:hover {
+        background-color: #095dcc;
+    }
+
+    .login-text {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+    }
+
+    .login-text a {
+        color: #1677ff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .login-text a:hover {
+        text-decoration: underline;
+    }
+
+    .row {
+        display: flex;
+        gap: 15px;
+    }
+
+    .row .form-group {
+        flex: 1;
+    }
+
+    @media (max-width: 600px) {
+
+        .signup-container {
+            width: 90%;
+            padding: 25px;
+        }
+
+        .row {
+            flex-direction: column;
+            gap: 0;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+
+<div class="signup-container">
+
+    <h1>Patient Signup</h1>
+
+    <p class="subtitle">
+        Create your account
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <!-- Username -->
+
+        <div class="form-group">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                name="username"
+                maxlength="20"
+                placeholder="Enter your username"
+                required
+            >
+
+        </div>
+
+
+        <!-- Email -->
+
+        <div class="form-group">
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+            >
+
+        </div>
+
+
+        <!-- Mobile -->
+
+        <div class="form-group">
+
+            <label for="mobile">
+                Mobile Number
+            </label>
+
+            <input
+                type="tel"
+                id="mobile"
+                name="mobile"
+                placeholder="Enter your mobile number"
+                maxlength="10"
+                pattern="[0-9]{10}"
+                required
+            >
+
+        </div>
+
+
+        <!-- Date of Birth -->
+
+        <div class="form-group">
+
+            <label for="dob">
+                Date of Birth
+            </label>
+
+            <input
+                type="date"
+                id="dob"
+                name="dob"
+                required
+            >
+
+        </div>
+
+
+        <!-- Gender -->
+
+        <div class="form-group">
+
+            <label for="gender">
+                Gender
+            </label>
+
+            <select id="gender" name="gender" required>
+
+                <option value="">
+                    Select Gender
+                </option>
+
+                <option value="Male">
+                    Male
+                </option>
+
+                <option value="Female">
+                    Female
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- City & State -->
+
+        <div class="row">
+
+            <div class="form-group">
+
+                <label for="city">
+                    City
+                </label>
+
+                <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    maxlength="20"
+                    placeholder="Enter city"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="state">
+                    State
+                </label>
+
+                <input
+                    type="text"
+                    id="state"
+                    name="state"
+                    maxlength="20"
+                    placeholder="Enter state"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- Password -->
+
+        <div class="form-group">
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                maxlength="15"
+                placeholder="Enter your password"
+                required
+            >
+
+        </div>
+
+
+        <!-- Submit -->
+
+        <button type="submit" class="signup-btn">
+            Create Account
+        </button>
+
+    </form>
+
+
+    <p class="login-text">
+
+        Already have an account?
+
+        <a href="/login/">
+            Login
+        </a>
+
+    </p>
+
+</div>
+
+
+</body>
+
+</html>
