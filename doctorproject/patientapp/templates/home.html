@@ -1,374 +1,796 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>MediCare | Healthcare & Appointments</title>
 
-<title>MediCare | Doctors & Appointments</title>
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
-<!-- Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
 
-<!-- Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-    :root {
-        --primary: #0d6efd;
-        --secondary: #0dcaf0;
-        --bg: #f8faff;
-        --card: #ffffff;
-        --text: #212529;
-        --muted: #6c757d;
-        --border: #e5e7eb;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    body.dark-mode {
-        --bg: #111827;
-        --card: #1f2937;
-        --text: #f9fafb;
-        --muted: #cbd5e1;
-        --border: #374151;
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f9ff;
+            color: #222;
+            transition: 0.3s;
+        }
 
-        background: var(--bg);
-        color: var(--text);
-    }
+        /* =========================
+           NAVBAR
+        ========================= */
 
-    * {
-        scroll-behavior: smooth;
-    }
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 15px 0;
+            transition: 0.3s;
+        }
 
-    body {
-        background: var(--bg);
-        color: var(--text);
-        transition: 0.3s;
-    }
+        .navbar-brand {
+            font-size: 25px;
+            font-weight: bold;
+            color: #1677ff !important;
+        }
 
-    .navbar {
-        background: var(--card) !important;
-        border-bottom: 1px solid var(--border);
-    }
+        .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 5px;
+        }
 
-    .navbar-brand {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--primary) !important;
-    }
+        .nav-link:hover {
+            color: #1677ff !important;
+        }
 
-    .nav-link {
-        color: var(--text) !important;
-        font-weight: 500;
-    }
+        .theme-btn {
+            border: none;
+            background: transparent;
+            font-size: 22px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
 
-    .hero {
-        min-height: 600px;
-        display: flex;
-        align-items: center;
-        background:
-            linear-gradient(135deg, rgba(13,110,253,0.08), rgba(13,202,240,0.08));
-    }
+        .patient-name {
+            font-weight: bold;
+            color: #1677ff;
+            margin-right: 15px;
+        }
 
-    .hero-title {
-        font-size: 3.5rem;
-        font-weight: 800;
-        line-height: 1.15;
-    }
+        /* =========================
+           HERO
+        ========================= */
 
-    .hero-title span {
-        color: var(--primary);
-    }
+        .hero {
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(
+                135deg,
+                #eaf4ff,
+                #ffffff
+            );
+            padding: 70px 0;
+        }
 
-    .hero-text {
-        font-size: 1.15rem;
-        color: var(--muted);
-        max-width: 650px;
-    }
+        .hero h1 {
+            font-size: 52px;
+            font-weight: bold;
+            color: #1677ff;
+            margin-bottom: 20px;
+        }
 
-    .hero-icon {
-        font-size: 180px;
-        color: var(--primary);
-        opacity: 0.9;
-    }
+        .hero p {
+            font-size: 19px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
 
-    .search-box {
-        background: var(--card);
-        padding: 25px;
-        border-radius: 18px;
-        box-shadow: 0 10px 35px rgba(0,0,0,0.08);
-        margin-top: 30px;
-    }
+        .hero-buttons a {
+            padding: 13px 25px;
+            border-radius: 7px;
+            text-decoration: none;
+            margin-right: 10px;
+            display: inline-block;
+        }
 
-    .section-title {
-        font-weight: 800;
-        margin-bottom: 10px;
-    }
+        .btn-primary-custom {
+            background: #1677ff;
+            color: white;
+        }
 
-    .section-subtitle {
-        color: var(--muted);
-        margin-bottom: 40px;
-    }
+        .btn-primary-custom:hover {
+            background: #095dcc;
+            color: white;
+        }
 
-    .specialization-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 30px 20px;
-        text-align: center;
-        transition: 0.3s;
-        height: 100%;
-    }
+        .btn-outline-custom {
+            border: 2px solid #1677ff;
+            color: #1677ff;
+        }
 
-    .specialization-card:hover {
-        transform: translateY(-7px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-    }
-
-    .specialization-icon {
-        width: 70px;
-        height: 70px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-        border-radius: 50%;
-        background: rgba(13,110,253,0.1);
-        color: var(--primary);
-        font-size: 30px;
-    }
-
-    .doctor-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        overflow: hidden;
-        height: 100%;
-        transition: 0.3s;
-    }
-
-    .doctor-card:hover {
-        transform: translateY(-7px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-    }
-
-    .doctor-image {
-        width: 100%;
-        height: 230px;
-        object-fit: cover;
-    }
-
-    .doctor-placeholder {
-        height: 230px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #dbeafe, #e0f2fe);
-        font-size: 80px;
-    }
-
-    .doctor-info {
-        padding: 22px;
-    }
-
-    .doctor-name {
-        font-size: 1.25rem;
-        font-weight: 700;
-    }
-
-    .doctor-specialization {
-        color: var(--primary);
-        font-weight: 600;
-    }
-
-    .doctor-details {
-        color: var(--muted);
-        font-size: 0.95rem;
-    }
-
-    .feature-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        padding: 30px;
-        border-radius: 18px;
-        height: 100%;
-    }
-
-    .feature-icon {
-        font-size: 40px;
-        color: var(--primary);
-        margin-bottom: 15px;
-    }
-
-    .cta {
-        background: linear-gradient(135deg, #0d6efd, #0dcaf0);
-        color: white;
-        border-radius: 25px;
-        padding: 60px 30px;
-    }
-
-    footer {
-        background: var(--card);
-        border-top: 1px solid var(--border);
-        color: var(--muted);
-    }
-
-    .theme-btn {
-        border: 1px solid var(--border);
-        background: var(--card);
-        color: var(--text);
-    }
-
-    #noResults {
-        display: none;
-    }
-
-    @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2.5rem;
+        .btn-outline-custom:hover {
+            background: #1677ff;
+            color: white;
         }
 
         .hero-icon {
-            font-size: 100px;
-            margin-top: 40px;
+            text-align: center;
+            font-size: 180px;
         }
-    }
-</style>
 
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-section {
+            margin-top: -35px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.10);
+        }
+
+        .search-box input {
+            height: 50px;
+            border-radius: 7px;
+            border: 1px solid #ccc;
+        }
+
+        .search-box button {
+            height: 50px;
+            border-radius: 7px;
+            background: #1677ff;
+            color: white;
+            border: none;
+            padding: 0 25px;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            color: #1677ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+        /* =========================
+           SPECIALIZATION
+        ========================= */
+
+        .specialization-card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            transition: 0.3s;
+        }
+
+        .specialization-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .specialization-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .specialization-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .specialization-card p {
+            color: #777;
+        }
+
+        /* =========================
+           DOCTORS
+        ========================= */
+
+        .doctor-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.14);
+        }
+
+        .doctor-image {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            background: #eaf4ff;
+        }
+
+        .doctor-placeholder {
+            width: 100%;
+            height: 230px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #eaf4ff;
+            font-size: 90px;
+        }
+
+        .doctor-info {
+            padding: 22px;
+        }
+
+        .doctor-info h4 {
+            color: #1677ff;
+            margin-bottom: 10px;
+        }
+
+        .doctor-info p {
+            margin-bottom: 7px;
+            color: #555;
+        }
+
+        .doctor-info strong {
+            color: #333;
+        }
+
+        .doctor-btn {
+            display: inline-block;
+            margin-top: 12px;
+            background: #1677ff;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .doctor-btn:hover {
+            background: #095dcc;
+            color: white;
+        }
+
+        #noResults {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            font-size: 18px;
+        }
+
+        /* =========================
+           WHY CHOOSE US
+        ========================= */
+
+        .why-card {
+            background: white;
+            padding: 30px 25px;
+            text-align: center;
+            border-radius: 12px;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .why-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .why-card h4 {
+            color: #1677ff;
+            margin-bottom: 12px;
+        }
+
+        .why-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about-box {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .about-box h2 {
+            color: #1677ff;
+            margin-bottom: 20px;
+        }
+
+        .about-box p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            background: #1677ff;
+            color: white;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .cta a {
+            background: white;
+            color: #1677ff;
+            padding: 13px 25px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact-box {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            text-align: center;
+        }
+
+        .contact-box h4 {
+            color: #1677ff;
+            margin-bottom: 15px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #111827;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        footer h4 {
+            color: #4d9aff;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            color: #bbb;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            margin-top: 25px;
+            padding-top: 20px;
+            text-align: center;
+            color: #aaa;
+        }
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark-mode {
+            background: #111827;
+            color: #eee;
+        }
+
+        body.dark-mode .navbar {
+            background: #1f2937;
+        }
+
+        body.dark-mode .nav-link {
+            color: #eee !important;
+        }
+
+        body.dark-mode .hero {
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #1f2937
+            );
+        }
+
+        body.dark-mode .hero p {
+            color: #ccc;
+        }
+
+        body.dark-mode .search-box,
+        body.dark-mode .specialization-card,
+        body.dark-mode .doctor-card,
+        body.dark-mode .why-card,
+        body.dark-mode .about-box,
+        body.dark-mode .contact-box {
+            background: #1f2937;
+            color: #eee;
+        }
+
+        body.dark-mode .specialization-card h4,
+        body.dark-mode .doctor-info p,
+        body.dark-mode .doctor-info strong {
+            color: #eee;
+        }
+
+        body.dark-mode .section-title p,
+        body.dark-mode .about-box p,
+        body.dark-mode .why-card p {
+            color: #ccc;
+        }
+
+        body.dark-mode .form-control {
+            background: #374151;
+            color: white;
+            border-color: #555;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .hero {
+                text-align: center;
+                padding: 50px 0;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero-icon {
+                font-size: 100px;
+                margin-top: 30px;
+            }
+
+            .patient-name {
+                display: inline-block;
+                margin-top: 10px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-<!-- ================= NAVBAR ================= -->
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
 <nav class="navbar navbar-expand-lg sticky-top">
+
     <div class="container">
 
+        <a class="navbar-brand" href="{% url 'home' %}">
+            🏥 MediCare
+        </a>
 
-    <a class="navbar-brand" href="{% url 'home' %}">
-        🏥 MediCare
-    </a>
 
-    <button class="navbar-toggler" type="button"
+        <button
+            class="navbar-toggler"
+            type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+            data-bs-target="#navbarMenu">
 
-    <div class="collapse navbar-collapse" id="navbarNav">
+            <span class="navbar-toggler-icon"></span>
 
-        <ul class="navbar-nav ms-auto align-items-lg-center">
+        </button>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#home">Home</a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#doctors">Doctors</a>
-            </li>
+        <div
+            class="collapse navbar-collapse"
+            id="navbarMenu">
 
-            <li class="nav-item">
-                <a class="nav-link" href="#specializations">
-                    Specializations
-                </a>
-            </li>
+            <ul class="navbar-nav ms-auto align-items-lg-center">
 
-            <li class="nav-item">
-                <a class="nav-link" href="#about">About</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">
+                        Home
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#contact">Contact</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#doctors">
+                        Doctors
+                    </a>
+                </li>
 
-            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                <button id="themeToggle"
-                        class="btn theme-btn rounded-circle">
-                    🌙
-                </button>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#specializations">
+                        Specializations
+                    </a>
+                </li>
 
-            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                <a href="/login/" class="btn btn-outline-primary">
-                    Login
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">
+                        About
+                    </a>
+                </li>
 
-            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                <a href="/signup/" class="btn btn-primary">
-                    Sign Up
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">
+                        Contact
+                    </a>
+                </li>
 
-        </ul>
+
+                <!-- DARK / LIGHT MODE -->
+
+                <li class="nav-item">
+
+                    <button
+                        class="theme-btn"
+                        id="themeToggle"
+                        title="Change Theme">
+
+                        🌙
+
+                    </button>
+
+                </li>
+
+
+                <!-- =================================================
+                     LOGGED IN / LOGGED OUT
+                ================================================== -->
+
+                {% if request.session.userid %}
+
+                    <!-- Logged In -->
+
+                    <li class="nav-item">
+
+                        <span class="patient-name">
+
+                            👤 {{ request.session.username }}
+
+                        </span>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            href="{% url 'logout' %}"
+                            class="btn btn-outline-danger">
+
+                            Logout
+
+                        </a>
+
+                    </li>
+
+                {% else %}
+
+                    <!-- Logged Out -->
+
+                    <li class="nav-item me-2">
+
+                        <a
+                            href="{% url 'login' %}"
+                            class="btn btn-outline-primary">
+
+                            Login
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a
+                            href="{% url 'signup' %}"
+                            class="btn btn-primary">
+
+                            Sign Up
+
+                        </a>
+
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+        </div>
 
     </div>
-</div>
-
 
 </nav>
 
-<!-- ================= HERO ================= -->
-
-<section class="hero" id="home">
 
 
-<div class="container">
+<!-- =====================================================
+     HERO
+===================================================== -->
 
-    <div class="row align-items-center">
+<section
+    class="hero"
+    id="home">
 
-        <div class="col-lg-7">
+    <div class="container">
 
-            <span class="badge bg-primary-subtle text-primary px-3 py-2 mb-3">
-                🩺 Trusted Healthcare Platform
-            </span>
+        <div class="row align-items-center">
 
-            <h1 class="hero-title mt-3">
-                Your Health,
-                <br>
-                <span>Our Priority.</span>
-            </h1>
+            <div class="col-lg-7">
 
-            <p class="hero-text mt-4">
-                Find trusted doctors, explore medical specializations,
-                and manage your appointments easily with MediCare.
-            </p>
+                {% if request.session.userid %}
 
-            <div class="d-flex flex-wrap gap-3 mt-4">
+                    <h1>
+                        Welcome back,
+                        {{ request.session.username }}! 👋
+                    </h1>
 
-                <a href="#doctors"
-                   class="btn btn-primary btn-lg px-4">
-                    <i class="bi bi-search"></i>
-                    Find a Doctor
-                </a>
+                    <p>
+                        Welcome to MediCare. Find trusted doctors,
+                        explore specializations, and manage your
+                        healthcare easily.
+                    </p>
 
-                <a href="/signup/"
-                   class="btn btn-outline-primary btn-lg px-4">
-                    Create Account
-                </a>
+                {% else %}
+
+                    <h1>
+                        Your Health, Our Priority.
+                    </h1>
+
+                    <p>
+                        Find trusted doctors, explore medical
+                        specializations, and take control of your
+                        healthcare journey with MediCare.
+                    </p>
+
+                {% endif %}
+
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="#doctors"
+                        class="btn-primary-custom">
+
+                        Find a Doctor
+
+                    </a>
+
+
+                    {% if request.session.userid %}
+
+                        <a
+                            href="#doctors"
+                            class="btn-outline-custom">
+
+                            Explore Doctors
+
+                        </a>
+
+                    {% else %}
+
+                        <a
+                            href="{% url 'signup' %}"
+                            class="btn-outline-custom">
+
+                            Create Account
+
+                        </a>
+
+                    {% endif %}
+
+                </div>
 
             </div>
 
-            <!-- SEARCH -->
 
-            <div class="search-box">
+            <div class="col-lg-5">
 
-                <label class="form-label fw-bold">
-                    Search for a doctor
-                </label>
+                <div class="hero-icon">
+                    🩺
+                </div>
 
-                <div class="input-group input-group-lg">
+            </div>
 
-                    <input type="text"
-                           id="doctorSearch"
-                           class="form-control"
-                           placeholder="Search doctor or specialization...">
+        </div>
 
-                    <button class="btn btn-primary"
-                            onclick="searchDoctors()">
-                        <i class="bi bi-search"></i>
-                        Search
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SEARCH
+===================================================== -->
+
+<section class="search-section">
+
+    <div class="container">
+
+        <div class="search-box">
+
+            <div class="row g-2">
+
+                <div class="col-md-10">
+
+                    <input
+                        type="text"
+                        id="doctorSearch"
+                        class="form-control"
+                        placeholder="Search doctor or specialization..."
+                    >
+
+                </div>
+
+
+                <div class="col-md-2">
+
+                    <button
+                        class="w-100"
+                        onclick="searchDoctors()">
+
+                        🔍 Search
+
                     </button>
 
                 </div>
@@ -377,572 +799,734 @@
 
         </div>
 
-        <div class="col-lg-5 text-center">
+    </div>
 
-            <div class="hero-icon">
-                <i class="bi bi-heart-pulse-fill"></i>
+</section>
+
+
+
+<!-- =====================================================
+     SPECIALIZATIONS
+===================================================== -->
+
+<section
+    class="section"
+    id="specializations">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Medical Specializations
+            </h2>
+
+            <p>
+                Find doctors according to your healthcare needs.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <div class="col-md-3">
+
+                <div class="specialization-card">
+
+                    <div class="specialization-icon">
+                        ❤️
+                    </div>
+
+                    <h4>
+                        Cardiology
+                    </h4>
+
+                    <p>
+                        Heart and cardiovascular care.
+                    </p>
+
+                </div>
+
             </div>
 
-            <h4 class="fw-bold">
-                Healthcare Made Simple
-            </h4>
 
-            <p class="text-secondary">
-                Connect with qualified healthcare professionals.
+            <div class="col-md-3">
+
+                <div class="specialization-card">
+
+                    <div class="specialization-icon">
+                        🧠
+                    </div>
+
+                    <h4>
+                        Neurology
+                    </h4>
+
+                    <p>
+                        Brain and nervous system care.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="specialization-card">
+
+                    <div class="specialization-icon">
+                        🦷
+                    </div>
+
+                    <h4>
+                        Dentistry
+                    </h4>
+
+                    <p>
+                        Complete dental healthcare.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="specialization-card">
+
+                    <div class="specialization-icon">
+                        👁️
+                    </div>
+
+                    <h4>
+                        Ophthalmology
+                    </h4>
+
+                    <p>
+                        Eye and vision care.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     DOCTORS
+===================================================== -->
+
+<section
+    class="section"
+    id="doctors">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Our Doctors
+            </h2>
+
+            <p>
+                Meet our trusted healthcare professionals.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4" id="doctorContainer">
+
+
+            {% for doctor in doctors %}
+
+                <div
+                    class="col-lg-4 col-md-6 doctor-item"
+                    data-search="
+                        {{ doctor.name }}
+                        {{ doctor.specialization }}
+                        {{ doctor.qualification }}
+                    ">
+
+                    <div class="doctor-card">
+
+
+                        {% if doctor.image %}
+
+                            <img
+                                src="{{ doctor.image.url }}"
+                                class="doctor-image"
+                                alt="{{ doctor.name }}">
+
+                        {% else %}
+
+                            <div class="doctor-placeholder">
+
+                                👨‍⚕️
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="doctor-info">
+
+                            <h4>
+                                Dr. {{ doctor.name }}
+                            </h4>
+
+
+                            <p>
+                                <strong>
+                                    Specialization:
+                                </strong>
+
+                                {{ doctor.specialization }}
+
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Qualification:
+                                </strong>
+
+                                {{ doctor.qualification }}
+
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Experience:
+                                </strong>
+
+                                {{ doctor.experience }} years
+
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Hospital:
+                                </strong>
+
+                                {{ doctor.hospital }}
+
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Consultation Fee:
+                                </strong>
+
+                                ₹{{ doctor.fee }}
+
+                            </p>
+
+
+                            <a
+                                href="{% url 'doctor_detail' doctor.id %}"
+                                class="doctor-btn">
+
+                                View Details
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            {% empty %}
+
+                <div class="col-12">
+
+                    <div class="text-center">
+
+                        <h4>
+                            No Doctors Available
+                        </h4>
+
+                        <p>
+                            Doctors will appear here once they
+                            are registered.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+        </div>
+
+
+        <div id="noResults">
+
+            No doctors found matching your search.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WHY CHOOSE MEDICARE
+===================================================== -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Why Choose MediCare?
+            </h2>
+
+            <p>
+                Everything you need for a better healthcare experience.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-md-4">
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        🔍
+                    </div>
+
+                    <h4>
+                        Find Doctors Easily
+                    </h4>
+
+                    <p>
+                        Search and explore doctors according
+                        to specialization and healthcare needs.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        📅
+                    </div>
+
+                    <h4>
+                        Easy Appointments
+                    </h4>
+
+                    <p>
+                        Manage your healthcare appointments
+                        through a simple and convenient platform.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="why-card">
+
+                    <div class="why-icon">
+                        🔐
+                    </div>
+
+                    <h4>
+                        Secure Platform
+                    </h4>
+
+                    <p>
+                        Your account and healthcare information
+                        are handled through a secure platform.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section
+    class="section"
+    id="about">
+
+    <div class="container">
+
+        <div class="about-box">
+
+            <h2>
+                About MediCare
+            </h2>
+
+            <p>
+                MediCare is a healthcare platform designed to
+                make it easier for patients to find doctors,
+                explore medical specializations, and manage
+                their healthcare journey.
+            </p>
+
+            <p>
+                Our goal is to provide patients with a simple
+                and convenient way to connect with healthcare
+                professionals.
             </p>
 
         </div>
 
     </div>
 
-</div>
+</section>
 
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="cta">
+
+    <div class="container">
+
+        {% if request.session.userid %}
+
+            <h2>
+                Take Care of Your Health 💙
+            </h2>
+
+            <p>
+                Find the right doctor and take the next step
+                toward better healthcare.
+            </p>
+
+            <a href="#doctors">
+                Find a Doctor
+            </a>
+
+        {% else %}
+
+            <h2>
+                Take the First Step Toward Better Healthcare
+            </h2>
+
+            <p>
+                Create your account and start your healthcare
+                journey with MediCare.
+            </p>
+
+            <a href="{% url 'signup' %}">
+                Create Account
+            </a>
+
+        {% endif %}
+
+    </div>
 
 </section>
 
-<!-- ================= SPECIALIZATIONS ================= -->
-
-<section class="py-5" id="specializations">
 
 
-<div class="container py-5">
+<!-- =====================================================
+     CONTACT
+===================================================== -->
 
-    <div class="text-center">
+<section
+    class="section"
+    id="contact">
 
-        <h2 class="section-title">
-            Medical Specializations
-        </h2>
+    <div class="container">
 
-        <p class="section-subtitle">
-            Find doctors based on your healthcare needs.
-        </p>
+        <div class="section-title">
 
-    </div>
+            <h2>
+                Contact Us
+            </h2>
 
-    <div class="row g-4">
-
-        <div class="col-md-6 col-lg-3">
-
-            <div class="specialization-card">
-
-                <div class="specialization-icon">
-                    <i class="bi bi-heart-pulse"></i>
-                </div>
-
-                <h5 class="fw-bold mt-3">
-                    Cardiology
-                </h5>
-
-                <p class="text-secondary">
-                    Heart and cardiovascular care.
-                </p>
-
-            </div>
+            <p>
+                We're here to help you.
+            </p>
 
         </div>
 
 
-        <div class="col-md-6 col-lg-3">
+        <div class="row justify-content-center">
 
-            <div class="specialization-card">
+            <div class="col-md-4">
 
-                <div class="specialization-icon">
-                    <i class="bi bi-brain"></i>
+                <div class="contact-box">
+
+                    <h4>
+                        📧 Email
+                    </h4>
+
+                    <p>
+                        support@medicare.com
+                    </p>
+
                 </div>
-
-                <h5 class="fw-bold mt-3">
-                    Neurology
-                </h5>
-
-                <p class="text-secondary">
-                    Brain and nervous system care.
-                </p>
 
             </div>
 
-        </div>
 
+            <div class="col-md-4">
 
-        <div class="col-md-6 col-lg-3">
+                <div class="contact-box">
 
-            <div class="specialization-card">
+                    <h4>
+                        📞 Phone
+                    </h4>
 
-                <div class="specialization-icon">
-                    <i class="bi bi-emoji-smile"></i>
+                    <p>
+                        +91 98765 43210
+                    </p>
+
                 </div>
-
-                <h5 class="fw-bold mt-3">
-                    Dentistry
-                </h5>
-
-                <p class="text-secondary">
-                    Dental and oral healthcare.
-                </p>
 
             </div>
 
-        </div>
 
+            <div class="col-md-4">
 
-        <div class="col-md-6 col-lg-3">
+                <div class="contact-box">
 
-            <div class="specialization-card">
+                    <h4>
+                        📍 Location
+                    </h4>
 
-                <div class="specialization-icon">
-                    <i class="bi bi-eye"></i>
+                    <p>
+                        India
+                    </p>
+
                 </div>
-
-                <h5 class="fw-bold mt-3">
-                    Ophthalmology
-                </h5>
-
-                <p class="text-secondary">
-                    Eye and vision care.
-                </p>
 
             </div>
 
         </div>
 
     </div>
-
-</div>
-
 
 </section>
 
-<!-- ================= DOCTORS ================= -->
-
-<section class="py-5" id="doctors">
 
 
-<div class="container py-5">
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
-    <div class="text-center">
+<footer>
 
-        <h2 class="section-title">
-            Our Doctors
-        </h2>
+    <div class="container">
 
-        <p class="section-subtitle">
-            Meet our registered healthcare professionals.
-        </p>
-
-    </div>
+        <div class="row">
 
 
-    <div class="row g-4" id="doctorList">
+            <div class="col-md-6">
 
-        {% for doctor in doctors %}
-
-        <div class="col-md-6 col-lg-4 doctor-item"
-             data-name="{{ doctor.name|lower }}"
-             data-specialization="{{ doctor.specialization|lower }}">
-
-            <div class="doctor-card">
-
-                {% if doctor.image %}
-
-                    <img src="{{ doctor.image.url }}"
-                         class="doctor-image"
-                         alt="{{ doctor.name }}">
-
-                {% else %}
-
-                    <div class="doctor-placeholder">
-                        👨‍⚕️
-                    </div>
-
-                {% endif %}
-
-
-                <div class="doctor-info">
-
-                    <div class="doctor-name">
-                        Dr. {{ doctor.name }}
-                    </div>
-
-                    <div class="doctor-specialization mt-1">
-                        {{ doctor.specialization }}
-                    </div>
-
-                    <hr>
-
-                    <div class="doctor-details">
-
-                        {% if doctor.qualification %}
-                        <div class="mb-2">
-                            🎓 {{ doctor.qualification }}
-                        </div>
-                        {% endif %}
-
-                        {% if doctor.experience %}
-                        <div class="mb-2">
-                            💼 {{ doctor.experience }} years experience
-                        </div>
-                        {% endif %}
-
-                        {% if doctor.hospital %}
-                        <div class="mb-2">
-                            🏥 {{ doctor.hospital }}
-                        </div>
-                        {% endif %}
-
-                        {% if doctor.fee %}
-                        <div class="mb-3">
-                            💰 Consultation Fee: ₹{{ doctor.fee }}
-                        </div>
-                        {% endif %}
-
-                    </div>
-
-
-                    <a href="{% url 'doctor_detail' doctor.id %}"
-                       class="btn btn-outline-primary w-100">
-                        View Doctor
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% empty %}
-
-        <div class="col-12 text-center">
-
-            <div class="p-5">
-
-                <div style="font-size:70px;">
-                    🩺
-                </div>
-
-                <h4 class="fw-bold">
-                    No Doctors Available
+                <h4>
+                    🏥 MediCare
                 </h4>
 
-                <p class="text-secondary">
-                    Doctors will appear here once they are registered.
+                <p>
+                    Your health, our priority.
                 </p>
 
             </div>
 
-        </div>
 
-        {% endfor %}
+            <div class="col-md-6">
 
-    </div>
+                <h4>
+                    Quick Links
+                </h4>
 
+                <p>
+                    <a
+                        href="#home"
+                        style="color:white; text-decoration:none;">
 
-    <!-- NO SEARCH RESULTS -->
+                        Home
 
-    <div id="noResults" class="text-center py-5">
+                    </a>
+                    &nbsp; | &nbsp;
 
-        <div style="font-size:60px;">
-            🔍
-        </div>
+                    <a
+                        href="#doctors"
+                        style="color:white; text-decoration:none;">
 
-        <h4 class="fw-bold">
-            No doctors found
-        </h4>
+                        Doctors
 
-        <p class="text-secondary">
-            Try searching for another doctor or specialization.
-        </p>
+                    </a>
+                    &nbsp; | &nbsp;
 
-    </div>
+                    <a
+                        href="#about"
+                        style="color:white; text-decoration:none;">
 
-</div>
+                        About
 
+                    </a>
+                    &nbsp; | &nbsp;
 
-</section>
+                    <a
+                        href="#contact"
+                        style="color:white; text-decoration:none;">
 
-<!-- ================= WHY CHOOSE US ================= -->
+                        Contact
 
-<section class="py-5" id="about">
-
-
-<div class="container py-5">
-
-    <div class="text-center">
-
-        <h2 class="section-title">
-            Why Choose MediCare?
-        </h2>
-
-        <p class="section-subtitle">
-            Everything you need for a simple healthcare experience.
-        </p>
-
-    </div>
-
-
-    <div class="row g-4">
-
-        <div class="col-md-4">
-
-            <div class="feature-card text-center">
-
-                <div class="feature-icon">
-                    <i class="bi bi-person-badge"></i>
-                </div>
-
-                <h5 class="fw-bold">
-                    Find Doctors Easily
-                </h5>
-
-                <p class="text-secondary">
-                    Search and explore doctors based on
-                    specialization and experience.
+                    </a>
                 </p>
 
             </div>
 
-        </div>
-
-
-        <div class="col-md-4">
-
-            <div class="feature-card text-center">
-
-                <div class="feature-icon">
-                    <i class="bi bi-calendar-check"></i>
-                </div>
-
-                <h5 class="fw-bold">
-                    Easy Appointments
-                </h5>
-
-                <p class="text-secondary">
-                    Manage your healthcare appointments
-                    through a simple platform.
-                </p>
-
-            </div>
 
         </div>
 
 
-        <div class="col-md-4">
+        <div class="footer-bottom">
 
-            <div class="feature-card text-center">
-
-                <div class="feature-icon">
-                    <i class="bi bi-shield-check"></i>
-                </div>
-
-                <h5 class="fw-bold">
-                    Secure Platform
-                </h5>
-
-                <p class="text-secondary">
-                    Your healthcare information is handled
-                    through a secure application.
-                </p>
-
-            </div>
+            © 2026 MediCare. All Rights Reserved.
 
         </div>
 
     </div>
-
-</div>
-
-
-</section>
-
-<!-- ================= CTA ================= -->
-
-<section class="py-5">
-
-
-<div class="container">
-
-    <div class="cta text-center">
-
-        <h2 class="fw-bold">
-            Take the First Step Toward Better Healthcare
-        </h2>
-
-        <p class="mt-3 mb-4">
-            Create your account and start managing your healthcare journey.
-        </p>
-
-        <a href="/signup/"
-           class="btn btn-light btn-lg px-5">
-            Create Account
-        </a>
-
-    </div>
-
-</div>
-
-
-</section>
-
-<!-- ================= CONTACT ================= -->
-
-<section class="py-5" id="contact">
-
-
-<div class="container py-5">
-
-    <div class="text-center">
-
-        <h2 class="section-title">
-            Contact MediCare
-        </h2>
-
-        <p class="section-subtitle">
-            Have questions? We're here to help.
-        </p>
-
-    </div>
-
-    <div class="row justify-content-center">
-
-        <div class="col-md-4 text-center">
-
-            <i class="bi bi-envelope-fill fs-2 text-primary"></i>
-
-            <h5 class="fw-bold mt-3">
-                Email
-            </h5>
-
-            <p class="text-secondary">
-                support@medicare.com
-            </p>
-
-        </div>
-
-
-        <div class="col-md-4 text-center">
-
-            <i class="bi bi-telephone-fill fs-2 text-primary"></i>
-
-            <h5 class="fw-bold mt-3">
-                Phone
-            </h5>
-
-            <p class="text-secondary">
-                +91 00000 00000
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-</section>
-
-<!-- ================= FOOTER ================= -->
-
-<footer class="py-4">
-
-
-<div class="container">
-
-    <div class="row align-items-center">
-
-        <div class="col-md-6">
-
-            <strong class="text-primary">
-                🏥 MediCare
-            </strong>
-
-            <p class="mb-0 mt-1">
-                Your health, our priority.
-            </p>
-
-        </div>
-
-        <div class="col-md-6 text-md-end mt-3 mt-md-0">
-
-            <p class="mb-0">
-                © 2026 MediCare. All rights reserved.
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
-
 
 </footer>
 
+
+
 <!-- Bootstrap JS -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
 
 <script>
 
-    // ================= THEME TOGGLE =================
+    /* =====================================================
+       DARK / LIGHT MODE
+    ===================================================== */
 
-    const themeToggle = document.getElementById("themeToggle");
+    const themeToggle =
+        document.getElementById("themeToggle");
 
     themeToggle.addEventListener("click", function () {
 
         document.body.classList.toggle("dark-mode");
 
-        if (document.body.classList.contains("dark-mode")) {
+        if (
+            document.body.classList.contains("dark-mode")
+        ) {
+
             themeToggle.innerHTML = "☀️";
-            localStorage.setItem("theme", "dark");
+
+            localStorage.setItem(
+                "theme",
+                "dark"
+            );
+
         } else {
+
             themeToggle.innerHTML = "🌙";
-            localStorage.setItem("theme", "light");
+
+            localStorage.setItem(
+                "theme",
+                "light"
+            );
+
         }
 
     });
 
 
-    // Load saved theme
+    /* Load saved theme */
 
-    if (localStorage.getItem("theme") === "dark") {
+    const savedTheme =
+        localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
 
         document.body.classList.add("dark-mode");
+
         themeToggle.innerHTML = "☀️";
 
     }
 
 
-    // ================= DOCTOR SEARCH =================
+
+    /* =====================================================
+       DOCTOR SEARCH
+    ===================================================== */
 
     function searchDoctors() {
 
         const searchInput =
             document.getElementById("doctorSearch");
 
-        const searchValue =
+        const searchText =
             searchInput.value.toLowerCase().trim();
 
         const doctors =
             document.querySelectorAll(".doctor-item");
-
-        const noResults =
-            document.getElementById("noResults");
 
         let found = false;
 
 
         doctors.forEach(function (doctor) {
 
-            const name =
-                doctor.getAttribute("data-name") || "";
-
-            const specialization =
-                doctor.getAttribute("data-specialization") || "";
-
+            const doctorText =
+                doctor.getAttribute("data-search")
+                .toLowerCase();
 
             if (
-                name.includes(searchValue) ||
-                specialization.includes(searchValue)
+                doctorText.includes(searchText)
             ) {
 
                 doctor.style.display = "";
+
                 found = true;
 
             } else {
@@ -954,7 +1538,11 @@
         });
 
 
-        if (searchValue !== "" && !found) {
+        const noResults =
+            document.getElementById("noResults");
+
+
+        if (!found && doctors.length > 0) {
 
             noResults.style.display = "block";
 
@@ -964,27 +1552,21 @@
 
         }
 
-
-        document.getElementById("doctors")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
-
     }
 
 
-    // Search when pressing Enter
+    /* Search while typing */
 
-    document.getElementById("doctorSearch")
-        .addEventListener("keypress", function(event) {
-
-            if (event.key === "Enter") {
-                searchDoctors();
-            }
-
-        });
+    document
+        .getElementById("doctorSearch")
+        .addEventListener(
+            "keyup",
+            searchDoctors
+        );
 
 </script>
 
+
 </body>
+
 </html>
