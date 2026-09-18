@@ -9,8 +9,12 @@ from .forms import *
 
 
 def home(request):
-    return render(request, 'home.html')
 
+    user = None
+
+    if 'userid' in request.session:
+        user = patientsignup.objects.filter(id=request.session['userid']).first()
+    return render(request, 'home.html', {'user': user})
 
 def signup(request):
     if request.method=='POST':
@@ -38,7 +42,7 @@ def login(request):
 
             request.session['user'] = user.email
             request.session['userid'] = user.id
-            request.session['username'] = user.name
+            request.session['username'] = user.username
 
             return redirect('/')
 
@@ -56,4 +60,41 @@ def logout(request):
     return redirect('/')
 
 
+def profile(request):
+    if 'userid' not in request.session:
+        return redirect('login')
 
+    user = patientsignup.objects.get(id=request.session['userid'])
+
+    return render(request, 'profile.html', {'user': user})
+
+
+def edit_profile(request):
+    if 'userid' not in request.session:
+        return redirect('login')
+
+    user = patientsignup.objects.get(id=request.session['userid'])
+
+    if request.method == 'POST':
+        form = ProfileForm(
+            request.POST,
+            request.FILES,
+            instance=user
+        )
+
+        if form.is_valid():
+            form.save()
+
+            # Update session username/email in case they were changed
+            request.session['username'] = user.username
+            request.session['user'] = user.email
+
+            return redirect('profile')
+
+    else:
+        form = ProfileForm(instance=user)
+
+    return render(request, 'edit_profile.html', {
+        'form': form,
+        'user': user
+    })

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | MediCare</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            background: #f5f7fa;
+        }
+
+        .profile-card {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #0d6efd;
+        }
+
+        .default-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin: auto;
+        }
+
+        .profile-label {
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="profile-card">
+
+        <div class="text-center mb-4">
+
+            {% if user.profile_pic %}
+                <img
+                    src="{{ user.profile_pic.url }}"
+                    class="profile-pic"
+                    alt="Profile Picture"
+                >
+            {% else %}
+                <div class="default-pic">
+                    👤
+                </div>
+            {% endif %}
+
+            <h2 class="mt-3">{{ user.username }}</h2>
+
+            <p class="text-muted">
+                Patient Profile
+            </p>
+
+        </div>
+
+
+        <div class="row mb-3">
+
+            <div class="col-md-6">
+                <span class="profile-label">Username</span>
+                <p>{{ user.username }}</p>
+            </div>
+
+            <div class="col-md-6">
+                <span class="profile-label">Email</span>
+                <p>{{ user.email }}</p>
+            </div>
+
+        </div>
+
+
+        <div class="row mb-3">
+
+            <div class="col-md-6">
+                <span class="profile-label">Mobile</span>
+                <p>{{ user.mobile }}</p>
+            </div>
+
+            <div class="col-md-6">
+                <span class="profile-label">Date of Birth</span>
+                <p>{{ user.dob }}</p>
+            </div>
+
+        </div>
+
+
+        <div class="row mb-3">
+
+            <div class="col-md-6">
+                <span class="profile-label">Gender</span>
+                <p>{{ user.gender }}</p>
+            </div>
+
+            <div class="col-md-6">
+                <span class="profile-label">City</span>
+                <p>{{ user.city }}</p>
+            </div>
+
+        </div>
+
+
+        <div class="mb-4">
+            <span class="profile-label">State</span>
+            <p>{{ user.state }}</p>
+        </div>
+
+
+        <div class="text-center">
+
+            <a
+                href="{% url 'edit_profile' %}"
+                class="btn btn-primary"
+            >
+                ✏️ Edit Profile
+            </a>
+
+            <a
+                href="{% url 'home' %}"
+                class="btn btn-secondary"
+            >
+                🏠 Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -68,10 +68,45 @@
             margin-right: 15px;
         }
 
+        /* =========================
+           PROFILE NAVBAR
+        ========================= */
+
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .profile-menu:hover {
+            text-decoration: none;
+        }
+
+        .navbar-profile-pic {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #1677ff;
+        }
+
+        .navbar-profile-default {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #eaf4ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 2px solid #1677ff;
+        }
+
         .patient-name {
             font-weight: bold;
             color: #1677ff;
-            margin-right: 15px;
         }
 
         /* =========================
@@ -481,6 +516,10 @@
             border-color: #555;
         }
 
+        body.dark-mode .navbar-profile-default {
+            background: #374151;
+        }
+
         /* =========================
            MOBILE
         ========================= */
@@ -501,9 +540,9 @@
                 margin-top: 30px;
             }
 
-            .patient-name {
-                display: inline-block;
+            .profile-menu {
                 margin-top: 10px;
+                margin-bottom: 10px;
             }
 
         }
@@ -597,19 +636,41 @@
                      LOGGED IN / LOGGED OUT
                 ================================================== -->
 
-                {% if request.session.userid %}
+                {% if user %}
 
                     <!-- Logged In -->
 
                     <li class="nav-item">
 
-                        <span class="patient-name">
+                        <a
+                            href="{% url 'profile' %}"
+                            class="profile-menu"
+                            title="View Profile">
 
-                            👤 {{ request.session.username }}
+                            {% if user.profile_pic %}
 
-                        </span>
+                                <img
+                                    src="{{ user.profile_pic.url }}"
+                                    class="navbar-profile-pic"
+                                    alt="Profile Picture">
+
+                            {% else %}
+
+                                <div class="navbar-profile-default">
+                                    👤
+                                </div>
+
+                            {% endif %}
+
+
+                            <span class="patient-name">
+                                {{ user.username }}
+                            </span>
+
+                        </a>
 
                     </li>
+
 
                     <li class="nav-item">
 
@@ -677,11 +738,11 @@
 
             <div class="col-lg-7">
 
-                {% if request.session.userid %}
+                {% if user %}
 
                     <h1>
                         Welcome back,
-                        {{ request.session.username }}! 👋
+                        {{ user.username }}! 👋
                     </h1>
 
                     <p>
@@ -716,13 +777,13 @@
                     </a>
 
 
-                    {% if request.session.userid %}
+                    {% if user %}
 
                         <a
-                            href="#doctors"
+                            href="{% url 'profile' %}"
                             class="btn-outline-custom">
 
-                            Explore Doctors
+                            👤 My Profile
 
                         </a>
 
@@ -1230,7 +1291,7 @@
 
     <div class="container">
 
-        {% if request.session.userid %}
+        {% if user %}
 
             <h2>
                 Take Care of Your Health 💙
@@ -1382,6 +1443,7 @@
                 </h4>
 
                 <p>
+
                     <a
                         href="#home"
                         style="color:white; text-decoration:none;">
@@ -1389,6 +1451,7 @@
                         Home
 
                     </a>
+
                     &nbsp; | &nbsp;
 
                     <a
@@ -1398,6 +1461,7 @@
                         Doctors
 
                     </a>
+
                     &nbsp; | &nbsp;
 
                     <a
@@ -1407,6 +1471,7 @@
                         About
 
                     </a>
+
                     &nbsp; | &nbsp;
 
                     <a
@@ -1416,6 +1481,7 @@
                         Contact
 
                     </a>
+
                 </p>
 
             </div>
@@ -1443,7 +1509,6 @@
 </script>
 
 
-
 <script>
 
     /* =====================================================
@@ -1453,9 +1518,11 @@
     const themeToggle =
         document.getElementById("themeToggle");
 
+
     themeToggle.addEventListener("click", function () {
 
         document.body.classList.toggle("dark-mode");
+
 
         if (
             document.body.classList.contains("dark-mode")
@@ -1487,6 +1554,7 @@
     const savedTheme =
         localStorage.getItem("theme");
 
+
     if (savedTheme === "dark") {
 
         document.body.classList.add("dark-mode");
@@ -1506,11 +1574,14 @@
         const searchInput =
             document.getElementById("doctorSearch");
 
+
         const searchText =
             searchInput.value.toLowerCase().trim();
 
+
         const doctors =
             document.querySelectorAll(".doctor-item");
+
 
         let found = false;
 
@@ -1520,6 +1591,7 @@
             const doctorText =
                 doctor.getAttribute("data-search")
                 .toLowerCase();
+
 
             if (
                 doctorText.includes(searchText)
