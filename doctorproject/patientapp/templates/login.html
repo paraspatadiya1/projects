@@ -1,269 +1,293 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 
-<html lang="en">
+<html lang="en"> 
 
-<head>
+<head> 
 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Login</title> 
 
-<title>Patient Login</title>
-
-<style>
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f7fc;
-        min-height: 100vh;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .login-container {
-        width: 400px;
-        background-color: white;
-        padding: 40px;
-
-        border-radius: 10px;
-
-        box-shadow:
-            0 5px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .logo {
-        text-align: center;
-        font-size: 35px;
-        margin-bottom: 10px;
-    }
-
-    .login-container h1 {
-        text-align: center;
-        color: #1677ff;
-        margin-bottom: 8px;
-    }
-
-    .subtitle {
-        text-align: center;
-        color: #666;
-        margin-bottom: 30px;
-    }
-
-    .form-group {
+<style> 
+ 
+    * { 
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box; 
+    } 
+ 
+    body { 
+        font-family: Arial, sans-serif; 
+        background-color: #f2f7fc; 
+        min-height: 100vh; 
+ 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+    } 
+ 
+    .login-container { 
+        width: 400px; 
+        background-color: white; 
+        padding: 40px; 
+ 
+        border-radius: 10px; 
+ 
+        box-shadow: 
+            0 5px 20px rgba(0, 0, 0, 0.1); 
+    } 
+ 
+    .logo { 
+        text-align: center; 
+        font-size: 35px; 
+        margin-bottom: 10px; 
+    } 
+ 
+    .login-container h1 { 
+        text-align: center; 
+        color: #1677ff; 
+        margin-bottom: 8px; 
+    } 
+ 
+    .subtitle { 
+        text-align: center; 
+        color: #666; 
+        margin-bottom: 30px; 
+    } 
+ 
+    .form-group { 
+        margin-bottom: 20px; 
+    } 
+ 
+    .form-group label { 
+        display: block; 
+        margin-bottom: 8px; 
+ 
+        font-weight: bold; 
+        color: #333; 
+    } 
+ 
+    .form-group input { 
+        width: 100%; 
+ 
+        padding: 12px; 
+ 
+        border: 1px solid #ccc; 
+        border-radius: 6px; 
+ 
+        font-size: 15px; 
+        outline: none; 
+    } 
+ 
+    .form-group input:focus { 
+        border-color: #1677ff; 
+    } 
+ 
+    .forgot-password {
+        text-align: right;
+        margin-top: -8px;
         margin-bottom: 20px;
     }
 
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-
-        font-weight: bold;
-        color: #333;
-    }
-
-    .form-group input {
-        width: 100%;
-
-        padding: 12px;
-
-        border: 1px solid #ccc;
-        border-radius: 6px;
-
-        font-size: 15px;
-        outline: none;
-    }
-
-    .form-group input:focus {
-        border-color: #1677ff;
-    }
-
-    .login-btn {
-        width: 100%;
-
-        padding: 13px;
-
-        border: none;
-        border-radius: 6px;
-
-        background-color: #1677ff;
-        color: white;
-
-        font-size: 16px;
-        font-weight: bold;
-
-        cursor: pointer;
-    }
-
-    .login-btn:hover {
-        background-color: #095dcc;
-    }
-
-    .signup-text {
-        text-align: center;
-
-        margin-top: 22px;
-
-        color: #666;
-    }
-
-    .signup-text a {
+    .forgot-password a {
         color: #1677ff;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .signup-text a:hover {
-        text-decoration: underline;
-    }
-
-    .back-home {
-        text-align: center;
-        margin-top: 15px;
-    }
-
-    .back-home a {
-        color: #555;
         text-decoration: none;
         font-size: 14px;
+        font-weight: bold;
     }
 
-    .back-home a:hover {
-        color: #1677ff;
+    .forgot-password a:hover {
+        text-decoration: underline;
     }
+ 
+    .login-btn { 
+        width: 100%; 
+ 
+        padding: 13px; 
+ 
+        border: none; 
+        border-radius: 6px; 
+ 
+        background-color: #1677ff; 
+        color: white; 
+ 
+        font-size: 16px; 
+        font-weight: bold; 
+ 
+        cursor: pointer; 
+    } 
+ 
+    .login-btn:hover { 
+        background-color: #095dcc; 
+    } 
+ 
+    .signup-text { 
+        text-align: center; 
+ 
+        margin-top: 22px; 
+ 
+        color: #666; 
+    } 
+ 
+    .signup-text a { 
+        color: #1677ff; 
+        text-decoration: none; 
+        font-weight: bold; 
+    } 
+ 
+    .signup-text a:hover { 
+        text-decoration: underline; 
+    } 
+ 
+    .back-home { 
+        text-align: center; 
+        margin-top: 15px; 
+    } 
+ 
+    .back-home a { 
+        color: #555; 
+        text-decoration: none; 
+        font-size: 14px; 
+    } 
+ 
+    .back-home a:hover { 
+        color: #1677ff; 
+    } 
+ 
+    .error-message { 
+        background-color: #ffe5e5; 
+        color: #d00000; 
+ 
+        padding: 10px; 
+ 
+        border-radius: 5px; 
+ 
+        margin-bottom: 20px; 
+ 
+        text-align: center; 
+    } 
+ 
+</style> 
 
-    .error-message {
-        background-color: #ffe5e5;
-        color: #d00000;
+</head> 
 
-        padding: 10px;
+<body> 
 
-        border-radius: 5px;
+<div class="login-container"> 
 
-        margin-bottom: 20px;
+```
+<div class="logo"> 
+    🩺 
+</div> 
 
-        text-align: center;
-    }
+<h1> 
+    Patient Login 
+</h1> 
 
-</style>
-
-
-</head>
-
-<body>
+<p class="subtitle"> 
+    Login to your account 
+</p> 
 
 
-<div class="login-container">
+<!-- Django error message --> 
 
-    <div class="logo">
-        🩺
+{% if error %} 
+
+    <div class="error-message"> 
+        {{ error }} 
+    </div> 
+
+{% endif %} 
+
+
+<form method="POST"> 
+
+    {% csrf_token %} 
+
+
+    <!-- Email --> 
+
+    <div class="form-group"> 
+
+        <label for="email"> 
+            Email 
+        </label> 
+
+        <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="Enter your email" 
+            required 
+        > 
+
+    </div> 
+
+
+    <!-- Password --> 
+
+    <div class="form-group"> 
+
+        <label for="password"> 
+            Password 
+        </label> 
+
+        <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="Enter your password" 
+            required 
+        > 
+
+    </div> 
+
+
+    <!-- Forgot Password --> 
+
+    <div class="forgot-password">
+        <a href="{% url 'forgot_password' %}">
+            Forgot Password?
+        </a>
     </div>
 
-    <h1>
-        Patient Login
-    </h1>
 
-    <p class="subtitle">
-        Login to your account
-    </p>
+    <!-- Login Button --> 
 
+    <button 
+        type="submit" 
+        class="login-btn"> 
 
-    <!-- Django error message -->
+        Login 
 
-    {% if error %}
+    </button> 
 
-        <div class="error-message">
-            {{ error }}
-        </div>
-
-    {% endif %}
+</form> 
 
 
-    <form method="POST">
+<p class="signup-text"> 
 
-        {% csrf_token %}
+    Don't have an account? 
 
+    <a href="/signup/"> 
+        Create Account 
+    </a> 
 
-        <!-- Email -->
-
-        <div class="form-group">
-
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-            >
-
-        </div>
+</p> 
 
 
-        <!-- Password -->
+<div class="back-home"> 
 
-        <div class="form-group">
+    <a href="/"> 
+        ← Back to Home 
+    </a> 
 
-            <label for="password">
-                Password
-            </label>
+</div> 
+```
 
-            <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-            >
+</div> 
 
-        </div>
-
-
-        <!-- Login Button -->
-
-        <button
-            type="submit"
-            class="login-btn">
-
-            Login
-
-        </button>
-
-    </form>
-
-
-    <p class="signup-text">
-
-        Don't have an account?
-
-        <a href="/signup/">
-            Create Account
-        </a>
-
-    </p>
-
-
-    <div class="back-home">
-
-        <a href="/">
-            ← Back to Home
-        </a>
-
-    </div>
-
-</div>
-
-
-</body>
+</body> 
 
 </html>

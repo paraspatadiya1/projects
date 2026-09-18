@@ -10,7 +10,7 @@ class patientsignup(models.Model):
     gender = models.CharField(max_length=10)
     city = models.CharField(max_length=20)
     state = models.CharField(max_length=20)
-    password = models.CharField(max_length=15)
+    password = models.CharField(max_length=100)
     profile_pic = models.ImageField(
         upload_to='profile_pics/',
         blank=True,

@@ -3,6 +3,7 @@ from django.http import request
 from django.shortcuts import render,redirect
 from .models import *
 from .forms import *
+from django.contrib.auth.hashers import check_password
 
 # Create your views here.
 
@@ -34,9 +35,9 @@ def login(request):
         unm = request.POST.get('email')
         pas = request.POST.get('password')
 
-        user = patientsignup.objects.filter(email=unm,password=pas).first()
+        user = patientsignup.objects.filter(email=unm).first()
 
-        if user:
+        if user and check_password(pas, user.password):
             print("Login Successfully!")
             print("UserID:", user.id)
 
@@ -85,7 +86,6 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
 
-            # Update session username/email in case they were changed
             request.session['username'] = user.username
             request.session['user'] = user.email
 
@@ -98,3 +98,23 @@ def edit_profile(request):
         'form': form,
         'user': user
     })
+
+def forgot_password(request):
+
+    if request.method == 'POST':
+
+        email = request.POST.get('email')
+
+        user = patientsignup.objects.filter(email=email).first()
+
+        if user:
+            return render(request, 'forgot_password.html', {
+                'success': 'Email address found. We can now send the reset link.'
+            })
+
+        else:
+            return render(request, 'forgot_password.html', {
+                'error': 'No account found with this email address.'
+            })
+
+    return render(request, 'forgot_password.html')
