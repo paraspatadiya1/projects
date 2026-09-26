@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.course_name }} | Aura SIS{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <!-- Breadcrumb Navigation -->
+    <nav class="flex items-center gap-2 text-xs text-gray-400">
+        <a href="/" class="hover:text-white transition-colors">Dashboard</a>
+        <span>/</span>
+        <a href="/getcourse/" class="hover:text-white transition-colors">Course Programs</a>
+        <span>/</span>
+        <span class="text-white font-medium">{{ course.course_name }}</span>
+    </nav>
+
+    <!-- Course Overview Card -->
+    <div class="glass-card rounded-2xl border-white/5 overflow-hidden">
+        <div class="p-6 border-b border-white/5 bg-gradient-to-r from-surface-800 to-surface-700/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 uppercase tracking-wider">
+                    Curriculum Track #{{ course.id }}
+                </span>
+                <h3 class="text-xl font-extrabold text-white mt-2">{{ course.course_name }}</h3>
+                <p class="text-xs text-gray-400 mt-1">
+                    Standardized curriculum track with certified examination.
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="/updatecourse/{{ course.id }}/" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-glow flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-pen text-[11px]"></i> Edit Track
+                </a>
+                <a href="/deletecourse/{{ course.id }}/" class="px-3 py-2 rounded-xl bg-surface-700 hover:bg-rose-900/60 text-rose-400 hover:text-white text-xs font-medium border border-white/10 transition-all" title="Delete">
+                    <i class="fa-solid fa-trash text-[11px]"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="p-6 grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-white/5">
+            <div class="bg-surface-900/90 p-4 rounded-xl border border-white/5">
+                <span class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Tuition Fees</span>
+                <p class="text-lg font-bold text-emerald-400 mt-1">₹{{ course.course_fees }}</p>
+            </div>
+            <div class="bg-surface-900/90 p-4 rounded-xl border border-white/5">
+                <span class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Course Duration</span>
+                <p class="text-lg font-bold text-white mt-1"><i class="fa-regular fa-clock text-indigo-400 mr-1 text-sm"></i>{{ course.course_duration }}</p>
+            </div>
+            <div class="bg-surface-900/90 p-4 rounded-xl border border-white/5">
+                <span class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Enrolled Active Students</span>
+                <p class="text-lg font-bold text-indigo-300 mt-1"><i class="fa-solid fa-users text-indigo-400 mr-1 text-sm"></i>{{ enrolled_students|length }}</p>
+            </div>
+        </div>
+
+        <!-- Enrolled Students Table -->
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-sm font-bold text-white">Students Enrolled in this Track</h4>
+                <a href="/addstudent/" class="text-xs text-indigo-400 hover:underline">+ Enroll Student to this Track</a>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-white/5">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-surface-800 text-gray-400 border-b border-white/5">
+                        <tr>
+                            <th class="py-3 px-4">Student</th>
+                            <th class="py-3 px-4">Contact</th>
+                            <th class="py-3 px-4">City</th>
+                            <th class="py-3 px-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5 text-gray-300">
+                        {% for s in enrolled_students %}
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                                        {{ s.full_name|slice:":1" }}
+                                    </div>
+                                    <div>
+                                        <a href="/getid/{{ s.id }}/" class="font-semibold text-white hover:text-indigo-400">{{ s.full_name }}</a>
+                                        <div class="text-[11px] text-gray-400 code-font">{{ s.email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">{{ s.phone }}</td>
+                            <td class="py-3 px-4">{{ s.city }}</td>
+                            <td class="py-3 px-4 text-right">
+                                <a href="/getid/{{ s.id }}/" class="px-2.5 py-1 rounded-lg bg-surface-700 hover:bg-surface-600 text-indigo-300 text-xs transition-colors">
+                                    View Dossier &rarr;
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="py-8 text-center text-gray-500">
+                                No students currently enrolled in this track.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="p-4 bg-surface-900/50 border-t border-white/5 flex justify-between items-center text-xs">
+            <a href="/getcourse/" class="text-gray-400 hover:text-white transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to All Course Tracks
+            </a>
+            <a href="/updatecourse/{{ course.id }}/" class="text-indigo-400 hover:underline">Edit Track Information</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

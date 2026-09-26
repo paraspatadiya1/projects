@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Course Track | Aura SIS{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto space-y-6">
+    <!-- Breadcrumb Navigation -->
+    <nav class="flex items-center gap-2 text-xs text-gray-400">
+        <a href="/" class="hover:text-white transition-colors">Dashboard</a>
+        <span>/</span>
+        <a href="/getcourse/" class="hover:text-white transition-colors">Course Programs</a>
+        <span>/</span>
+        <span class="text-rose-400 font-medium">Delete Confirmation</span>
+    </nav>
+
+    <!-- Confirmation Card -->
+    <div class="glass-card rounded-2xl border-rose-500/20 p-6 text-center shadow-2xl">
+        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center text-2xl mx-auto mb-4">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <h3 class="text-base font-bold text-white">Remove Course Curriculum?</h3>
+        <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
+            You are about to delete the curriculum track:
+        </p>
+
+        <div class="my-4 bg-surface-900/90 p-4 rounded-xl border border-white/5 text-left text-xs space-y-1.5">
+            <div class="flex justify-between">
+                <span class="text-gray-400">Track Name:</span>
+                <strong class="text-white">{{ course.course_name }}</strong>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-400">Tuition Fee:</span>
+                <span class="text-emerald-400 font-semibold">₹{{ course.course_fees }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-400">Duration:</span>
+                <span class="text-gray-300">{{ course.course_duration }}</span>
+            </div>
+        </div>
+
+        <p class="text-[11px] text-rose-400/90 bg-rose-500/5 p-2.5 rounded-lg border border-rose-500/15 mb-5">
+            <i class="fa-solid fa-circle-exclamation mr-1"></i> Warning: Any students currently enrolled in this track will become unassigned.
+        </p>
+
+        <form method="POST" action="/deletecourse/{{ course.id }}/" class="flex items-center justify-center gap-3">
+            {% csrf_token %}
+            <a href="/getcourse/" class="px-4 py-2.5 rounded-xl bg-surface-700 hover:bg-surface-600 text-gray-300 text-xs font-medium transition-colors">
+                Cancel, Keep Track
+            </a>
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold shadow-lg shadow-rose-600/30 transition-all">
+                Yes, Delete Track
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

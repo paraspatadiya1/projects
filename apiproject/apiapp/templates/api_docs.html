@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+
+{% block title %}Developer REST Gateway & SDK | Aura SIS{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-xl font-extrabold text-white tracking-tight">Developer REST Gateway &amp; SDK</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Test endpoints live against the Django REST engine and generate client SDK snippets.</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400">
+            <span>Base Host:</span>
+            <code class="px-2.5 py-1 rounded-xl bg-surface-900 code-font text-indigo-400 border border-white/10" id="currentHostUrl">http://127.0.0.1:8000</code>
+        </div>
+    </div>
+
+    <!-- Interactive Sandbox Panel -->
+    <div class="glass-card p-6 rounded-2xl border-white/5">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Request Builder (Left Column) -->
+            <div class="lg:col-span-5 space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Preset Endpoint</label>
+                    <select id="apiPresetSelect" onchange="handlePresetSelect()" class="w-full bg-surface-900 text-xs text-gray-200 px-3 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500 code-font">
+                        <option value="get_all_students">GET /getall/ (Fetch All Students)</option>
+                        <option value="search_students">GET /getall/?search=paras (Search Directory)</option>
+                        <option value="get_student_id">GET /getid/{id}/ (Get Single Student)</option>
+                        <option value="post_student">POST /addstudent/ (Enroll Student)</option>
+                        <option value="put_student">PUT /updateid/{id}/ (Update Student)</option>
+                        <option value="delete_student">DELETE /deleteid/{id}/ (Delete Student)</option>
+                        <option value="get_all_courses">GET /getcourse/ (Fetch All Courses)</option>
+                        <option value="get_course_id">GET /getcourseid/{id}/ (Get Single Course)</option>
+                        <option value="post_course">POST /addcourse/ (Create Course)</option>
+                        <option value="put_course">PUT /updatecourse/{id}/ (Update Course)</option>
+                        <option value="delete_course">DELETE /deletecourse/{id}/ (Delete Course)</option>
+                        <option value="get_stats">GET /api/stats/ (Dashboard Live Metrics)</option>
+                    </select>
+                </div>
+
+                <div class="flex gap-2">
+                    <div class="w-28">
+                        <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Method</label>
+                        <select id="apiMethodInput" onchange="updateSnippetCode()" class="w-full bg-surface-900 text-xs font-bold px-3 py-2 rounded-xl border border-white/10 text-indigo-400 focus:outline-none">
+                            <option value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Resource Path</label>
+                        <input type="text" id="apiEndpointInput" oninput="updateSnippetCode()" value="/getall/" class="w-full bg-surface-900 text-xs code-font text-gray-200 px-3 py-2 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-[11px] font-bold text-gray-300 uppercase tracking-wider">JSON Body</label>
+                        <button type="button" onclick="formatRequestBody()" class="text-[10px] text-indigo-400 hover:text-indigo-300">Prettify</button>
+                    </div>
+                    <textarea id="apiBodyInput" oninput="updateSnippetCode()" rows="5" placeholder="Optional payload for POST/PUT requests..." class="w-full bg-surface-900 text-xs code-font text-gray-200 p-3 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+                </div>
+
+                <button onclick="executeApiRequest()" id="apiSendBtn" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-500 hover:to-brand-500 text-white text-xs font-bold tracking-wide shadow-glow flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-paper-plane text-[11px]"></i> Execute Live Request
+                </button>
+            </div>
+
+            <!-- Code Snippets & Response Viewer (Right Column) -->
+            <div class="lg:col-span-7 flex flex-col space-y-3">
+                <!-- Code Snippet Generator Tab Header -->
+                <div class="bg-surface-900 p-2 rounded-xl border border-white/5 flex items-center justify-between">
+                    <div class="flex space-x-2">
+                        <button onclick="selectSnippetTab('curl')" id="btn-snippet-curl" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-white bg-indigo-600 transition-all">cURL</button>
+                        <button onclick="selectSnippetTab('js')" id="btn-snippet-js" class="px-2.5 py-1 rounded-lg text-xs font-medium text-gray-400 hover:text-white transition-all">JavaScript</button>
+                        <button onclick="selectSnippetTab('python')" id="btn-snippet-python" class="px-2.5 py-1 rounded-lg text-xs font-medium text-gray-400 hover:text-white transition-all">Python</button>
+                    </div>
+                    <button onclick="copySnippetCode()" class="text-xs text-gray-400 hover:text-white flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-white/5 transition-all">
+                        <i class="fa-regular fa-copy"></i> Copy Snippet
+                    </button>
+                </div>
+                <div class="bg-surface-900/80 p-3 rounded-xl border border-white/5 code-font text-[11px] text-gray-300 max-h-28 overflow-auto">
+                    <pre id="snippetCodeDisplay" class="whitespace-pre-wrap break-all">curl -X GET "http://127.0.0.1:8000/getall/" -H "Accept: application/json"</pre>
+                </div>
+
+                <!-- Live Response Viewer -->
+                <div class="flex-1 flex flex-col mt-2">
+                    <div class="flex items-center justify-between bg-surface-800 px-4 py-2 rounded-t-xl border border-b-0 border-white/10">
+                        <div class="flex items-center gap-2.5">
+                            <span class="text-xs font-semibold text-gray-300">Response Payload</span>
+                            <span id="apiStatusBadge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold">200 OK</span>
+                            <span id="apiLatencyBadge" class="hidden text-[11px] text-gray-400"><i class="fa-regular fa-clock mr-1"></i><span id="apiLatencyVal">0</span> ms</span>
+                        </div>
+                        <button onclick="copyResponseJson()" class="text-xs text-gray-400 hover:text-white flex items-center gap-1">
+                            <i class="fa-regular fa-copy"></i> Copy JSON
+                        </button>
+                    </div>
+                    <div class="flex-1 bg-black/70 p-4 rounded-b-xl border border-white/10 overflow-auto code-font text-xs text-emerald-400 min-h-[200px] max-h-[300px] relative">
+                        <div id="apiConsoleLoading" class="hidden absolute inset-0 bg-black/80 flex items-center justify-center">
+                            <div class="flex items-center gap-2 text-indigo-400 text-xs">
+                                <i class="fa-solid fa-circle-notch animate-spin"></i> Executing API request...
+                            </div>
+                        </div>
+                        <pre id="apiResponseBody" class="whitespace-pre-wrap break-all">// Click "Execute Live Request" above to test any endpoint live.</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Endpoints Specification Table -->
+    <div class="glass-card p-6 rounded-2xl border-white/5">
+        <h3 class="text-sm font-bold text-white mb-4">REST API Endpoints Specification</h3>
+        <div class="overflow-x-auto rounded-xl border border-white/5">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-surface-800 text-gray-300 uppercase tracking-wider font-semibold text-[11px]">
+                    <tr>
+                        <th class="py-3 px-4">Method</th>
+                        <th class="py-3 px-4">Endpoint</th>
+                        <th class="py-3 px-4">Description</th>
+                        <th class="py-3 px-4">Payload / Query Parameters</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5 text-gray-300 code-font text-[11px]">
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 font-bold">GET</span></td>
+                        <td class="py-2.5 px-4 text-white">/getall/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Fetch student directory with nested course details</td>
+                        <td class="py-2.5 px-4 text-indigo-400">?search=&lt;term&gt;&amp;course=&lt;id&gt;</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 font-bold">GET</span></td>
+                        <td class="py-2.5 px-4 text-white">/getid/&lt;id&gt;/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Fetch individual student by Primary Key</td>
+                        <td class="py-2.5 px-4 text-gray-500">None</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/10 text-indigo-400 font-bold">POST</span></td>
+                        <td class="py-2.5 px-4 text-white">/addstudent/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Enroll new student record into database</td>
+                        <td class="py-2.5 px-4 text-gray-400">{ full_name, email, phone, age, gender, city, address, course }</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-400 font-bold">PUT</span></td>
+                        <td class="py-2.5 px-4 text-white">/updateid/&lt;id&gt;/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Update existing student details</td>
+                        <td class="py-2.5 px-4 text-gray-400">{ full_name, ... }</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/10 text-rose-400 font-bold">DELETE</span></td>
+                        <td class="py-2.5 px-4 text-white">/deleteid/&lt;id&gt;/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Delete student record permanently</td>
+                        <td class="py-2.5 px-4 text-gray-500">None</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 font-bold">GET</span></td>
+                        <td class="py-2.5 px-4 text-white">/getcourse/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Fetch all courses with enrollment counters</td>
+                        <td class="py-2.5 px-4 text-gray-500">None</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/10 text-indigo-400 font-bold">POST</span></td>
+                        <td class="py-2.5 px-4 text-white">/addcourse/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Add new course curriculum</td>
+                        <td class="py-2.5 px-4 text-gray-400">{ course_name, course_fees, course_duration }</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-400 font-bold">PUT</span></td>
+                        <td class="py-2.5 px-4 text-white">/updatecourse/&lt;id&gt;/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Update course program details</td>
+                        <td class="py-2.5 px-4 text-gray-400">{ course_name, course_fees, course_duration }</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/10 text-rose-400 font-bold">DELETE</span></td>
+                        <td class="py-2.5 px-4 text-white">/deletecourse/&lt;id&gt;/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Delete course curriculum</td>
+                        <td class="py-2.5 px-4 text-gray-500">None</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 font-bold">GET</span></td>
+                        <td class="py-2.5 px-4 text-white">/api/stats/</td>
+                        <td class="py-2.5 px-4 font-sans text-gray-400">Real-time telemetry &amp; chart datasets</td>
+                        <td class="py-2.5 px-4 text-gray-500">None</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    let currentSnippetLang = 'curl';
+
+    const PRESET_CONFIGS = {
+        get_all_students: { method: 'GET', path: '/getall/', body: '' },
+        search_students: { method: 'GET', path: '/getall/?search=paras', body: '' },
+        get_student_id: { method: 'GET', path: '/getid/27/', body: '' },
+        post_student: {
+            method: 'POST',
+            path: '/addstudent/',
+            body: JSON.stringify({
+                full_name: "Rahul Sharma",
+                email: "rahul.sharma@example.com",
+                phone: "+91 98888 77777",
+                age: 22,
+                gender: "Male",
+                city: "Mumbai",
+                address: "Block 4, Marine Drive",
+                course: 5
+            }, null, 2)
+        },
+        put_student: {
+            method: 'PUT',
+            path: '/updateid/27/',
+            body: JSON.stringify({
+                full_name: "Patadiya Paras",
+                email: "paraspatadiya6@gmail.com",
+                phone: "9988774455",
+                age: 21,
+                gender: "Male",
+                city: "Chennai",
+                address: "Main Tech Park",
+                course: 5
+            }, null, 2)
+        },
+        delete_student: { method: 'DELETE', path: '/deleteid/99/', body: '' },
+        get_all_courses: { method: 'GET', path: '/getcourse/', body: '' },
+        get_course_id: { method: 'GET', path: '/getcourseid/5/', body: '' },
+        post_course: {
+            method: 'POST',
+            path: '/addcourse/',
+            body: JSON.stringify({
+                course_name: "Next.js & Cloud Architecture",
+                course_fees: 42000,
+                course_duration: "4 Months"
+            }, null, 2)
+        },
+        put_course: {
+            method: 'PUT',
+            path: '/updatecourse/5/',
+            body: JSON.stringify({
+                course_name: "Full Stack Python & Django (6 Months)",
+                course_fees: 45000,
+                course_duration: "6 Months"
+            }, null, 2)
+        },
+        delete_course: { method: 'DELETE', path: '/deletecourse/99/', body: '' },
+        get_stats: { method: 'GET', path: '/api/stats/', body: '' }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('currentHostUrl').innerText = window.location.origin;
+        updateSnippetCode();
+    });
+
+    function handlePresetSelect() {
+        const val = document.getElementById('apiPresetSelect').value;
+        const config = PRESET_CONFIGS[val];
+        if (config) {
+            document.getElementById('apiMethodInput').value = config.method;
+            document.getElementById('apiEndpointInput').value = config.path;
+            document.getElementById('apiBodyInput').value = config.body;
+            updateSnippetCode();
+        }
+    }
+
+    function selectSnippetTab(lang) {
+        currentSnippetLang = lang;
+        ['curl', 'js', 'python'].forEach(l => {
+            const btn = document.getElementById(`btn-snippet-${l}`);
+            if (l === lang) {
+                btn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-white bg-indigo-600 transition-all";
+            } else {
+                btn.className = "px-2.5 py-1 rounded-lg text-xs font-medium text-gray-400 hover:text-white transition-all";
+            }
+        });
+        updateSnippetCode();
+    }
+
+    function updateSnippetCode() {
+        const method = document.getElementById('apiMethodInput').value;
+        const path = document.getElementById('apiEndpointInput').value.trim();
+        const body = document.getElementById('apiBodyInput').value.trim();
+        const fullUrl = `${window.location.origin}${path}`;
+        const display = document.getElementById('snippetCodeDisplay');
+
+        if (currentSnippetLang === 'curl') {
+            if (['POST', 'PUT'].includes(method) && body) {
+                display.innerText = `curl -X ${method} "${fullUrl}" \\\n  -H "Content-Type: application/json" \\\n  -H "Accept: application/json" \\\n  -d '${body.replace(/\n\s*/g, ' ')}'`;
+            } else {
+                display.innerText = `curl -X ${method} "${fullUrl}" -H "Accept: application/json"`;
+            }
+        } else if (currentSnippetLang === 'js') {
+            if (['POST', 'PUT'].includes(method) && body) {
+                display.innerText = `const response = await fetch("${fullUrl}", {\n  method: "${method}",\n  headers: { "Content-Type": "application/json", "Accept": "application/json" },\n  body: JSON.stringify(${body})\n});\nconst data = await response.json();\nconsole.log(data);`;
+            } else {
+                display.innerText = `const response = await fetch("${fullUrl}", { headers: { "Accept": "application/json" } });\nconst data = await response.json();\nconsole.log(data);`;
+            }
+        } else if (currentSnippetLang === 'python') {
+            if (['POST', 'PUT'].includes(method) && body) {
+                display.innerText = `import requests\n\npayload = ${body}\nres = requests.${method.toLowerCase()}("${fullUrl}", json=payload)\nprint(res.status_code, res.json())`;
+            } else {
+                display.innerText = `import requests\n\nres = requests.${method.toLowerCase()}("${fullUrl}")\nprint(res.status_code, res.json())`;
+            }
+        }
+    }
+
+    function copySnippetCode() {
+        const text = document.getElementById('snippetCodeDisplay').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Code snippet copied to clipboard!');
+        });
+    }
+
+    function formatRequestBody() {
+        const input = document.getElementById('apiBodyInput');
+        try {
+            if (input.value.trim()) {
+                const parsed = JSON.parse(input.value);
+                input.value = JSON.stringify(parsed, null, 2);
+                updateSnippetCode();
+            }
+        } catch (err) {
+            alert('Invalid JSON syntax');
+        }
+    }
+
+    async function executeApiRequest() {
+        const method = document.getElementById('apiMethodInput').value;
+        const path = document.getElementById('apiEndpointInput').value.trim();
+        const bodyText = document.getElementById('apiBodyInput').value.trim();
+        const loader = document.getElementById('apiConsoleLoading');
+        const statusBadge = document.getElementById('apiStatusBadge');
+        const latencyBadge = document.getElementById('apiLatencyBadge');
+        const latencyVal = document.getElementById('apiLatencyVal');
+        const responseBody = document.getElementById('apiResponseBody');
+
+        loader.classList.remove('hidden');
+
+        const options = {
+            method,
+            headers: {
+                'Accept': 'application/json'
+            }
+        };
+
+        if (['POST', 'PUT', 'PATCH'].includes(method)) {
+            options.headers['Content-Type'] = 'application/json';
+            if (bodyText) {
+                try {
+                    JSON.parse(bodyText);
+                    options.body = bodyText;
+                } catch (e) {
+                    loader.classList.add('hidden');
+                    alert('Invalid JSON payload');
+                    return;
+                }
+            }
+        }
+
+        const startTime = performance.now();
+        try {
+            const res = await fetch(path, options);
+            const endTime = performance.now();
+            const latency = Math.round(endTime - startTime);
+
+            latencyVal.innerText = latency;
+            latencyBadge.classList.remove('hidden');
+
+            statusBadge.innerText = `${res.status} ${res.statusText || ''}`;
+            statusBadge.className = `px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                res.status >= 200 && res.status < 300 ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25' :
+                res.status >= 400 ? 'bg-rose-500/15 text-rose-400 border border-rose-500/25' :
+                'bg-amber-500/15 text-amber-400 border border-amber-500/25'
+            }`;
+            statusBadge.classList.remove('hidden');
+
+            const contentType = res.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+                const json = await res.json();
+                responseBody.innerText = JSON.stringify(json, null, 2);
+            } else {
+                const text = await res.text();
+                responseBody.innerText = text;
+            }
+        } catch (err) {
+            const endTime = performance.now();
+            latencyVal.innerText = Math.round(endTime - startTime);
+            latencyBadge.classList.remove('hidden');
+            statusBadge.innerText = 'FETCH_ERROR';
+            statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-400 border border-rose-500/25';
+            statusBadge.classList.remove('hidden');
+            responseBody.innerText = `Network / CORS Error: ${err.message}`;
+        } finally {
+            loader.classList.add('hidden');
+        }
+    }
+
+    function copyResponseJson() {
+        const text = document.getElementById('apiResponseBody').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Payload copied to clipboard!');
+        });
+    }
+</script>
+{% endblock %}
+

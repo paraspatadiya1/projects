@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Aura SIS | Enterprise Academy Platform{% endblock %}</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                        surface: {
+                            900: '#07090e',
+                            800: '#0d111a',
+                            700: '#141a27',
+                            600: '#1e2638',
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 25px -5px rgba(99, 102, 241, 0.3)',
+                        'glow-emerald': '0 0 25px -5px rgba(16, 185, 129, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #07090e;
+            color: #f1f5f9;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d111a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e2638;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+        .glass-card {
+            background: rgba(13, 17, 26, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .glass-card-hover:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-link.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.15));
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 15px -3px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Universal Top Navigation Bar -->
+    <header class="glass-card sticky top-0 z-40 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo -->
+            <a href="/" class="flex items-center space-x-3.5 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-cyan-400 p-0.5 shadow-glow flex items-center justify-center transition-transform group-hover:scale-105">
+                    <div class="w-full h-full bg-surface-900 rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid fa-graduation-cap text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300 text-lg"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-base font-extrabold tracking-tight text-white group-hover:text-indigo-300 transition-colors">Aura SIS</span>
+                        <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Cloud Active
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-gray-400 hidden sm:block">Enterprise Student Information System</p>
+                </div>
+            </a>
+
+            <!-- Quick Action Links -->
+            <div class="flex items-center space-x-2.5">
+                <a href="/addstudent/" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-500 hover:to-brand-500 text-white text-xs font-semibold shadow-glow transition-all">
+                    <i class="fa-solid fa-user-plus text-[11px]"></i>
+                    <span class="hidden sm:inline">Enroll Student</span>
+                </a>
+                <a href="/addcourse/" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-700/80 hover:bg-surface-600 text-gray-200 text-xs font-semibold border border-white/10 transition-all">
+                    <i class="fa-solid fa-book-open text-[11px] text-indigo-400"></i>
+                    <span class="hidden md:inline">Add Course</span>
+                </a>
+                <a href="/admin/" target="_blank" class="px-3 py-2 rounded-xl bg-surface-700/80 hover:bg-surface-600 text-gray-300 hover:text-white text-xs font-medium border border-white/10 transition-all" title="Django Administrator">
+                    <i class="fa-solid fa-shield-halved text-gray-400 mr-1.5"></i>
+                    <span class="hidden md:inline">Admin</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Real Web Navigation Links -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+            <nav class="flex space-x-2 py-2 overflow-x-auto text-xs font-medium no-scrollbar">
+                <a href="/" class="nav-link {% if active_page == 'dashboard' %}active{% else %}text-gray-400 hover:text-white border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-chart-pie text-indigo-400"></i> Dashboard
+                </a>
+                <a href="/getall/" class="nav-link {% if active_page == 'students' %}active{% else %}text-gray-400 hover:text-white border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-users text-cyan-400"></i> Student Directory
+                </a>
+                <a href="/getcourse/" class="nav-link {% if active_page == 'courses' %}active{% else %}text-gray-400 hover:text-white border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-layer-group text-purple-400"></i> Course Programs
+                </a>
+                <a href="/addstudent/" class="nav-link {% if active_page == 'addstudent' %}active{% else %}text-gray-400 hover:text-white border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-user-plus text-emerald-400"></i> Enroll Student
+                </a>
+                <a href="/addcourse/" class="nav-link {% if active_page == 'addcourse' %}active{% else %}text-gray-400 hover:text-white border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-book-medical text-amber-400"></i> Add Course
+                </a>
+                <a href="/api-docs/" class="nav-link {% if active_page == 'api_docs' %}active{% else %}text-gray-400 hover:text-white border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-terminal text-pink-400"></i> API Console &amp; SDK
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Flash Message Notification Banner -->
+    <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4">
+        {% if messages %}
+            <div class="space-y-2">
+                {% for message in messages %}
+                <div class="flex items-center justify-between px-4 py-3 rounded-xl border backdrop-blur text-xs font-semibold {% if message.tags == 'error' %}bg-rose-500/10 border-rose-500/30 text-rose-300{% elif message.tags == 'warning' %}bg-amber-500/10 border-amber-500/30 text-amber-300{% else %}bg-emerald-500/10 border-emerald-500/30 text-emerald-300 shadow-glow-emerald{% endif %}" role="alert">
+                    <div class="flex items-center gap-2.5">
+                        <i class="fa-solid {% if message.tags == 'error' %}fa-circle-xmark text-rose-400{% else %}fa-circle-check text-emerald-400{% endif %}"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-white text-sm leading-none">&times;</button>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Main Dynamic Content Block -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-7">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-card border-t border-white/5 py-6 text-center text-xs text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>&copy; 2026 Aura SIS Platform &bull; Production Django REST API Engine</p>
+            <div class="flex items-center gap-4">
+                <a href="/getall/" class="hover:text-indigo-400 transition-colors">Students</a>
+                <span>&bull;</span>
+                <a href="/getcourse/" class="hover:text-indigo-400 transition-colors">Courses</a>
+                <span>&bull;</span>
+                <a href="/api-docs/" class="hover:text-indigo-400 transition-colors">REST SDK</a>
+                <span>&bull;</span>
+                <a href="/admin/" target="_blank" class="hover:text-indigo-400 transition-colors">Admin Gateway</a>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
+

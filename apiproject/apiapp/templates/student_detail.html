@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ student.full_name }} | Student Dossier{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <!-- Breadcrumb Navigation -->
+    <nav class="flex items-center gap-2 text-xs text-gray-400">
+        <a href="/" class="hover:text-white transition-colors">Dashboard</a>
+        <span>/</span>
+        <a href="/getall/" class="hover:text-white transition-colors">Student Directory</a>
+        <span>/</span>
+        <span class="text-white font-medium">{{ student.full_name }}</span>
+    </nav>
+
+    <!-- Student Dossier Card -->
+    <div class="glass-card rounded-2xl border-white/5 overflow-hidden">
+        <!-- Top Profile Banner -->
+        <div class="p-6 border-b border-white/5 bg-gradient-to-r from-surface-800 to-surface-700/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white font-extrabold text-2xl shadow-glow">
+                    {{ student.full_name|slice:":1" }}
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white">{{ student.full_name }}</h3>
+                    <p class="text-xs text-gray-400 code-font">{{ student.email }}</p>
+                    <div class="flex items-center gap-2 mt-1.5">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            Verified Active
+                        </span>
+                        <span class="code-font text-[11px] text-gray-500">Student ID #{{ student.id }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <a href="/updateid/{{ student.id }}/" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-glow flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-pen text-[11px]"></i> Edit Profile
+                </a>
+                <a href="/deleteid/{{ student.id }}/" class="px-3 py-2 rounded-xl bg-surface-700 hover:bg-rose-900/60 text-rose-400 hover:text-white text-xs font-medium border border-white/10 transition-all" title="Delete">
+                    <i class="fa-solid fa-trash text-[11px]"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Dossier Body Details -->
+        <div class="p-6 space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div class="bg-surface-900/90 p-4 rounded-xl border border-white/5 space-y-1">
+                    <span class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Contact Phone</span>
+                    <p class="text-sm font-semibold text-white">
+                        <a href="tel:{{ student.phone }}" class="hover:text-indigo-400 transition-colors">
+                            <i class="fa-solid fa-phone text-[11px] text-indigo-400 mr-1.5"></i>{{ student.phone }}
+                        </a>
+                    </p>
+                </div>
+
+                <div class="bg-surface-900/90 p-4 rounded-xl border border-white/5 space-y-1">
+                    <span class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Demographics</span>
+                    <p class="text-sm font-semibold text-white">
+                        <i class="fa-solid fa-id-card text-[11px] text-cyan-400 mr-1.5"></i>{{ student.age }} years &bull; {{ student.gender }}
+                    </p>
+                </div>
+
+                <div class="bg-surface-900/90 p-4 rounded-xl border border-white/5 space-y-1 sm:col-span-2">
+                    <span class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Location &amp; Address</span>
+                    <p class="text-xs text-gray-200 mt-1">
+                        <i class="fa-solid fa-location-dot text-[11px] text-rose-400 mr-1.5"></i><strong>{{ student.city }}</strong> &mdash; {{ student.address }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Enrolled Course Track Card -->
+            <div>
+                <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider mb-2.5">Enrolled Course Curriculum</h4>
+                {% if student.course %}
+                <div class="bg-surface-900/90 p-5 rounded-xl border border-indigo-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h5 class="text-sm font-bold text-white">{{ student.course.course_name }}</h5>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Active Track</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">
+                            <i class="fa-regular fa-clock text-indigo-400 mr-1"></i> Duration: <strong class="text-gray-200">{{ student.course.course_duration }}</strong> &bull; 
+                            Tuition: <strong class="text-emerald-400">₹{{ student.course.course_fees }}</strong>
+                        </p>
+                    </div>
+                    <a href="/getcourseid/{{ student.course.id }}/" class="px-3.5 py-1.5 rounded-xl bg-surface-700 hover:bg-surface-600 text-indigo-300 hover:text-white text-xs font-semibold border border-white/10 transition-colors">
+                        View Curriculum &rarr;
+                    </a>
+                </div>
+                {% else %}
+                <div class="bg-surface-900/50 p-5 rounded-xl border border-white/5 text-center text-xs text-gray-500">
+                    <p>No course assigned to this student yet.</p>
+                    <a href="/updateid/{{ student.id }}/" class="text-indigo-400 hover:underline mt-1 inline-block">Assign a course track &rarr;</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Back Button Footer -->
+        <div class="p-4 bg-surface-900/50 border-t border-white/5 flex justify-between items-center text-xs">
+            <a href="/getall/" class="text-gray-400 hover:text-white transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Student Directory
+            </a>
+            <div class="flex items-center gap-2">
+                <a href="/updateid/{{ student.id }}/" class="text-indigo-400 hover:underline">Edit</a>
+                <span class="text-gray-600">&bull;</span>
+                <a href="/deleteid/{{ student.id }}/" class="text-rose-400 hover:underline">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if course %}Edit {{ course.course_name }}{% else %}Add Course Track{% endif %} | Aura SIS{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto space-y-6">
+    <!-- Breadcrumb Navigation -->
+    <nav class="flex items-center gap-2 text-xs text-gray-400">
+        <a href="/" class="hover:text-white transition-colors">Dashboard</a>
+        <span>/</span>
+        <a href="/getcourse/" class="hover:text-white transition-colors">Course Programs</a>
+        <span>/</span>
+        <span class="text-white font-medium">{% if course %}Edit Track{% else %}Add Track{% endif %}</span>
+    </nav>
+
+    <!-- Form Card -->
+    <div class="glass-card rounded-2xl border-white/5 overflow-hidden">
+        <div class="p-6 border-b border-white/5 bg-gradient-to-r from-surface-800 to-surface-700/50">
+            <h3 class="text-base font-bold text-white">
+                {% if course %}Edit Course Curriculum Track{% else %}Create New Curriculum Track{% endif %}
+            </h3>
+            <p class="text-xs text-gray-400 mt-0.5">
+                Configure curriculum name, duration, and tuition fee structure.
+            </p>
+        </div>
+
+        <form method="POST" action="{% if course %}/updatecourse/{{ course.id }}/{% else %}/addcourse/{% endif %}" class="p-6 space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Course Program Name *</label>
+                <input type="text" name="course_name" value="{{ course.course_name|default:'' }}" required placeholder="e.g. Artificial Intelligence & Deep Learning" class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Tuition Fee (₹) *</label>
+                    <input type="number" name="course_fees" value="{{ course.course_fees|default:'' }}" min="0" required placeholder="45000" class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Duration *</label>
+                    <input type="text" name="course_duration" value="{{ course.course_duration|default:'' }}" required placeholder="e.g. 6 Months" class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-white/5">
+                <a href="/getcourse/" class="px-4 py-2.5 rounded-xl bg-surface-700 hover:bg-surface-600 text-gray-300 text-xs font-medium transition-colors">Cancel</a>
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-glow transition-all">
+                    {% if course %}Save Track Changes{% else %}Create Course Track{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

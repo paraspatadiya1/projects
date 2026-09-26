@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if student %}Edit {{ student.full_name }}{% else %}Enroll New Student{% endif %} | Aura SIS{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto space-y-6">
+    <!-- Breadcrumb Navigation -->
+    <nav class="flex items-center gap-2 text-xs text-gray-400">
+        <a href="/" class="hover:text-white transition-colors">Dashboard</a>
+        <span>/</span>
+        <a href="/getall/" class="hover:text-white transition-colors">Student Directory</a>
+        <span>/</span>
+        <span class="text-white font-medium">{% if student %}Edit Profile{% else %}Enroll Student{% endif %}</span>
+    </nav>
+
+    <!-- Form Card -->
+    <div class="glass-card rounded-2xl border-white/5 overflow-hidden">
+        <div class="p-6 border-b border-white/5 bg-gradient-to-r from-surface-800 to-surface-700/50">
+            <h3 class="text-base font-bold text-white">
+                {% if student %}Edit Student Profile &mdash; {{ student.full_name }}{% else %}Enroll New Student{% endif %}
+            </h3>
+            <p class="text-xs text-gray-400 mt-0.5">
+                {% if student %}Update student registry information below.{% else %}Fill out the fields to register a student into the system.{% endif %}
+            </p>
+        </div>
+
+        <form method="POST" action="{% if student %}/updateid/{{ student.id }}/{% else %}/addstudent/{% endif %}" class="p-6 space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Full Legal Name *</label>
+                <input type="text" name="full_name" value="{{ student.full_name|default:'' }}" required placeholder="e.g. Paras Patadiya" class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Email Address *</label>
+                    <input type="email" name="email" value="{{ student.email|default:'' }}" required placeholder="paras@example.com" class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500 code-font">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Phone Number *</label>
+                    <input type="text" name="phone" value="{{ student.phone|default:'' }}" required placeholder="+91 98765 43210" class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Age *</label>
+                    <input type="number" name="age" value="{{ student.age|default:'21' }}" min="1" max="120" required class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Gender *</label>
+                    <select name="gender" required class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                        <option value="Male" {% if student.gender == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if student.gender == 'Female' %}selected{% endif %}>Female</option>
+                        <option value="Other" {% if student.gender == 'Other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">City *</label>
+                    <input type="text" name="city" value="{{ student.city|default:'' }}" required placeholder="e.g. Chennai" class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Curriculum Track</label>
+                    <select name="course" class="w-full bg-surface-900 text-xs text-white px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                        <option value="">None / Unassigned</option>
+                        {% for c in courses %}
+                            <option value="{{ c.id }}" {% if student and student.course_id == c.id %}selected{% endif %}>{{ c.course_name }} (₹{{ c.course_fees }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-gray-300 uppercase tracking-wider mb-1">Residential Street Address *</label>
+                <textarea name="address" rows="3" required placeholder="Full residential street address..." class="w-full bg-surface-900 text-xs text-white p-3 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500 resize-none">{{ student.address|default:'' }}</textarea>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-white/5">
+                <a href="/getall/" class="px-4 py-2.5 rounded-xl bg-surface-700 hover:bg-surface-600 text-gray-300 text-xs font-medium transition-colors">Cancel</a>
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-glow transition-all">
+                    {% if student %}Update Student Profile{% else %}Confirm &amp; Enroll Student{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
