@@ -1,95 +1,109 @@
 {% extends 'base.html' %}
 
-{% block title %}Student Directory | Aura SIS Platform{% endblock %}
+{% block title %}Student Directory Roster | Aura SIS{% endblock %}
 
 {% block content %}
-<div class="space-y-6">
+<div class="space-y-6 animate-fade-in">
     <!-- Header with Search & Filter Bar -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h2 class="text-xl font-extrabold text-white tracking-tight">Student Directory</h2>
-            <p class="text-xs text-gray-400 mt-0.5">Manage enrolled students, search records, and edit registry details.</p>
+            <div class="flex items-center gap-2.5">
+                <h2 class="text-2xl font-black text-white tracking-tight">Student Directory</h2>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyanbrand-500/15 text-cyanbrand-300 border border-cyanbrand-500/30">
+                    {{ data|length }} Active
+                </span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">Manage registered academy students, query profiles, and export cohort data.</p>
         </div>
         <div class="flex items-center gap-2.5">
-            <a href="/addstudent/" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-glow flex items-center gap-2 transition-all">
+            <a href="/addstudent/" class="btn-shimmer px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyanbrand-600 hover:from-brand-500 hover:to-cyanbrand-500 text-white text-xs font-bold shadow-glow-violet hover:shadow-glow-cyan flex items-center gap-2 transition-all transform active:scale-95">
                 <i class="fa-solid fa-user-plus text-[11px]"></i> Enroll Student
             </a>
-            <button onclick="exportStudentsCSV()" class="px-3 py-2 rounded-xl bg-surface-700 hover:bg-surface-600 text-gray-300 text-xs font-medium border border-white/10 flex items-center gap-1.5 transition-all">
-                <i class="fa-solid fa-file-csv text-emerald-400 text-[11px]"></i> Export CSV
+            <button onclick="exportStudentsCSV()" id="exportCsvBtn" class="px-3.5 py-2.5 rounded-xl bg-surface-800 hover:bg-surface-750 text-gray-200 text-xs font-semibold border border-white/10 hover:border-emerald-500/40 flex items-center gap-2 transition-all transform active:scale-95 group">
+                <i class="fa-solid fa-file-csv text-emerald-400 text-xs group-hover:scale-110 transition-transform"></i>
+                <span>Export CSV</span>
             </button>
         </div>
     </div>
 
-    <!-- Search Form Toolbar -->
-    <div class="glass-card p-4 rounded-2xl border-white/5">
+    <!-- Search Form & Filter Toolbar -->
+    <div class="glass-card p-4.5 rounded-2xl border-white/10">
         <form method="GET" action="/getall/" class="flex flex-col md:flex-row gap-3 items-center justify-between">
             <div class="flex flex-1 w-full md:w-auto items-center gap-3">
                 <div class="relative flex-1 max-w-md">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-xs"></i>
-                    <input type="text" name="search" value="{{ search_query|default:'' }}" placeholder="Search by name, email, phone, city..." class="w-full bg-surface-900/90 text-xs text-gray-100 pl-9 pr-4 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500 placeholder-gray-500">
+                    <input type="text" name="search" id="searchInput" value="{{ search_query|default:'' }}" placeholder="Search by name, email, phone, city..." class="w-full bg-surface-900/90 text-xs text-gray-100 pl-9 pr-4 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 placeholder-gray-500 transition-all">
                 </div>
-                <select name="course" onchange="this.form.submit()" class="bg-surface-900/90 text-xs text-gray-200 px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-indigo-500">
+                <select name="course" onchange="this.form.submit()" class="bg-surface-900/90 text-xs text-gray-200 px-3.5 py-2.5 rounded-xl border border-white/10 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all">
                     <option value="">All Programs</option>
                     {% for c in courses %}
                         <option value="{{ c.id }}" {% if selected_course == c.id|stringformat:"s" %}selected{% endif %}>{{ c.course_name }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="px-3 py-2.5 rounded-xl bg-surface-700 hover:bg-surface-600 text-white text-xs font-semibold border border-white/10 transition-all">
+                <button type="submit" class="px-4 py-2.5 rounded-xl bg-surface-750 hover:bg-surface-700 text-white text-xs font-bold border border-white/10 hover:border-brand-500/30 transition-all">
                     Filter
                 </button>
                 {% if search_query or selected_course %}
-                <a href="/getall/" class="text-xs text-rose-400 hover:underline">Clear</a>
+                <a href="/getall/" class="text-xs text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-xmark"></i> Clear
+                </a>
                 {% endif %}
             </div>
             <div class="text-xs text-gray-400">
-                Showing <strong class="text-white">{{ data|length }}</strong> registered student(s)
+                Displaying <strong class="text-white font-bold">{{ data|length }}</strong> profile(s)
             </div>
         </form>
     </div>
 
     <!-- Student Roster Table -->
-    <div class="glass-card rounded-2xl overflow-hidden border-white/5">
+    <div class="glass-card rounded-2xl overflow-hidden border-white/10">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
-                <thead class="bg-surface-800/90 text-gray-300 border-b border-white/5 uppercase tracking-wider font-semibold text-[11px]">
+                <thead class="bg-surface-800 text-gray-300 border-b border-white/10 uppercase tracking-wider font-bold text-[11px]">
                     <tr>
                         <th class="py-3.5 px-4">ID</th>
                         <th class="py-3.5 px-4">Student Profile</th>
-                        <th class="py-3.5 px-4">Contact Details</th>
+                        <th class="py-3.5 px-4">Contact Information</th>
                         <th class="py-3.5 px-4">Demographics</th>
-                        <th class="py-3.5 px-4">Enrolled Curriculum</th>
+                        <th class="py-3.5 px-4">Enrolled Track</th>
                         <th class="py-3.5 px-4">Location</th>
                         <th class="py-3.5 px-4 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5 text-gray-300">
                     {% for s in data %}
-                    <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="py-3.5 px-4 code-font text-gray-400 text-[11px]">#{{ s.id }}</td>
+                    <tr class="hover:bg-white/[0.03] transition-colors group">
+                        <td class="py-3.5 px-4 code-font text-gray-400 text-[11px] font-semibold">#{{ s.id }}</td>
                         <td class="py-3.5 px-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-cyanbrand-500 flex items-center justify-center text-white font-bold text-xs shadow-sm group-hover:scale-105 transition-transform">
                                     {{ s.full_name|slice:":1" }}
                                 </div>
                                 <div>
-                                    <a href="/getid/{{ s.id }}/" class="font-bold text-white text-xs hover:text-indigo-400 transition-colors">{{ s.full_name }}</a>
-                                    <div class="text-[11px] text-gray-400 code-font">{{ s.email }}</div>
+                                    <a href="/getid/{{ s.id }}/" class="font-bold text-white text-xs hover:text-brand-300 transition-colors">{{ s.full_name }}</a>
+                                    <div class="text-[11px] text-gray-400 code-font flex items-center gap-1.5 mt-0.5">
+                                        <span>{{ s.email }}</span>
+                                        <button type="button" onclick="copyToClipboard('{{ s.email }}', this)" title="Copy Email" class="text-gray-500 hover:text-cyanbrand-400 text-[10px] transition-colors">
+                                            <i class="fa-regular fa-copy"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </td>
                         <td class="py-3.5 px-4">
-                            <a href="tel:{{ s.phone }}" class="text-gray-200 hover:text-indigo-400 transition-colors">
-                                <i class="fa-solid fa-phone text-[10px] text-gray-400 mr-1.5"></i>{{ s.phone }}
+                            <a href="tel:{{ s.phone }}" class="text-gray-200 hover:text-cyanbrand-400 transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-phone text-[10px] text-gray-400"></i>
+                                <span>{{ s.phone }}</span>
                             </a>
                         </td>
                         <td class="py-3.5 px-4">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] bg-surface-900 text-gray-300 border border-white/5">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] bg-surface-900 text-gray-300 border border-white/5 font-medium">
                                 {{ s.age }} yrs &bull; {{ s.gender }}
                             </span>
                         </td>
                         <td class="py-3.5 px-4">
                             {% if s.course %}
-                                <a href="/getcourseid/{{ s.course.id }}/" class="inline-block px-2.5 py-1 rounded-full text-[11px] font-medium bg-indigo-500/10 text-indigo-300 hover:text-white border border-indigo-500/20 transition-colors">
+                                <a href="/getcourseid/{{ s.course.id }}/" class="inline-block px-2.5 py-1 rounded-full text-[11px] font-medium bg-brand-500/10 text-brand-300 hover:text-white border border-brand-500/20 hover:border-brand-500/50 transition-colors">
                                     {{ s.course.course_name }}
                                 </a>
                             {% else %}
@@ -97,17 +111,20 @@
                             {% endif %}
                         </td>
                         <td class="py-3.5 px-4">
-                            <span class="text-gray-300"><i class="fa-solid fa-location-dot text-[10px] text-rose-400 mr-1.5"></i>{{ s.city }}</span>
+                            <span class="text-gray-300 flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-[10px] text-rose-400"></i>
+                                <span>{{ s.city }}</span>
+                            </span>
                         </td>
                         <td class="py-3.5 px-4 text-center">
                             <div class="flex items-center justify-center space-x-1.5">
-                                <a href="/getid/{{ s.id }}/" class="w-7 h-7 rounded-lg bg-surface-700 hover:bg-surface-600 text-indigo-300 hover:text-white flex items-center justify-center transition-colors border border-white/5" title="View Dossier">
+                                <a href="/getid/{{ s.id }}/" class="w-7 h-7 rounded-lg bg-surface-800 hover:bg-surface-700 text-brand-300 hover:text-white flex items-center justify-center transition-colors border border-white/5" title="View Dossier">
                                     <i class="fa-solid fa-eye text-xs"></i>
                                 </a>
-                                <a href="/updateid/{{ s.id }}/" class="w-7 h-7 rounded-lg bg-surface-700 hover:bg-surface-600 text-amber-400 hover:text-white flex items-center justify-center transition-colors border border-white/5" title="Edit Student">
+                                <a href="/updateid/{{ s.id }}/" class="w-7 h-7 rounded-lg bg-surface-800 hover:bg-surface-700 text-amber-400 hover:text-white flex items-center justify-center transition-colors border border-white/5" title="Edit Student">
                                     <i class="fa-solid fa-pen text-xs"></i>
                                 </a>
-                                <a href="/deleteid/{{ s.id }}/" class="w-7 h-7 rounded-lg bg-surface-700 hover:bg-rose-900/60 text-rose-400 hover:text-white flex items-center justify-center transition-colors border border-white/5" title="Delete Student">
+                                <a href="/deleteid/{{ s.id }}/" class="w-7 h-7 rounded-lg bg-surface-800 hover:bg-rose-900/60 text-rose-400 hover:text-white flex items-center justify-center transition-colors border border-white/5" title="Delete Student">
                                     <i class="fa-solid fa-trash text-xs"></i>
                                 </a>
                             </div>
@@ -115,14 +132,14 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="7" class="py-14 text-center text-gray-500">
-                            <div class="w-16 h-16 rounded-full bg-surface-800 flex items-center justify-center mx-auto mb-3 text-gray-600 text-2xl">
+                        <td colspan="7" class="py-16 text-center text-gray-500">
+                            <div class="w-16 h-16 rounded-2xl bg-surface-800 border border-white/5 flex items-center justify-center mx-auto mb-3 text-gray-500 text-2xl shadow-inner">
                                 <i class="fa-solid fa-users-slash"></i>
                             </div>
-                            <p class="text-sm font-semibold text-gray-400">No student records found</p>
-                            <p class="text-xs text-gray-500 mt-1">Enroll your first student using the button above.</p>
+                            <p class="text-sm font-bold text-gray-300">No student records match criteria</p>
+                            <p class="text-xs text-gray-500 mt-1">Enroll your first student using the button below or adjust search filters.</p>
                             <div class="mt-4">
-                                <a href="/addstudent/" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-glow inline-flex items-center gap-2">
+                                <a href="/addstudent/" class="btn-shimmer px-4 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-cyanbrand-600 hover:from-brand-500 hover:to-cyanbrand-500 text-white text-xs font-semibold shadow-glow-violet inline-flex items-center gap-2">
                                     <i class="fa-solid fa-plus text-[10px]"></i> Enroll Student Now
                                 </a>
                             </div>
@@ -138,16 +155,33 @@
 
 {% block extra_scripts %}
 <script>
+    // Copy to clipboard helper with instant visual feedback
+    function copyToClipboard(text, btnElement) {
+        navigator.clipboard.writeText(text).then(() => {
+            const originalIcon = btnElement.innerHTML;
+            btnElement.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i>';
+            setTimeout(() => {
+                btnElement.innerHTML = originalIcon;
+            }, 1500);
+        });
+    }
+
+    // Export CSV with animated button feedback
     async function exportStudentsCSV() {
+        const btn = document.getElementById('exportCsvBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin text-emerald-400 text-xs"></i> Exporting...';
+        btn.disabled = true;
+
         try {
             const res = await fetch('/getall/?format=json');
             const data = await res.json();
             if (!data || !data.length) {
-                alert('No student records to export');
+                alert('No student records to export.');
                 return;
             }
 
-            const headers = ['ID', 'Full Name', 'Email', 'Phone', 'Age', 'Gender', 'City', 'Address', 'Course'];
+            const headers = ['ID', 'Full Name', 'Email', 'Phone', 'Age', 'Gender', 'City', 'Address', 'Course Track', 'Course Fee'];
             const rows = data.map(s => [
                 s.id,
                 `"${(s.full_name || '').replace(/"/g, '""')}"`,
@@ -157,7 +191,8 @@
                 `"${s.gender || ''}"`,
                 `"${(s.city || '').replace(/"/g, '""')}"`,
                 `"${(s.address || '').replace(/"/g, '""')}"`,
-                `"${(s.course_details ? s.course_details.course_name : '').replace(/"/g, '""')}"`
+                `"${(s.course_details ? s.course_details.course_name : '').replace(/"/g, '""')}"`,
+                s.course_details ? s.course_details.course_fees : 0
             ]);
 
             const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
@@ -165,14 +200,17 @@
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.setAttribute('href', url);
-            link.setAttribute('download', `students_roster_${new Date().toISOString().slice(0, 10)}.csv`);
+            link.setAttribute('download', `aura_sis_students_${new Date().toISOString().slice(0, 10)}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         } catch (err) {
             console.error('Failed to export CSV', err);
+            alert('Could not export CSV file.');
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
         }
     }
 </script>
 {% endblock %}
-

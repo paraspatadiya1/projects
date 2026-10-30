@@ -1,106 +1,125 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard | Aura SIS Platform{% endblock %}
+{% block title %}Executive Intelligence Dashboard | Aura SIS{% endblock %}
 
 {% block content %}
-<div class="space-y-7">
-    <!-- Page Header -->
+<div class="space-y-7 animate-fade-in">
+    <!-- Page Header & Action Controls -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h2 class="text-xl font-extrabold text-white tracking-tight">Executive Dashboard</h2>
-            <p class="text-xs text-gray-400 mt-0.5">Real-time overview of student enrollments, course tracks, and metrics.</p>
+            <div class="flex items-center gap-2.5">
+                <h2 class="text-2xl font-black text-white tracking-tight">Executive Dashboard</h2>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-brand-500/15 text-brand-300 border border-brand-500/30">
+                    <i class="fa-solid fa-bolt mr-1 text-cyanbrand-400"></i> Live Telemetry
+                </span>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">Real-time academy enrollments, curriculum analytics, and operational metrics.</p>
         </div>
         <div class="flex items-center gap-2.5">
-            <a href="/addstudent/" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-glow flex items-center gap-2 transition-all">
+            <a href="/addstudent/" class="btn-shimmer px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyanbrand-600 hover:from-brand-500 hover:to-cyanbrand-500 text-white text-xs font-bold shadow-glow-violet hover:shadow-glow-cyan flex items-center gap-2 transition-all transform active:scale-95">
                 <i class="fa-solid fa-user-plus text-[11px]"></i> Enroll Student
             </a>
-            <a href="/addcourse/" class="px-3 py-2 rounded-xl bg-surface-700 hover:bg-surface-600 text-gray-200 text-xs font-semibold border border-white/10 flex items-center gap-2 transition-all">
-                <i class="fa-solid fa-book-medical text-[11px] text-indigo-400"></i> Add Course
+            <a href="/addcourse/" class="px-3.5 py-2.5 rounded-xl bg-surface-800 hover:bg-surface-750 text-gray-200 text-xs font-semibold border border-white/10 hover:border-brand-500/40 flex items-center gap-2 transition-all transform active:scale-95">
+                <i class="fa-solid fa-book-medical text-[11px] text-cyanbrand-400"></i> Add Course
             </a>
         </div>
     </div>
 
-    <!-- Top KPI Cards -->
+    <!-- Top KPI Metric Cards with Animated Counters -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        <!-- Active Students -->
-        <a href="/getall/" class="glass-card p-5 rounded-2xl relative overflow-hidden group border-white/5 hover:border-indigo-500/40 transition-all block">
-            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-indigo-600/10 rounded-full blur-xl group-hover:bg-indigo-600/20 transition-all"></div>
+        <!-- Active Students Card -->
+        <a href="/getall/" class="glass-card p-5 rounded-2xl relative overflow-hidden group glass-card-hover block border-white/10 hover:border-brand-500/50">
+            <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-brand-600/15 rounded-full blur-2xl group-hover:bg-brand-600/30 transition-all duration-500"></div>
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400">Active Students</p>
-                    <h3 class="text-3xl font-extrabold text-white mt-1">{{ total_students }}</h3>
-                    <p class="text-[11px] text-emerald-400 mt-2 flex items-center gap-1.5 font-medium">
-                        <i class="fa-solid fa-arrow-right text-[10px]"></i> View Directory &rarr;
+                    <h3 class="text-3xl font-black text-white mt-1.5 tracking-tight flex items-baseline">
+                        <span class="stat-counter" data-target="{{ total_students }}">0</span>
+                    </h3>
+                    <p class="text-[11px] text-brand-300 mt-2.5 flex items-center gap-1.5 font-semibold group-hover:translate-x-1 transition-transform">
+                        Explore Directory <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl">
+                <div class="w-13 h-13 p-3.5 rounded-2xl bg-gradient-to-br from-brand-500/20 to-brand-600/5 border border-brand-500/30 flex items-center justify-center text-brand-300 text-xl shadow-glow-violet group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-user-graduate"></i>
                 </div>
             </div>
         </a>
 
-        <!-- Course Tracks -->
-        <a href="/getcourse/" class="glass-card p-5 rounded-2xl relative overflow-hidden group border-white/5 hover:border-purple-500/40 transition-all block">
-            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-purple-600/10 rounded-full blur-xl group-hover:bg-purple-600/20 transition-all"></div>
+        <!-- Course Programs Card -->
+        <a href="/getcourse/" class="glass-card p-5 rounded-2xl relative overflow-hidden group glass-card-hover block border-white/10 hover:border-purple-500/50">
+            <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-purple-600/15 rounded-full blur-2xl group-hover:bg-purple-600/30 transition-all duration-500"></div>
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400">Course Tracks</p>
-                    <h3 class="text-3xl font-extrabold text-white mt-1">{{ total_courses }}</h3>
-                    <p class="text-[11px] text-purple-400 mt-2 flex items-center gap-1.5 font-medium">
-                        <i class="fa-solid fa-arrow-right text-[10px]"></i> View Courses &rarr;
+                    <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400">Curriculum Tracks</p>
+                    <h3 class="text-3xl font-black text-white mt-1.5 tracking-tight flex items-baseline">
+                        <span class="stat-counter" data-target="{{ total_courses }}">0</span>
+                    </h3>
+                    <p class="text-[11px] text-purple-300 mt-2.5 flex items-center gap-1.5 font-semibold group-hover:translate-x-1 transition-transform">
+                        View Programs <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl">
+                <div class="w-13 h-13 p-3.5 rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/5 border border-purple-500/30 flex items-center justify-center text-purple-300 text-xl shadow-lg group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
             </div>
         </a>
 
-        <!-- Tuition Pipeline -->
-        <div class="glass-card p-5 rounded-2xl relative overflow-hidden group border-white/5 hover:border-emerald-500/40 transition-all">
-            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-emerald-600/10 rounded-full blur-xl group-hover:bg-emerald-600/20 transition-all"></div>
+        <!-- Tuition Pipeline Card -->
+        <div class="glass-card p-5 rounded-2xl relative overflow-hidden group glass-card-hover border-white/10 hover:border-emerald-500/50">
+            <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-emerald-600/15 rounded-full blur-2xl group-hover:bg-emerald-600/30 transition-all duration-500"></div>
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400">Tuition Pipeline</p>
-                    <h3 class="text-3xl font-extrabold text-white mt-1">₹{{ total_revenue }}</h3>
-                    <p class="text-[11px] text-emerald-400 mt-2 flex items-center gap-1.5 font-medium">
+                    <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400">Tuition Revenue</p>
+                    <h3 class="text-3xl font-black text-emerald-300 mt-1.5 tracking-tight flex items-baseline">
+                        ₹<span class="stat-counter" data-target="{{ total_revenue }}">0</span>
+                    </h3>
+                    <p class="text-[11px] text-emerald-400 mt-2.5 flex items-center gap-1.5 font-semibold">
                         <i class="fa-solid fa-circle-check text-[10px]"></i> Active Subscriptions
                     </p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl">
+                <div class="w-13 h-13 p-3.5 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 border border-emerald-500/30 flex items-center justify-center text-emerald-300 text-xl shadow-glow-emerald group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-indian-rupee-sign"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Demographic Median Age -->
-        <div class="glass-card p-5 rounded-2xl relative overflow-hidden group border-white/5 hover:border-cyan-500/40 transition-all">
-            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-cyan-600/10 rounded-full blur-xl group-hover:bg-cyan-600/20 transition-all"></div>
+        <!-- Demographic Median Age Card -->
+        <div class="glass-card p-5 rounded-2xl relative overflow-hidden group glass-card-hover border-white/10 hover:border-cyanbrand-500/50">
+            <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-cyanbrand-500/15 rounded-full blur-2xl group-hover:bg-cyanbrand-500/30 transition-all duration-500"></div>
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-[11px] font-bold uppercase tracking-wider text-gray-400">Average Student Age</p>
-                    <h3 class="text-3xl font-extrabold text-white mt-1">{{ avg_age }} <span class="text-base font-normal text-gray-400">yrs</span></h3>
-                    <p class="text-[11px] text-cyan-400 mt-2 flex items-center gap-1.5 font-medium">
-                        <i class="fa-solid fa-id-badge text-[10px]"></i> Demographics
+                    <h3 class="text-3xl font-black text-cyanbrand-300 mt-1.5 tracking-tight flex items-baseline">
+                        <span class="stat-counter" data-target="{{ avg_age }}" data-decimals="1">0</span>
+                        <span class="text-sm font-normal text-gray-400 ml-1.5">yrs</span>
+                    </h3>
+                    <p class="text-[11px] text-cyanbrand-400 mt-2.5 flex items-center gap-1.5 font-semibold">
+                        <i class="fa-solid fa-chart-line text-[10px]"></i> Student Demographics
                     </p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl">
-                    <i class="fa-solid fa-chart-simple"></i>
+                <div class="w-13 h-13 p-3.5 rounded-2xl bg-gradient-to-br from-cyanbrand-500/20 to-cyanbrand-600/5 border border-cyanbrand-500/30 flex items-center justify-center text-cyanbrand-300 text-xl shadow-glow-cyan group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-chart-pie"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Visual Charts Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Visual Interactive Charts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in animate-delay-1">
         <!-- Course Distribution -->
-        <div class="glass-card p-6 rounded-2xl lg:col-span-2 border-white/5 flex flex-col justify-between">
+        <div class="glass-card p-6 rounded-2xl lg:col-span-2 border-white/10 flex flex-col justify-between">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <h4 class="text-sm font-bold text-white tracking-tight">Program Enrollment Breakdown</h4>
-                    <p class="text-xs text-gray-400">Distribution across active curriculum tracks</p>
+                    <h4 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-brand-400"></span>
+                        Program Enrollment Distribution
+                    </h4>
+                    <p class="text-xs text-gray-400 mt-0.5">Real-time student headcount across active tracks</p>
                 </div>
-                <a href="/getcourse/" class="text-[11px] text-indigo-400 hover:underline">Manage Tracks</a>
+                <a href="/getcourse/" class="text-xs font-semibold text-brand-300 hover:text-cyanbrand-400 transition-colors flex items-center gap-1">
+                    Manage Tracks <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
             </div>
             <div class="h-64 sm:h-72 flex items-center justify-center relative">
                 <canvas id="courseDistributionChart"></canvas>
@@ -108,11 +127,14 @@
         </div>
 
         <!-- Gender Demographics -->
-        <div class="glass-card p-6 rounded-2xl border-white/5 flex flex-col justify-between">
+        <div class="glass-card p-6 rounded-2xl border-white/10 flex flex-col justify-between">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <h4 class="text-sm font-bold text-white tracking-tight">Student Demographics</h4>
-                    <p class="text-xs text-gray-400">Gender ratio representation</p>
+                    <h4 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyanbrand-400"></span>
+                        Gender Demographics
+                    </h4>
+                    <p class="text-xs text-gray-400 mt-0.5">Cohort diversity breakdown</p>
                 </div>
             </div>
             <div class="h-64 sm:h-72 flex items-center justify-center relative">
@@ -122,94 +144,97 @@
     </div>
 
     <!-- Quick Navigation Hub -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a href="/addstudent/" class="glass-card p-4 rounded-2xl border-white/5 glass-card-hover flex items-center gap-4 group">
-            <div class="w-10 h-10 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-lg">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in animate-delay-2">
+        <a href="/addstudent/" class="glass-card p-4.5 rounded-2xl border-white/10 glass-card-hover flex items-center gap-4 group">
+            <div class="w-11 h-11 rounded-xl bg-brand-500/15 border border-brand-500/25 text-brand-400 flex items-center justify-center text-lg shadow-sm group-hover:scale-105 group-hover:bg-brand-500/25 transition-all">
                 <i class="fa-solid fa-user-plus"></i>
             </div>
-            <div>
-                <h5 class="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors">Enroll New Student</h5>
-                <p class="text-[11px] text-gray-400">Open full registration form page &rarr;</p>
+            <div class="flex-1">
+                <h5 class="text-xs font-bold text-white group-hover:text-brand-300 transition-colors">Enroll New Student</h5>
+                <p class="text-[11px] text-gray-400 mt-0.5">Register candidate into academic registry &rarr;</p>
             </div>
         </a>
 
-        <a href="/addcourse/" class="glass-card p-4 rounded-2xl border-white/5 glass-card-hover flex items-center gap-4 group">
-            <div class="w-10 h-10 rounded-xl bg-purple-500/15 text-purple-400 flex items-center justify-center text-lg">
+        <a href="/addcourse/" class="glass-card p-4.5 rounded-2xl border-white/10 glass-card-hover flex items-center gap-4 group">
+            <div class="w-11 h-11 rounded-xl bg-purple-500/15 border border-purple-500/25 text-purple-400 flex items-center justify-center text-lg shadow-sm group-hover:scale-105 group-hover:bg-purple-500/25 transition-all">
                 <i class="fa-solid fa-book-medical"></i>
             </div>
-            <div>
-                <h5 class="text-xs font-bold text-white group-hover:text-purple-400 transition-colors">Add Course Track</h5>
-                <p class="text-[11px] text-gray-400">Configure new curriculum track &rarr;</p>
+            <div class="flex-1">
+                <h5 class="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">Add Curriculum Track</h5>
+                <p class="text-[11px] text-gray-400 mt-0.5">Configure new certification pathway &rarr;</p>
             </div>
         </a>
 
-        <a href="/api-docs/" class="glass-card p-4 rounded-2xl border-white/5 glass-card-hover flex items-center gap-4 group">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-lg">
+        <a href="/api-docs/" class="glass-card p-4.5 rounded-2xl border-white/10 glass-card-hover flex items-center gap-4 group">
+            <div class="w-11 h-11 rounded-xl bg-cyanbrand-500/15 border border-cyanbrand-500/25 text-cyanbrand-400 flex items-center justify-center text-lg shadow-sm group-hover:scale-105 group-hover:bg-cyanbrand-500/25 transition-all">
                 <i class="fa-solid fa-terminal"></i>
             </div>
-            <div>
-                <h5 class="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">REST API Sandbox</h5>
-                <p class="text-[11px] text-gray-400">Test live endpoints &amp; SDK snippets &rarr;</p>
+            <div class="flex-1">
+                <h5 class="text-xs font-bold text-white group-hover:text-cyanbrand-300 transition-colors">REST API Sandbox</h5>
+                <p class="text-[11px] text-gray-400 mt-0.5">Execute live requests &amp; copy SDK code &rarr;</p>
             </div>
         </a>
     </div>
 
     <!-- Recent Enrollments Table -->
-    <div class="glass-card p-6 rounded-2xl border-white/5">
+    <div class="glass-card p-6 rounded-2xl border-white/10 animate-fade-in animate-delay-3">
         <div class="flex items-center justify-between mb-5">
             <div>
-                <h4 class="text-sm font-bold text-white tracking-tight">Recent Enrollments</h4>
-                <p class="text-xs text-gray-400">Latest active students recorded in the registry</p>
+                <h4 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Recent Enrollments Roster
+                </h4>
+                <p class="text-xs text-gray-400 mt-0.5">Latest active students admitted into the platform</p>
             </div>
-            <a href="/getall/" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1.5 transition-colors">
-                View All Students <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            <a href="/getall/" class="text-xs text-brand-300 hover:text-cyanbrand-400 font-semibold flex items-center gap-1.5 transition-colors">
+                View All Directory <i class="fa-solid fa-arrow-right text-[10px]"></i>
             </a>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto rounded-xl border border-white/5">
             <table class="w-full text-left text-xs">
-                <thead class="bg-surface-800/90 text-gray-400 border-b border-white/5">
+                <thead class="bg-surface-800 text-gray-300 border-b border-white/10">
                     <tr>
-                        <th class="py-3 px-4">Student Profile</th>
-                        <th class="py-3 px-4">Enrolled Program</th>
-                        <th class="py-3 px-4">City</th>
-                        <th class="py-3 px-4">Demographics</th>
-                        <th class="py-3 px-4 text-right">Actions</th>
+                        <th class="py-3 px-4 font-bold uppercase tracking-wider text-[11px]">Student Profile</th>
+                        <th class="py-3 px-4 font-bold uppercase tracking-wider text-[11px]">Enrolled Track</th>
+                        <th class="py-3 px-4 font-bold uppercase tracking-wider text-[11px]">City</th>
+                        <th class="py-3 px-4 font-bold uppercase tracking-wider text-[11px]">Demographics</th>
+                        <th class="py-3 px-4 font-bold uppercase tracking-wider text-[11px] text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5 text-gray-300">
                     {% for s in recent_students %}
-                    <tr class="hover:bg-white/[0.02] transition-colors">
-                        <td class="py-3 px-4">
+                    <tr class="hover:bg-white/[0.03] transition-colors group">
+                        <td class="py-3.5 px-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-cyanbrand-500 flex items-center justify-center text-white font-bold text-xs shadow-sm group-hover:scale-105 transition-transform">
                                     {{ s.full_name|slice:":1" }}
                                 </div>
                                 <div>
-                                    <a href="/getid/{{ s.id }}/" class="font-semibold text-white text-xs hover:text-indigo-400 transition-colors">{{ s.full_name }}</a>
+                                    <a href="/getid/{{ s.id }}/" class="font-bold text-white text-xs hover:text-brand-300 transition-colors">{{ s.full_name }}</a>
                                     <div class="text-[11px] text-gray-400 code-font">{{ s.email }}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="py-3 px-4">
+                        <td class="py-3.5 px-4">
                             {% if s.course %}
-                                <a href="/getcourseid/{{ s.course.id }}/" class="px-2.5 py-1 rounded-full text-[11px] bg-indigo-500/10 text-indigo-300 hover:text-white border border-indigo-500/20 font-medium transition-colors">
+                                <a href="/getcourseid/{{ s.course.id }}/" class="px-2.5 py-1 rounded-full text-[11px] bg-brand-500/10 text-brand-300 hover:text-white border border-brand-500/20 font-medium transition-colors">
                                     {{ s.course.course_name }}
                                 </a>
                             {% else %}
                                 <span class="text-gray-500 italic text-[11px]">Unassigned</span>
                             {% endif %}
                         </td>
-                        <td class="py-3 px-4 text-gray-300">{{ s.city }}</td>
-                        <td class="py-3 px-4 text-gray-400">{{ s.age }} yrs &bull; {{ s.gender }}</td>
-                        <td class="py-3 px-4 text-right">
+                        <td class="py-3.5 px-4 text-gray-300 font-medium">{{ s.city }}</td>
+                        <td class="py-3.5 px-4 text-gray-400">{{ s.age }} yrs &bull; {{ s.gender }}</td>
+                        <td class="py-3.5 px-4 text-right">
                             <div class="flex items-center justify-end gap-1.5">
-                                <a href="/getid/{{ s.id }}/" class="px-2.5 py-1 rounded-lg bg-surface-700 hover:bg-surface-600 text-indigo-300 hover:text-white text-xs border border-white/5 transition-all" title="View Dossier">
+                                <a href="/getid/{{ s.id }}/" class="px-2.5 py-1 rounded-lg bg-surface-800 hover:bg-surface-700 text-brand-300 hover:text-white text-xs border border-white/5 transition-all" title="View Dossier">
                                     <i class="fa-solid fa-eye text-[11px]"></i>
                                 </a>
-                                <a href="/updateid/{{ s.id }}/" class="px-2.5 py-1 rounded-lg bg-surface-700 hover:bg-surface-600 text-amber-400 hover:text-white text-xs border border-white/5 transition-all" title="Edit Profile">
+                                <a href="/updateid/{{ s.id }}/" class="px-2.5 py-1 rounded-lg bg-surface-800 hover:bg-surface-700 text-amber-400 hover:text-white text-xs border border-white/5 transition-all" title="Edit Profile">
                                     <i class="fa-solid fa-pen text-[11px]"></i>
                                 </a>
-                                <a href="/deleteid/{{ s.id }}/" class="px-2.5 py-1 rounded-lg bg-surface-700 hover:bg-rose-900/60 text-rose-400 hover:text-white text-xs border border-white/5 transition-all" title="Delete Student">
+                                <a href="/deleteid/{{ s.id }}/" class="px-2.5 py-1 rounded-lg bg-surface-800 hover:bg-rose-900/60 text-rose-400 hover:text-white text-xs border border-white/5 transition-all" title="Delete Student">
                                     <i class="fa-solid fa-trash text-[11px]"></i>
                                 </a>
                             </div>
@@ -219,7 +244,7 @@
                     <tr>
                         <td colspan="5" class="py-12 text-center text-gray-500">
                             <i class="fa-solid fa-inbox text-3xl mb-2 text-gray-600 block"></i>
-                            No students registered yet. Click <a href="/addstudent/" class="text-indigo-400 underline">Enroll Student</a> to add your first record.
+                            No students registered yet. Click <a href="/addstudent/" class="text-brand-400 underline">Enroll Student</a> to add your first record.
                         </td>
                     </tr>
                     {% endfor %}
@@ -232,13 +257,51 @@
 
 {% block extra_scripts %}
 <script>
+    // Smooth animated number counters
+    function animateCounters() {
+        const counters = document.querySelectorAll('.stat-counter');
+        counters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-target')) || 0;
+            const decimals = parseInt(counter.getAttribute('data-decimals')) || 0;
+            const duration = 1200; // ms
+            const startTime = performance.now();
+
+            function updateCount(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out quart
+                const easeProgress = 1 - Math.pow(1 - progress, 4);
+                const currentVal = (target * easeProgress);
+
+                if (decimals > 0) {
+                    counter.innerText = currentVal.toFixed(decimals);
+                } else {
+                    counter.innerText = Math.round(currentVal).toLocaleString();
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    if (decimals > 0) {
+                        counter.innerText = target.toFixed(decimals);
+                    } else {
+                        counter.innerText = Math.round(target).toLocaleString();
+                    }
+                }
+            }
+            requestAnimationFrame(updateCount);
+        });
+    }
+
     const courseLabels = JSON.parse('{{ course_labels_json|safe }}' || '[]');
     const courseCounts = JSON.parse('{{ course_counts_json|safe }}' || '[]');
     const genderLabels = JSON.parse('{{ gender_labels_json|safe }}' || '[]');
     const genderCounts = JSON.parse('{{ gender_counts_json|safe }}' || '[]');
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Doughnut Chart
+        animateCounters();
+
+        // Modern Cyber Doughnut Chart
         const courseCtx = document.getElementById('courseDistributionChart')?.getContext('2d');
         if (courseCtx) {
             new Chart(courseCtx, {
@@ -247,22 +310,44 @@
                     labels: courseLabels.length ? courseLabels : ['No Enrollments'],
                     datasets: [{
                         data: courseCounts.length ? courseCounts : [1],
-                        backgroundColor: ['#6366f1', '#a855f7', '#06b6d4', '#10b981', '#ec4899', '#f59e0b', '#3b82f6'],
+                        backgroundColor: [
+                            '#8b5cf6', // Violet
+                            '#06b6d4', // Cyan
+                            '#10b981', // Emerald
+                            '#f59e0b', // Amber
+                            '#f43f5e', // Rose
+                            '#3b82f6', // Cobalt
+                            '#ec4899', // Pink
+                        ],
                         borderWidth: 2,
-                        borderColor: '#07090e'
+                        borderColor: '#0b101d',
+                        hoverOffset: 6
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeOutQuart'
+                    },
                     plugins: {
-                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 11 }, boxWidth: 12 } }
-                    }
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#cbd5e1',
+                                font: { family: 'Plus Jakarta Sans', size: 11, weight: '500' },
+                                boxWidth: 12,
+                                padding: 16
+                            }
+                        }
+                    },
+                    cutout: '68%'
                 }
             });
         }
 
-        // Pie Chart
+        // Modern Demographics Pie Chart
         const genderCtx = document.getElementById('genderDistributionChart')?.getContext('2d');
         if (genderCtx) {
             new Chart(genderCtx, {
@@ -271,16 +356,29 @@
                     labels: genderLabels.length ? genderLabels : ['Male', 'Female', 'Other'],
                     datasets: [{
                         data: genderCounts.length ? genderCounts : [0, 0, 0],
-                        backgroundColor: ['#3b82f6', '#ec4899', '#a855f7'],
+                        backgroundColor: ['#06b6d4', '#f43f5e', '#a855f7'],
                         borderWidth: 2,
-                        borderColor: '#07090e'
+                        borderColor: '#0b101d',
+                        hoverOffset: 6
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeOutQuart'
+                    },
                     plugins: {
-                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 11 }, boxWidth: 12 } }
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#cbd5e1',
+                                font: { family: 'Plus Jakarta Sans', size: 11, weight: '500' },
+                                boxWidth: 12,
+                                padding: 16
+                            }
+                        }
                     }
                 }
             });
