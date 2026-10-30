@@ -3,30 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070b16">
+    <meta name="color-scheme" content="dark">
+
     <title>{% block title %}Aura SIS | Enterprise Student & Curriculum Intelligence{% endblock %}</title>
-    
+
+    <meta name="description"
+          content="Aura SIS — Student Information System for managing student enrollment, courses, curriculum, and REST API resources.">
+
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
 
-    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome 6 Pro-grade Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Tailwind CSS CDN -->
+
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
+
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: [
+                            '"Plus Jakarta Sans"',
+                            '-apple-system',
+                            'BlinkMacSystemFont',
+                            'sans-serif'
+                        ],
+                        mono: [
+                            '"JetBrains Mono"',
+                            'monospace'
+                        ]
                     },
+
                     colors: {
                         brand: {
                             50: '#f5f3ff',
@@ -38,13 +58,15 @@
                             600: '#7c3aed',
                             700: '#6d28d9',
                             800: '#5b21b6',
-                            900: '#4c1d95',
+                            900: '#4c1d95'
                         },
+
                         cyanbrand: {
                             400: '#22d3ee',
                             500: '#06b6d4',
-                            600: '#0891b2',
+                            600: '#0891b2'
                         },
+
                         surface: {
                             950: '#050811',
                             900: '#090d1a',
@@ -53,51 +75,181 @@
                             750: '#1b2845',
                             700: '#233355',
                             600: '#324773',
-                            500: '#475f94',
+                            500: '#475f94'
                         }
                     },
+
                     boxShadow: {
-                        'glow-violet': '0 0 35px -5px rgba(139, 92, 246, 0.35)',
-                        'glow-cyan': '0 0 35px -5px rgba(6, 182, 212, 0.35)',
-                        'glow-emerald': '0 0 30px -5px rgba(16, 185, 129, 0.3)',
-                        'glow-rose': '0 0 30px -5px rgba(244, 63, 94, 0.3)',
-                        'glow-amber': '0 0 30px -5px rgba(245, 158, 11, 0.3)',
-                        'inner-light': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
+                        'glow-violet':
+                            '0 0 35px -5px rgba(139,92,246,.35)',
+
+                        'glow-cyan':
+                            '0 0 35px -5px rgba(6,182,212,.35)',
+
+                        'glow-emerald':
+                            '0 0 30px -5px rgba(16,185,129,.3)',
+
+                        'glow-rose':
+                            '0 0 30px -5px rgba(244,63,94,.3)',
+
+                        'glow-amber':
+                            '0 0 30px -5px rgba(245,158,11,.3)',
+
+                        'inner-light':
+                            'inset 0 1px 0 0 rgba(255,255,255,.1)'
                     }
                 }
             }
-        }
+        };
     </script>
-    
-    <!-- Chart.js CDN -->
+
+    <!-- Chart.js: Available to child templates -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
+            color-scheme: dark;
+
             --color-bg: #070b16;
+            --color-surface: #090d1a;
             --color-accent-violet: #8b5cf6;
             --color-accent-cyan: #06b6d4;
             --color-accent-emerald: #10b981;
+
+            --color-text: #f1f5f9;
+            --color-muted: #9ca3af;
+            --color-border: rgba(255, 255, 255, 0.09);
+
+            --page-width: 80rem;
+        }
+
+        /* =========================================
+           GLOBAL STYLES
+        ========================================= */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            scroll-behavior: smooth;
+            scroll-padding-top: 110px;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+
+            font-family: 'Plus Jakarta Sans',
+                         -apple-system,
+                         BlinkMacSystemFont,
+                         sans-serif;
+
             background-color: var(--color-bg);
-            color: #f1f5f9;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.11) 0%, transparent 45%),
-                radial-gradient(circle at 85% 10%, rgba(139, 92, 246, 0.13) 0%, transparent 45%),
-                radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.08) 0%, transparent 55%),
-                radial-gradient(circle at 75% 65%, rgba(99, 102, 241, 0.09) 0%, transparent 40%);
+            color: var(--color-text);
+
+            overflow-x: clip;
+
+            background-image:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(6, 182, 212, 0.11) 0%,
+                    transparent 45%
+                ),
+                radial-gradient(
+                    circle at 85% 10%,
+                    rgba(139, 92, 246, 0.13) 0%,
+                    transparent 45%
+                ),
+                radial-gradient(
+                    circle at 50% 90%,
+                    rgba(16, 185, 129, 0.08) 0%,
+                    transparent 55%
+                ),
+                radial-gradient(
+                    circle at 75% 65%,
+                    rgba(99, 102, 241, 0.09) 0%,
+                    transparent 40%
+                );
+
             background-attachment: fixed;
+        }
+
+        img,
+        svg,
+        video,
+        canvas {
+            max-width: 100%;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid #22d3ee;
+            outline-offset: 4px;
+        }
+
+        ::selection {
+            background: rgba(139, 92, 246, 0.75);
+            color: #ffffff;
         }
 
         .code-font {
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Ambient animated glowing backdrop orbs */
+        /* =========================================
+           SCROLLBAR
+        ========================================= */
+
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: #324773 #090d1a;
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #090d1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1b2845;
+            border-radius: 999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475f94;
+        }
+
+        /* =========================================
+           AMBIENT BACKGROUND
+        ========================================= */
+
         .ambient-orb {
             position: fixed;
             border-radius: 9999px;
@@ -105,291 +257,761 @@
             pointer-events: none;
             z-index: 0;
             opacity: 0.6;
+
             animation: floatOrb 18s ease-in-out infinite alternate;
+            will-change: transform;
         }
+
         .orb-1 {
             width: 380px;
             height: 380px;
             top: -100px;
             left: -100px;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.22) 0%, transparent 70%);
+
+            background: radial-gradient(
+                circle,
+                rgba(6, 182, 212, 0.22) 0%,
+                transparent 70%
+            );
+
             animation-duration: 22s;
         }
+
         .orb-2 {
             width: 440px;
             height: 440px;
             top: 15%;
             right: -120px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, transparent 70%);
+
+            background: radial-gradient(
+                circle,
+                rgba(139, 92, 246, 0.22) 0%,
+                transparent 70%
+            );
+
             animation-duration: 26s;
             animation-delay: -5s;
         }
+
         .orb-3 {
             width: 320px;
             height: 320px;
             bottom: 5%;
             left: 20%;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+
+            background: radial-gradient(
+                circle,
+                rgba(16, 185, 129, 0.15) 0%,
+                transparent 70%
+            );
+
             animation-duration: 20s;
             animation-delay: -10s;
         }
 
         @keyframes floatOrb {
-            0% { transform: translate(0px, 0px) scale(1); }
-            50% { transform: translate(40px, 35px) scale(1.08); }
-            100% { transform: translate(-30px, 20px) scale(0.95); }
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(40px, 35px) scale(1.08);
+            }
+
+            100% {
+                transform: translate(-30px, 20px) scale(0.95);
+            }
         }
 
-        /* Custom Modern Scrollbar */
-        ::-webkit-scrollbar {
-            width: 7px;
-            height: 7px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #090d1a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1b2845;
-            border-radius: 8px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #324773;
-        }
+        /* =========================================
+           GLASSMORPHISM
+        ========================================= */
 
-        /* Glassmorphic Panels */
         .glass-card {
-            background: rgba(15, 23, 42, 0.72);
-            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.82);
+
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 12px 36px -12px rgba(0, 0, 0, 0.55), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+
+            border: 1px solid var(--color-border);
+
+            box-shadow:
+                0 12px 36px -12px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .glass-card-hover {
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .glass-card-hover:hover {
-            border-color: rgba(139, 92, 246, 0.45);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 25px -4px rgba(139, 92, 246, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+            transition:
+                transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
         }
 
-        /* Gradient Text */
+        @media (hover: hover) and (pointer: fine) {
+            .glass-card-hover:hover {
+                border-color: rgba(139, 92, 246, 0.45);
+
+                transform: translateY(-4px);
+
+                box-shadow:
+                    0 20px 40px -15px rgba(0, 0, 0, 0.7),
+                    0 0 25px -4px rgba(139, 92, 246, 0.25),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            }
+        }
+
+        /* =========================================
+           GRADIENT TEXT
+        ========================================= */
+
         .text-gradient-aurora {
-            background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 50%, #34d399 100%);
+            background: linear-gradient(
+                135deg,
+                #a78bfa 0%,
+                #38bdf8 50%,
+                #34d399 100%
+            );
+
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .text-gradient-cyan {
-            background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 100%);
+            background: linear-gradient(
+                135deg,
+                #38bdf8 0%,
+                #22d3ee 100%
+            );
+
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .text-gradient-brand {
-            background: linear-gradient(135deg, #c4b5fd 0%, #818cf8 50%, #38bdf8 100%);
+            background: linear-gradient(
+                135deg,
+                #c4b5fd 0%,
+                #818cf8 50%,
+                #38bdf8 100%
+            );
+
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Nav Link Active State */
+        /* =========================================
+           NAVIGATION
+        ========================================= */
+
         .nav-link {
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+
+            transition:
+                color 0.25s ease,
+                background-color 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+
+            flex-shrink: 0;
         }
+
         .nav-link.active {
             color: #ffffff;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(6, 182, 212, 0.18));
+
+            background: linear-gradient(
+                135deg,
+                rgba(139, 92, 246, 0.25),
+                rgba(6, 182, 212, 0.18)
+            );
+
             border-color: rgba(139, 92, 246, 0.6);
-            box-shadow: 0 0 20px -3px rgba(139, 92, 246, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+
+            box-shadow:
+                0 0 20px -3px rgba(139, 92, 246, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
+
         .nav-link.active::after {
             content: '';
+
             position: absolute;
             bottom: -2px;
             left: 20%;
             right: 20%;
+
             height: 2px;
-            background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+
+            background: linear-gradient(
+                90deg,
+                #8b5cf6,
+                #06b6d4
+            );
+
             border-radius: 9999px;
-            box-shadow: 0 0 8px #06b6d4;
         }
 
-        /* Staggered entrance animations */
+        .nav-scroll {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+
+            overscroll-behavior-x: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* =========================================
+           ANIMATIONS
+        ========================================= */
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(18px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
         .animate-fade-in {
             animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
-        .animate-delay-1 { animation-delay: 0.08s; }
-        .animate-delay-2 { animation-delay: 0.16s; }
-        .animate-delay-3 { animation-delay: 0.24s; }
-        .animate-delay-4 { animation-delay: 0.32s; }
 
-        /* Pulse badge glow */
-        @keyframes radarPing {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
-            70% { transform: scale(1); box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        .animate-delay-1 {
+            animation-delay: 0.08s;
         }
+
+        .animate-delay-2 {
+            animation-delay: 0.16s;
+        }
+
+        .animate-delay-3 {
+            animation-delay: 0.24s;
+        }
+
+        .animate-delay-4 {
+            animation-delay: 0.32s;
+        }
+
+        @keyframes radarPing {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
         .radar-badge {
             animation: radarPing 2.5s infinite;
         }
 
-        /* Shimmer button effect */
         .btn-shimmer {
             position: relative;
+            isolation: isolate;
             overflow: hidden;
         }
+
         .btn-shimmer::before {
             content: '';
+
             position: absolute;
+            z-index: -1;
+
             top: -50%;
             left: -50%;
+
             width: 200%;
             height: 200%;
+
             background: linear-gradient(
                 60deg,
                 transparent 30%,
                 rgba(255, 255, 255, 0.18) 50%,
                 transparent 70%
             );
+
             transform: rotate(25deg) translateY(-100%);
+
             transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-shimmer:hover::before {
-            transform: rotate(25deg) translateY(100%);
+
+        @media (hover: hover) and (pointer: fine) {
+            .btn-shimmer:hover::before {
+                transform: rotate(25deg) translateY(100%);
+            }
+        }
+
+        /* =========================================
+           DJANGO MESSAGES
+        ========================================= */
+
+        .message-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+
+            padding: 14px 16px;
+            border: 1px solid transparent;
+            border-radius: 16px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+
+            animation: fadeInUp 0.35s ease both;
+        }
+
+        .message-success {
+            color: #a7f3d0;
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.35);
+        }
+
+        .message-error {
+            color: #fecdd3;
+            background: rgba(244, 63, 94, 0.12);
+            border-color: rgba(244, 63, 94, 0.35);
+        }
+
+        .message-warning {
+            color: #fde68a;
+            background: rgba(245, 158, 11, 0.12);
+            border-color: rgba(245, 158, 11, 0.35);
+        }
+
+        .message-info {
+            color: #bae6fd;
+            background: rgba(6, 182, 212, 0.12);
+            border-color: rgba(6, 182, 212, 0.35);
+        }
+
+        .message-dismiss {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 30px;
+            height: 30px;
+
+            flex-shrink: 0;
+
+            border: 0;
+            border-radius: 8px;
+
+            color: inherit;
+            background: rgba(255, 255, 255, 0.06);
+
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .message-dismiss:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        /* =========================================
+           RESPONSIVE LAYOUT
+        ========================================= */
+
+        .page-container {
+            width: 100%;
+            max-width: var(--page-width);
+            margin-inline: auto;
+            padding-inline: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .page-container {
+                padding-inline: 24px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page-container {
+                padding-inline: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-description {
+                display: none;
+            }
+
+            .top-action {
+                padding-inline: 10px;
+            }
+
+            .message-banner {
+                padding: 12px;
+            }
+        }
+
+        /* =========================================
+           REDUCED MOTION
+        ========================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .ambient-orb {
+                display: none;
+            }
+
+            .glass-card-hover:hover {
+                transform: none;
+            }
+        }
+
+        /* Keep the layout usable if backdrop-filter is unsupported. */
+        @supports not (backdrop-filter: blur(20px)) {
+            .glass-card {
+                background: #0f172a;
+            }
         }
     </style>
+
     {% block extra_head %}{% endblock %}
 </head>
+
 <body class="min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white relative">
 
-    <!-- Atmospheric Ambient Glow Orbs -->
-    <div class="ambient-orb orb-1"></div>
-    <div class="ambient-orb orb-2"></div>
-    <div class="ambient-orb orb-3"></div>
+    <!-- =========================================
+         AMBIENT BACKGROUND
+    ========================================== -->
 
-    <!-- Universal Top Navigation Bar -->
-    <header class="glass-card sticky top-0 z-40 border-b border-white/10 backdrop-blur-2xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4 relative z-10">
-            
-            <!-- Brand Logo & Deployment Chip -->
-            <a href="/" class="flex items-center space-x-3.5 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-cyanbrand-500 p-0.5 shadow-glow-violet flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow-cyan">
+    <div class="ambient-orb orb-1" aria-hidden="true"></div>
+    <div class="ambient-orb orb-2" aria-hidden="true"></div>
+    <div class="ambient-orb orb-3" aria-hidden="true"></div>
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="glass-card sticky top-0 z-40 border-b border-white/10">
+
+        <!-- Brand and Quick Actions -->
+        <div class="page-container h-16 flex items-center justify-between gap-3 relative z-10">
+
+            <!-- Brand -->
+            <a href="/"
+               class="flex items-center gap-3 group min-w-0"
+               aria-label="Aura SIS home">
+
+                <div class="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-cyanbrand-500 p-0.5 shadow-glow-violet flex items-center justify-center transition-all duration-300 group-hover:shadow-glow-cyan">
+
                     <div class="w-full h-full bg-surface-900 rounded-[10px] flex items-center justify-center">
-                        <i class="fa-solid fa-graduation-cap text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-cyanbrand-400 to-emerald-400 text-lg"></i>
+
+                        <i class="fa-solid fa-graduation-cap text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-cyanbrand-400 to-emerald-400 text-lg"
+                           aria-hidden="true"></i>
+
                     </div>
                 </div>
-                <div>
+
+                <div class="min-w-0">
+
                     <div class="flex items-center gap-2">
-                        <span class="text-base font-extrabold tracking-tight text-white group-hover:text-brand-300 transition-colors">
-                            Aura <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyanbrand-400">SIS</span>
+
+                        <span class="text-base font-extrabold tracking-tight text-white group-hover:text-brand-300 transition-colors whitespace-nowrap">
+                            Aura
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-cyanbrand-400">
+                                SIS
+                            </span>
                         </span>
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 shadow-sm radar-badge">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span class="hidden sm:inline">PythonAnywhere Ready</span>
-                            <span class="sm:hidden">Ready</span>
+
+                        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 radar-badge"
+                                  aria-hidden="true"></span>
+
+                            <span>Ready</span>
+
                         </span>
+
                     </div>
-                    <p class="text-[11px] text-gray-400 hidden sm:block">Enterprise Student Information &amp; REST Platform</p>
+
+                    <p class="brand-description text-[11px] text-gray-400 whitespace-nowrap">
+                        Student Information &amp; REST Platform
+                    </p>
+
                 </div>
             </a>
 
-            <!-- Quick Action Links -->
-            <div class="flex items-center space-x-2.5">
-                <a href="/addstudent/" class="btn-shimmer flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyanbrand-600 hover:from-brand-500 hover:to-cyanbrand-500 text-white text-xs font-semibold shadow-glow-violet hover:shadow-glow-cyan transition-all transform active:scale-95">
-                    <i class="fa-solid fa-user-plus text-[11px]"></i>
+            <!-- Quick Actions -->
+            <div class="flex items-center gap-2 shrink-0">
+
+                <a href="/addstudent/"
+                   class="top-action btn-shimmer flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyanbrand-600 hover:from-brand-500 hover:to-cyanbrand-500 text-white text-xs font-semibold shadow-glow-violet transition-all active:scale-95"
+                   aria-label="Enroll a student">
+
+                    <i class="fa-solid fa-user-plus text-[11px]"
+                       aria-hidden="true"></i>
+
                     <span class="hidden sm:inline">Enroll Student</span>
+
                 </a>
-                <a href="/addcourse/" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-800 hover:bg-surface-750 text-gray-200 text-xs font-semibold border border-white/10 hover:border-brand-500/40 transition-all transform active:scale-95">
-                    <i class="fa-solid fa-book-open text-[11px] text-brand-400"></i>
+
+                <a href="/addcourse/"
+                   class="top-action flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-surface-800 hover:bg-surface-750 text-gray-200 text-xs font-semibold border border-white/10 hover:border-brand-500/40 transition-all active:scale-95"
+                   aria-label="Add a course">
+
+                    <i class="fa-solid fa-book-open text-brand-400 text-[11px]"
+                       aria-hidden="true"></i>
+
                     <span class="hidden md:inline">Add Course</span>
+
                 </a>
-                <a href="/admin/" target="_blank" class="px-3 py-2 rounded-xl bg-surface-800 hover:bg-surface-750 text-gray-300 hover:text-white text-xs font-medium border border-white/10 hover:border-brand-500/30 transition-all" title="Django Administrator Gateway">
-                    <i class="fa-solid fa-shield-halved text-brand-400 mr-1.5"></i>
-                    <span class="hidden md:inline">Admin</span>
-                </a>
+
             </div>
         </div>
 
-        <!-- Navigation Tabs Bar -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 relative z-10">
-            <nav class="flex space-x-2 py-2 overflow-x-auto text-xs font-medium no-scrollbar">
-                <a href="/" class="nav-link {% if active_page == 'dashboard' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-chart-pie text-brand-400"></i> Dashboard
+        <!-- Navigation -->
+        <div class="border-t border-white/5 relative z-10">
+
+            <nav class="page-container nav-scroll flex items-center gap-2 py-2 overflow-x-auto text-xs font-medium"
+                 aria-label="Main navigation">
+
+                <a href="/"
+                   {% if active_page == 'dashboard' %}aria-current="page"{% endif %}
+                   class="nav-link {% if active_page == 'dashboard' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border flex items-center gap-2 whitespace-nowrap">
+
+                    <i class="fa-solid fa-chart-pie text-brand-400"
+                       aria-hidden="true"></i>
+
+                    Dashboard
+
                 </a>
-                <a href="/getall/" class="nav-link {% if active_page == 'students' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-users text-cyanbrand-400"></i> Student Directory
+
+                <a href="/getall/"
+                   {% if active_page == 'students' %}aria-current="page"{% endif %}
+                   class="nav-link {% if active_page == 'students' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border flex items-center gap-2 whitespace-nowrap">
+
+                    <i class="fa-solid fa-users text-cyanbrand-400"
+                       aria-hidden="true"></i>
+
+                    Student Directory
+
                 </a>
-                <a href="/getcourse/" class="nav-link {% if active_page == 'courses' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-layer-group text-purple-400"></i> Course Programs
+
+                <a href="/getcourse/"
+                   {% if active_page == 'courses' %}aria-current="page"{% endif %}
+                   class="nav-link {% if active_page == 'courses' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border flex items-center gap-2 whitespace-nowrap">
+
+                    <i class="fa-solid fa-layer-group text-purple-400"
+                       aria-hidden="true"></i>
+
+                    Course Programs
+
                 </a>
-                <a href="/addstudent/" class="nav-link {% if active_page == 'addstudent' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-user-plus text-emerald-400"></i> Enroll Student
+
+                <a href="/addstudent/"
+                   {% if active_page == 'addstudent' %}aria-current="page"{% endif %}
+                   class="nav-link {% if active_page == 'addstudent' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border flex items-center gap-2 whitespace-nowrap">
+
+                    <i class="fa-solid fa-user-plus text-emerald-400"
+                       aria-hidden="true"></i>
+
+                    Enroll Student
+
                 </a>
-                <a href="/addcourse/" class="nav-link {% if active_page == 'addcourse' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-book-medical text-amber-400"></i> Add Course
+
+                <a href="/addcourse/"
+                   {% if active_page == 'addcourse' %}aria-current="page"{% endif %}
+                   class="nav-link {% if active_page == 'addcourse' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border flex items-center gap-2 whitespace-nowrap">
+
+                    <i class="fa-solid fa-book-medical text-amber-400"
+                       aria-hidden="true"></i>
+
+                    Add Course
+
                 </a>
-                <a href="/api-docs/" class="nav-link {% if active_page == 'api_docs' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border transition-all flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-terminal text-pink-400"></i> REST API Sandbox &amp; SDK
+
+                <a href="/api-docs/"
+                   {% if active_page == 'api_docs' %}aria-current="page"{% endif %}
+                   class="nav-link {% if active_page == 'api_docs' %}active{% else %}text-gray-400 hover:text-white hover:bg-white/[0.03] border-transparent{% endif %} px-4 py-2 rounded-xl border flex items-center gap-2 whitespace-nowrap">
+
+                    <i class="fa-solid fa-terminal text-pink-400"
+                       aria-hidden="true"></i>
+
+                    REST API Sandbox &amp; SDK
+
                 </a>
+
             </nav>
         </div>
+
     </header>
 
-    <!-- Flash Message Notification Banner with Smooth Animations -->
-    <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 relative z-20">
+    <!-- =========================================
+         DJANGO FLASH MESSAGES
+    ========================================== -->
+
+    <div class="page-container pt-4 relative z-20"
+         aria-label="Notifications">
+
         {% if messages %}
+
             <div class="space-y-2">
+
                 {% for message in messages %}
-                <div class="flex items-center justify-between px-4 py-3.5 rounded-2xl border backdrop-blur-xl text-xs font-semibold shadow-lg animate-fade-in {% if message.tags == 'error' %}bg-rose-500/15 border-rose-500/40 text-rose-200 shadow-glow-rose{% elif message.tags == 'warning' %}bg-amber-500/15 border-amber-500/40 text-amber-200 shadow-glow-amber{% else %}bg-emerald-500/15 border-emerald-500/40 text-emerald-200 shadow-glow-emerald{% endif %}" role="alert">
-                    <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 rounded-lg flex items-center justify-center {% if message.tags == 'error' %}bg-rose-500/20 text-rose-300{% else %}bg-emerald-500/20 text-emerald-300{% endif %}">
-                            <i class="fa-solid {% if message.tags == 'error' %}fa-circle-xmark{% else %}fa-circle-check{% endif %} text-sm"></i>
+
+                    <div class="message-banner
+                        {% if 'error' in message.tags %}
+                            message-error
+                        {% elif 'warning' in message.tags %}
+                            message-warning
+                        {% elif 'info' in message.tags %}
+                            message-info
+                        {% else %}
+                            message-success
+                        {% endif %}"
+                         role="{% if 'error' in message.tags %}alert{% else %}status{% endif %}">
+
+                        <div class="flex items-center gap-3 min-w-0">
+
+                            <div class="w-8 h-8 shrink-0 rounded-lg flex items-center justify-center bg-white/5">
+
+                                {% if 'error' in message.tags %}
+
+                                    <i class="fa-solid fa-circle-xmark text-rose-300"
+                                       aria-hidden="true"></i>
+
+                                {% elif 'warning' in message.tags %}
+
+                                    <i class="fa-solid fa-triangle-exclamation text-amber-300"
+                                       aria-hidden="true"></i>
+
+                                {% elif 'info' in message.tags %}
+
+                                    <i class="fa-solid fa-circle-info text-cyan-300"
+                                       aria-hidden="true"></i>
+
+                                {% else %}
+
+                                    <i class="fa-solid fa-circle-check text-emerald-300"
+                                       aria-hidden="true"></i>
+
+                                {% endif %}
+
+                            </div>
+
+                            <span class="break-words min-w-0">
+                                {{ message }}
+                            </span>
+
                         </div>
-                        <span>{{ message }}</span>
+
+                        <button type="button"
+                                class="message-dismiss"
+                                aria-label="Dismiss notification"
+                                onclick="this.closest('.message-banner').remove()">
+
+                            <i class="fa-solid fa-xmark"
+                               aria-hidden="true"></i>
+
+                        </button>
+
                     </div>
-                    <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-white w-6 h-6 rounded-lg hover:bg-white/10 flex items-center justify-center text-sm leading-none transition-colors">&times;</button>
-                </div>
+
                 {% endfor %}
+
             </div>
+
         {% endif %}
+
     </div>
 
-    <!-- Main Dynamic Content Block -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-7 relative z-10">
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main id="main-content"
+          class="flex-grow page-container py-7 relative z-10">
+
         {% block content %}{% endblock %}
+
     </main>
 
-    <!-- Elevated Footer -->
-    <footer class="glass-card border-t border-white/10 py-7 text-center text-xs text-gray-400 mt-auto relative z-10">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></span>
-                <p>&copy; 2026 <strong class="text-white">Aura SIS Platform</strong> &bull; Production Django REST API &bull; PythonAnywhere Deployable</p>
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="glass-card border-t border-white/10 py-6 mt-auto relative z-10">
+
+        <div class="page-container flex flex-col md:flex-row items-center justify-between gap-4">
+
+            <div class="flex items-center justify-center md:justify-start gap-2 text-center">
+
+                <span class="w-2 h-2 shrink-0 rounded-full bg-emerald-400"
+                      aria-hidden="true"></span>
+
+                <p class="text-xs text-gray-400">
+                    &copy; {% now "Y" %}
+                    <strong class="text-white">Aura SIS Platform</strong>
+                    &bull; Student Information System
+                </p>
+
             </div>
-            <div class="flex items-center gap-4 text-xs font-medium">
-                <a href="/getall/" class="hover:text-cyanbrand-400 transition-colors">Directory</a>
-                <span>&bull;</span>
-                <a href="/getcourse/" class="hover:text-cyanbrand-400 transition-colors">Courses</a>
-                <span>&bull;</span>
-                <a href="/api-docs/" class="hover:text-brand-300 transition-colors">REST SDK Sandbox</a>
-                <span>&bull;</span>
-                <a href="/admin/" target="_blank" class="hover:text-brand-300 transition-colors">Admin Gateway</a>
-            </div>
+
+            <nav class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium"
+                 aria-label="Footer navigation">
+
+                <a href="/getall/"
+                   class="text-gray-400 hover:text-cyanbrand-400 transition-colors">
+                    Directory
+                </a>
+
+                <span class="text-gray-600" aria-hidden="true">&bull;</span>
+
+                <a href="/getcourse/"
+                   class="text-gray-400 hover:text-cyanbrand-400 transition-colors">
+                    Courses
+                </a>
+
+                <span class="text-gray-600" aria-hidden="true">&bull;</span>
+
+                <a href="/api-docs/"
+                   class="text-gray-400 hover:text-brand-300 transition-colors">
+                    REST API Sandbox
+                </a>
+
+            </nav>
+
         </div>
+
     </footer>
 
+    <!-- =========================================
+         CHILD TEMPLATE SCRIPTS
+    ========================================== -->
+
     {% block extra_scripts %}{% endblock %}
+
 </body>
 </html>
