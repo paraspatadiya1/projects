@@ -5,20 +5,36 @@ from django.utils.encoding import force_bytes, force_str
 from django.shortcuts import render, redirect
 from django.core.signing import TimestampSigner, BadSignature, SignatureExpired
 from patientapp.forms import *
-from .models import patientsignup
+from .models import *
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
-
-
 
 def home(request):
 
     user = None
 
     if 'userid' in request.session:
-        user = patientsignup.objects.filter(id=request.session['userid']).first()
-    return render(request, 'home.html', {'user': user})
+        user = patientsignup.objects.filter(
+            id=request.session['userid']
+        ).first()
+
+    doctors = Doctor.objects.all().order_by('name')
+
+    return render(request, 'home.html', {
+        'user': user,
+        'doctors': doctors
+    })
+
+def doctor_detail(request, id):
+
+    doctor = get_object_or_404(Doctor, id=id)
+
+    return render(request, 'doctor_detail.html', {
+        'doctor': doctor
+    })
+
 
 def signup(request):
     if request.method=='POST':
@@ -227,3 +243,4 @@ def reset_password(request, uidb64, token):
         return redirect('login')
 
     return render(request, 'reset_password.html')
+

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MediCare | Modern Healthcare Portal{% endblock %}</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --primary-dark: #075985;
+            --primary-light: #e0f2fe;
+            --primary-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            --accent-teal: #0d9488;
+            --accent-teal-light: #ccfbf1;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+
+            /* Light theme colors */
+            --bg-page: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-surface-alt: #f1f5f9;
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --text-subtle: #94a3b8;
+            --border-color: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --nav-bg: rgba(255, 255, 255, 0.92);
+            --card-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+            --card-shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+            --elevated-shadow: 0 20px 40px -15px rgba(2, 132, 199, 0.12);
+        }
+
+        [data-bs-theme="dark"] {
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --primary-dark: #bae6fd;
+            --primary-light: rgba(56, 189, 248, 0.12);
+            --primary-gradient: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            --accent-teal: #2dd4bf;
+            --accent-teal-light: rgba(45, 212, 191, 0.12);
+            --success-light: rgba(16, 185, 129, 0.12);
+            --danger-light: rgba(239, 68, 68, 0.12);
+
+            /* Dark theme colors */
+            --bg-page: #0b1120;
+            --bg-surface: #111827;
+            --bg-surface-alt: #1f2937;
+            --text-heading: #f8fafc;
+            --text-body: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-subtle: #64748b;
+            --border-color: #1e293b;
+            --border-hover: #334155;
+            --nav-bg: rgba(17, 24, 39, 0.92);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+            --card-shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.5);
+            --elevated-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-page);
+            color: var(--text-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Typography Defaults */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        a:hover {
+            color: var(--primary-hover);
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.25s ease;
+            padding: 0.85rem 0;
+            z-index: 1030;
+        }
+
+        .navbar-custom.scrolled {
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+            padding: 0.65rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            letter-spacing: -0.03em;
+        }
+
+        .brand-icon-box {
+            width: 38px;
+            height: 38px;
+            background: var(--primary-gradient);
+            color: #ffffff;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+
+        .nav-link {
+            color: var(--text-body) !important;
+            font-weight: 600;
+            font-size: 0.94rem;
+            padding: 0.5rem 0.85rem !important;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary) !important;
+            background-color: var(--primary-light);
+        }
+
+        /* Modern Buttons */
+        .btn-modern-primary {
+            background: var(--primary-gradient);
+            color: #ffffff !important;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 0.6rem 1.35rem;
+            border-radius: 10px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+            transition: all 0.25s ease;
+        }
+        .btn-modern-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+            color: #ffffff !important;
+        }
+
+        .btn-modern-outline {
+            background-color: transparent;
+            color: var(--primary) !important;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 0.58rem 1.25rem;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: all 0.2s ease;
+        }
+        .btn-modern-outline:hover {
+            background-color: var(--bg-surface-alt);
+            border-color: var(--primary);
+            color: var(--primary-hover) !important;
+            transform: translateY(-1px);
+        }
+
+        .btn-theme-toggle {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            background-color: var(--bg-surface);
+            color: var(--text-body);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-theme-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        /* User Profile in Navbar */
+        .nav-user-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.35rem 0.85rem 0.35rem 0.4rem;
+            background-color: var(--bg-surface);
+            border: 1.5px solid var(--border-color);
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .nav-user-pill:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+        }
+        .nav-user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+        .nav-user-initial {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-user-name {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        /* Cards and Surfaces */
+        .modern-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.25s ease;
+        }
+        .modern-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--border-hover);
+        }
+
+        /* Modern Form Inputs */
+        .modern-form .form-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 0.45rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .modern-form .form-control,
+        .modern-form .form-select,
+        .form-control-modern {
+            background-color: var(--bg-surface);
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.72rem 1rem;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+            transition: all 0.2s ease;
+        }
+        .modern-form .form-control:focus,
+        .modern-form .form-select:focus,
+        .form-control-modern:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3.5px rgba(2, 132, 199, 0.15);
+            background-color: var(--bg-surface);
+            color: var(--text-heading);
+            outline: none;
+        }
+        .modern-form .form-control::placeholder {
+            color: var(--text-subtle);
+        }
+
+        /* Input with Icon Group */
+        .input-icon-group {
+            position: relative;
+        }
+        .input-icon-group .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            pointer-events: none;
+            transition: color 0.2s ease;
+        }
+        .input-icon-group .form-control {
+            padding-left: 2.85rem;
+        }
+        .input-icon-group:focus-within .input-icon {
+            color: var(--primary);
+        }
+
+        /* Status & Alert Badges */
+        .modern-badge {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .badge-primary-subtle {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        .badge-teal-subtle {
+            background-color: var(--accent-teal-light);
+            color: var(--accent-teal);
+        }
+        .badge-success-subtle {
+            background-color: var(--success-light);
+            color: var(--success);
+        }
+        .badge-danger-subtle {
+            background-color: var(--danger-light);
+            color: var(--danger);
+        }
+
+        /* Alert Banners */
+        .modern-alert {
+            border-radius: 14px;
+            border: 1px solid transparent;
+            padding: 1rem 1.25rem;
+            font-size: 0.92rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .modern-alert-danger {
+            background-color: var(--danger-light);
+            border-color: rgba(239, 68, 68, 0.2);
+            color: #b91c1c;
+        }
+        [data-bs-theme="dark"] .modern-alert-danger {
+            color: #fca5a5;
+        }
+        .modern-alert-success {
+            background-color: var(--success-light);
+            border-color: rgba(16, 185, 129, 0.2);
+            color: #047857;
+        }
+        [data-bs-theme="dark"] .modern-alert-success {
+            color: #6ee7b7;
+        }
+
+        /* Main Wrapper */
+        .main-content {
+            flex: 1 0 auto;
+        }
+
+        /* Modern Footer */
+        .footer-modern {
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+            padding: 4rem 0 2rem;
+        }
+        .footer-heading {
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-heading);
+            margin-bottom: 1.25rem;
+        }
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-links li {
+            margin-bottom: 0.65rem;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(3px);
+        }
+        .footer-bottom {
+            margin-top: 3.5rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <!-- Sticky Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <span class="brand-icon-box">
+                    <i class="bi bi-hospital"></i>
+                </span>
+                <span>Medi<span style="color: var(--primary);">Care</span></span>
+            </a>
+
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-2 text-primary"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="bi bi-house-door me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#doctors">
+                            <i class="bi bi-person-badge me-1"></i> Doctors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#specializations">
+                            <i class="bi bi-grid-fill me-1"></i> Specializations
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#how-it-works">
+                            <i class="bi bi-journal-check me-1"></i> How It Works
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#contact">
+                            <i class="bi bi-headset me-1"></i> Contact
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                    <!-- Dark / Light Mode Toggle Button -->
+                    <button class="btn-theme-toggle" id="themeToggleBtn" type="button" title="Toggle color mode" aria-label="Toggle color mode">
+                        <i class="bi bi-moon-stars" id="themeIcon"></i>
+                    </button>
+
+                    <!-- Authenticated / Guest User Actions -->
+                    {% if user or request.session.userid %}
+                        <a href="{% url 'profile' %}" class="nav-user-pill" title="View Patient Profile">
+                            {% if user.profile_pic %}
+                                <img src="{{ user.profile_pic.url }}" alt="{{ user.username|default:request.session.username }}" class="nav-user-avatar">
+                            {% else %}
+                                <div class="nav-user-initial">
+                                    {{ user.username|default:request.session.username|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                            <span class="nav-user-name">{{ user.username|default:request.session.username }}</span>
+                        </a>
+
+                        <a href="{% url 'logout' %}" class="btn-modern-outline text-danger" title="Log Out">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span class="d-none d-sm-inline">Logout</span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn-modern-outline">
+                            <i class="bi bi-box-arrow-in-right"></i> Log In
+                        </a>
+                        <a href="{% url 'signup' %}" class="btn-modern-primary">
+                            <i class="bi bi-person-plus"></i> Register
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dynamic Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Modern Shared Footer -->
+    <footer class="footer-modern">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <a class="navbar-brand mb-3" href="{% url 'home' %}">
+                        <span class="brand-icon-box">
+                            <i class="bi bi-hospital"></i>
+                        </span>
+                        <span>Medi<span style="color: var(--primary);">Care</span></span>
+                    </a>
+                    <p class="text-muted mt-3 mb-4" style="max-width: 320px; font-size: 0.92rem;">
+                        Your reliable healthcare appointment and doctor discovery portal. Connecting patients with verified specialists quickly and securely.
+                    </p>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-success-subtle text-success p-2 rounded-3">
+                            <i class="bi bi-shield-check me-1"></i> Verified & Secure Portal
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="footer-heading">Services</h6>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}#doctors">Find a Doctor</a></li>
+                        <li><a href="{% url 'home' %}#specializations">Specializations</a></li>
+                        <li><a href="{% url 'home' %}#how-it-works">Booking Guide</a></li>
+                        <li><a href="{% url 'profile' %}">Patient Profile</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="footer-heading">Company</h6>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}#about">About Us</a></li>
+                        <li><a href="{% url 'home' %}#contact">Contact Support</a></li>
+                        <li><a href="{% url 'login' %}">Patient Login</a></li>
+                        <li><a href="{% url 'signup' %}">Create Account</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="footer-heading">Emergency & Helpdesk</h6>
+                    <p class="text-muted small mb-2">Available 24 hours a day, 7 days a week for medical inquiries and urgent care assistance.</p>
+                    <div class="p-3 rounded-3" style="background-color: var(--bg-surface-alt); border: 1px solid var(--border-color);">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <i class="bi bi-telephone-fill text-primary fs-5"></i>
+                            <div>
+                                <div class="small text-muted">Emergency Hotline</div>
+                                <div class="fw-bold" style="color: var(--text-heading);">+91 98765 43210</div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-envelope-fill text-primary fs-5"></i>
+                            <div>
+                                <div class="small text-muted">Official Support</div>
+                                <div class="fw-bold" style="color: var(--text-heading);">support@medicare.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                <div>
+                    &copy; 2026 MediCare Health Systems. All rights reserved.
+                </div>
+                <div class="d-flex gap-4">
+                    <a href="{% url 'home' %}#about" class="text-muted text-decoration-none small">Privacy Policy</a>
+                    <a href="{% url 'home' %}#about" class="text-muted text-decoration-none small">Terms of Service</a>
+                    <a href="{% url 'home' %}#contact" class="text-muted text-decoration-none small">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Shared Theme Toggle & Navbar Behavior -->
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        // Apply saved theme preference or default to light
+        const currentTheme = localStorage.getItem('medicare_theme') || 'light';
+        applyTheme(currentTheme);
+
+        function applyTheme(theme) {
+            htmlElement.setAttribute('data-bs-theme', theme);
+            if (theme === 'dark') {
+                themeIcon.className = 'bi bi-sun-fill text-warning';
+                themeToggleBtn.setAttribute('title', 'Switch to Light Mode');
+            } else {
+                themeIcon.className = 'bi bi-moon-stars';
+                themeToggleBtn.setAttribute('title', 'Switch to Dark Mode');
+            }
+            localStorage.setItem('medicare_theme', theme);
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const activeTheme = htmlElement.getAttribute('data-bs-theme');
+            applyTheme(activeTheme === 'dark' ? 'light' : 'dark');
+        });
+
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNavbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

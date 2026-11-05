@@ -1,293 +1,103 @@
-<!DOCTYPE html> 
+{% extends "base.html" %}
 
-<html lang="en"> 
+{% block title %}Patient Login | MediCare{% endblock %}
 
-<head> 
+{% block content %}
+<div class="container py-5 my-md-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+            <div class="modern-card p-4 p-sm-5 shadow-sm">
+                <!-- Brand Header -->
+                <div class="text-center mb-4">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.5rem;">
+                        <i class="bi bi-hospital"></i>
+                    </div>
+                    <h2 class="fw-bold mb-1" style="font-size: 1.65rem;">Patient Login</h2>
+                    <p class="text-muted small mb-0">Sign in to manage your healthcare appointments</p>
+                </div>
 
-<meta charset="UTF-8"> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+                <!-- Error Alert Banner -->
+                {% if error %}
+                    <div class="modern-alert modern-alert-danger" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill flex-shrink-0 fs-5"></i>
+                        <div>{{ error }}</div>
+                    </div>
+                {% endif %}
 
-<title>Patient Login</title> 
+                <!-- Login Form -->
+                <form method="POST" class="modern-form" novalidate>
+                    {% csrf_token %}
 
-<style> 
- 
-    * { 
-        margin: 0; 
-        padding: 0; 
-        box-sizing: border-box; 
-    } 
- 
-    body { 
-        font-family: Arial, sans-serif; 
-        background-color: #f2f7fc; 
-        min-height: 100vh; 
- 
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-    } 
- 
-    .login-container { 
-        width: 400px; 
-        background-color: white; 
-        padding: 40px; 
- 
-        border-radius: 10px; 
- 
-        box-shadow: 
-            0 5px 20px rgba(0, 0, 0, 0.1); 
-    } 
- 
-    .logo { 
-        text-align: center; 
-        font-size: 35px; 
-        margin-bottom: 10px; 
-    } 
- 
-    .login-container h1 { 
-        text-align: center; 
-        color: #1677ff; 
-        margin-bottom: 8px; 
-    } 
- 
-    .subtitle { 
-        text-align: center; 
-        color: #666; 
-        margin-bottom: 30px; 
-    } 
- 
-    .form-group { 
-        margin-bottom: 20px; 
-    } 
- 
-    .form-group label { 
-        display: block; 
-        margin-bottom: 8px; 
- 
-        font-weight: bold; 
-        color: #333; 
-    } 
- 
-    .form-group input { 
-        width: 100%; 
- 
-        padding: 12px; 
- 
-        border: 1px solid #ccc; 
-        border-radius: 6px; 
- 
-        font-size: 15px; 
-        outline: none; 
-    } 
- 
-    .form-group input:focus { 
-        border-color: #1677ff; 
-    } 
- 
-    .forgot-password {
-        text-align: right;
-        margin-top: -8px;
-        margin-bottom: 20px;
-    }
+                    <!-- Email Field -->
+                    <div class="mb-3">
+                        <label for="emailInput" class="form-label">
+                            <i class="bi bi-envelope text-primary"></i> Email Address
+                        </label>
+                        <div class="input-icon-group">
+                            <i class="bi bi-envelope input-icon"></i>
+                            <input type="email" class="form-control" id="emailInput" name="email" 
+                                   placeholder="name@example.com" required autofocus autocomplete="email">
+                        </div>
+                    </div>
 
-    .forgot-password a {
-        color: #1677ff;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: bold;
-    }
+                    <!-- Password Field -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="passwordInput" class="form-label mb-0">
+                                <i class="bi bi-shield-lock text-primary"></i> Password
+                            </label>
+                            <a href="{% url 'forgot_password' %}" class="small text-primary fw-semibold text-decoration-none">
+                                Forgot Password?
+                            </a>
+                        </div>
+                        <div class="input-icon-group position-relative">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" class="form-control pe-5" id="passwordInput" name="password" 
+                                   placeholder="Enter your password" required autocomplete="current-password">
+                            <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-muted text-decoration-none pe-3 border-0 bg-transparent" id="togglePasswordVisibility" title="Toggle password visibility">
+                                <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
 
-    .forgot-password a:hover {
-        text-decoration: underline;
-    }
- 
-    .login-btn { 
-        width: 100%; 
- 
-        padding: 13px; 
- 
-        border: none; 
-        border-radius: 6px; 
- 
-        background-color: #1677ff; 
-        color: white; 
- 
-        font-size: 16px; 
-        font-weight: bold; 
- 
-        cursor: pointer; 
-    } 
- 
-    .login-btn:hover { 
-        background-color: #095dcc; 
-    } 
- 
-    .signup-text { 
-        text-align: center; 
- 
-        margin-top: 22px; 
- 
-        color: #666; 
-    } 
- 
-    .signup-text a { 
-        color: #1677ff; 
-        text-decoration: none; 
-        font-weight: bold; 
-    } 
- 
-    .signup-text a:hover { 
-        text-decoration: underline; 
-    } 
- 
-    .back-home { 
-        text-align: center; 
-        margin-top: 15px; 
-    } 
- 
-    .back-home a { 
-        color: #555; 
-        text-decoration: none; 
-        font-size: 14px; 
-    } 
- 
-    .back-home a:hover { 
-        color: #1677ff; 
-    } 
- 
-    .error-message { 
-        background-color: #ffe5e5; 
-        color: #d00000; 
- 
-        padding: 10px; 
- 
-        border-radius: 5px; 
- 
-        margin-bottom: 20px; 
- 
-        text-align: center; 
-    } 
- 
-</style> 
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-modern-primary w-100 justify-content-center py-3 fs-6 mt-3">
+                        <span>Sign In</span>
+                        <i class="bi bi-box-arrow-in-right"></i>
+                    </button>
+                </form>
 
-</head> 
-
-<body> 
-
-<div class="login-container"> 
-
-
-<div class="logo"> 
-    🩺 
-</div> 
-
-<h1> 
-    Patient Login 
-</h1> 
-
-<p class="subtitle"> 
-    Login to your account 
-</p> 
-
-
-<!-- Django error message --> 
-
-{% if error %} 
-
-    <div class="error-message"> 
-        {{ error }} 
-    </div> 
-
-{% endif %} 
-
-
-<form method="POST"> 
-
-    {% csrf_token %} 
-
-
-    <!-- Email --> 
-
-    <div class="form-group"> 
-
-        <label for="email"> 
-            Email 
-        </label> 
-
-        <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            placeholder="Enter your email" 
-            required 
-        > 
-
-    </div> 
-
-
-    <!-- Password --> 
-
-    <div class="form-group"> 
-
-        <label for="password"> 
-            Password 
-        </label> 
-
-        <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            placeholder="Enter your password" 
-            required 
-        > 
-
-    </div> 
-
-
-    <!-- Forgot Password --> 
-
-    <div class="forgot-password">
-        <a href="{% url 'forgot_password' %}">
-            Forgot Password?
-        </a>
+                <!-- Signup Prompt -->
+                <div class="text-center mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
+                    <p class="text-muted small mb-2">
+                        Don't have an account yet?
+                        <a href="{% url 'signup' %}" class="fw-bold text-primary text-decoration-none">
+                            Create Account
+                        </a>
+                    </p>
+                    <a href="{% url 'home' %}" class="small text-muted text-decoration-none">
+                        <i class="bi bi-arrow-left me-1"></i> Return to Homepage
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+{% endblock %}
 
+{% block extra_js %}
+<script>
+    // Password visibility toggle
+    const toggleBtn = document.getElementById('togglePasswordVisibility');
+    const passwordInput = document.getElementById('passwordInput');
+    const toggleIcon = document.getElementById('togglePasswordIcon');
 
-    <!-- Login Button --> 
-
-    <button 
-        type="submit" 
-        class="login-btn"> 
-
-        Login 
-
-    </button> 
-
-</form> 
-
-
-<p class="signup-text"> 
-
-    Don't have an account? 
-
-    <a href="/signup/"> 
-        Create Account 
-    </a> 
-
-</p> 
-
-
-<div class="back-home"> 
-
-    <a href="/"> 
-        ← Back to Home 
-    </a> 
-
-</div> 
-
-
-</div> 
-
-</body> 
-
-</html>
+    if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', function () {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            toggleIcon.className = isPassword ? 'bi bi-eye-slash text-primary' : 'bi bi-eye';
+        });
+    }
+</script>
+{% endblock %}

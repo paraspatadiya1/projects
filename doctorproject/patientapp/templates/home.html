@@ -1,1644 +1,984 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>MediCare | Healthcare & Appointments</title>
-
-    <!-- Bootstrap 5 -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f9ff;
-            color: #222;
-            transition: 0.3s;
-        }
-
-        /* =========================
-           NAVBAR
-        ========================= */
-
-        .navbar {
-            background: white;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            padding: 15px 0;
-            transition: 0.3s;
-        }
-
-        .navbar-brand {
-            font-size: 25px;
-            font-weight: bold;
-            color: #1677ff !important;
-        }
-
-        .nav-link {
-            color: #333 !important;
-            font-weight: 500;
-            margin: 0 5px;
-        }
-
-        .nav-link:hover {
-            color: #1677ff !important;
-        }
-
-        .theme-btn {
-            border: none;
-            background: transparent;
-            font-size: 22px;
-            cursor: pointer;
-            margin-right: 15px;
-        }
-
-        /* =========================
-           PROFILE NAVBAR
-        ========================= */
-
-        .profile-menu {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-
-        .profile-menu:hover {
-            text-decoration: none;
-        }
-
-        .navbar-profile-pic {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #1677ff;
-        }
-
-        .navbar-profile-default {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: #eaf4ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            border: 2px solid #1677ff;
-        }
-
-        .patient-name {
-            font-weight: bold;
-            color: #1677ff;
-        }
-
-        /* =========================
-           HERO
-        ========================= */
-
-        .hero {
-            min-height: 600px;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(
-                135deg,
-                #eaf4ff,
-                #ffffff
-            );
-            padding: 70px 0;
-        }
-
-        .hero h1 {
-            font-size: 52px;
-            font-weight: bold;
-            color: #1677ff;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 19px;
-            color: #555;
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-
-        .hero-buttons a {
-            padding: 13px 25px;
-            border-radius: 7px;
-            text-decoration: none;
-            margin-right: 10px;
-            display: inline-block;
-        }
-
-        .btn-primary-custom {
-            background: #1677ff;
-            color: white;
-        }
-
-        .btn-primary-custom:hover {
-            background: #095dcc;
-            color: white;
-        }
-
-        .btn-outline-custom {
-            border: 2px solid #1677ff;
-            color: #1677ff;
-        }
-
-        .btn-outline-custom:hover {
-            background: #1677ff;
-            color: white;
-        }
-
-        .hero-icon {
-            text-align: center;
-            font-size: 180px;
-        }
-
-        /* =========================
-           SEARCH
-        ========================= */
-
-        .search-section {
-            margin-top: -35px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .search-box {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.10);
-        }
-
-        .search-box input {
-            height: 50px;
-            border-radius: 7px;
-            border: 1px solid #ccc;
-        }
-
-        .search-box button {
-            height: 50px;
-            border-radius: 7px;
-            background: #1677ff;
-            color: white;
-            border: none;
-            padding: 0 25px;
-        }
-
-        /* =========================
-           SECTIONS
-        ========================= */
-
-        .section {
-            padding: 80px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title h2 {
-            color: #1677ff;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .section-title p {
-            color: #666;
-        }
-
-        /* =========================
-           SPECIALIZATION
-        ========================= */
-
-        .specialization-card {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 12px;
-            text-align: center;
-            height: 100%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-            transition: 0.3s;
-        }
-
-        .specialization-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-
-        .specialization-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-
-        .specialization-card h4 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .specialization-card p {
-            color: #777;
-        }
-
-        /* =========================
-           DOCTORS
-        ========================= */
-
-        .doctor-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            height: 100%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: 0.3s;
-        }
-
-        .doctor-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.14);
-        }
-
-        .doctor-image {
-            width: 100%;
-            height: 230px;
-            object-fit: cover;
-            background: #eaf4ff;
-        }
-
-        .doctor-placeholder {
-            width: 100%;
-            height: 230px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #eaf4ff;
-            font-size: 90px;
-        }
-
-        .doctor-info {
-            padding: 22px;
-        }
-
-        .doctor-info h4 {
-            color: #1677ff;
-            margin-bottom: 10px;
-        }
-
-        .doctor-info p {
-            margin-bottom: 7px;
-            color: #555;
-        }
-
-        .doctor-info strong {
-            color: #333;
-        }
-
-        .doctor-btn {
-            display: inline-block;
-            margin-top: 12px;
-            background: #1677ff;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 6px;
-            text-decoration: none;
-        }
-
-        .doctor-btn:hover {
-            background: #095dcc;
-            color: white;
-        }
-
-        #noResults {
-            display: none;
-            text-align: center;
-            padding: 30px;
-            color: #777;
-            font-size: 18px;
-        }
-
-        /* =========================
-           WHY CHOOSE US
-        ========================= */
-
-        .why-card {
-            background: white;
-            padding: 30px 25px;
-            text-align: center;
-            border-radius: 12px;
-            height: 100%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-        }
-
-        .why-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-
-        .why-card h4 {
-            color: #1677ff;
-            margin-bottom: 12px;
-        }
-
-        .why-card p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* =========================
-           ABOUT
-        ========================= */
-
-        .about-box {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-        }
-
-        .about-box h2 {
-            color: #1677ff;
-            margin-bottom: 20px;
-        }
-
-        .about-box p {
-            color: #555;
-            line-height: 1.8;
-        }
-
-        /* =========================
-           CTA
-        ========================= */
-
-        .cta {
-            background: #1677ff;
-            color: white;
-            padding: 70px 20px;
-            text-align: center;
-        }
-
-        .cta h2 {
-            font-size: 36px;
-            margin-bottom: 15px;
-        }
-
-        .cta p {
-            font-size: 18px;
-            margin-bottom: 25px;
-        }
-
-        .cta a {
-            background: white;
-            color: #1677ff;
-            padding: 13px 25px;
-            border-radius: 7px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        /* =========================
-           CONTACT
-        ========================= */
-
-        .contact-box {
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-            text-align: center;
-        }
-
-        .contact-box h4 {
-            color: #1677ff;
-            margin-bottom: 15px;
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            background: #111827;
-            color: white;
-            padding: 40px 0 20px;
-        }
-
-        footer h4 {
-            color: #4d9aff;
-            margin-bottom: 15px;
-        }
-
-        footer p {
-            color: #bbb;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #333;
-            margin-top: 25px;
-            padding-top: 20px;
-            text-align: center;
-            color: #aaa;
-        }
-
-        /* =========================
-           DARK MODE
-        ========================= */
-
-        body.dark-mode {
-            background: #111827;
-            color: #eee;
-        }
-
-        body.dark-mode .navbar {
-            background: #1f2937;
-        }
-
-        body.dark-mode .nav-link {
-            color: #eee !important;
-        }
-
-        body.dark-mode .hero {
-            background: linear-gradient(
-                135deg,
-                #111827,
-                #1f2937
-            );
-        }
-
-        body.dark-mode .hero p {
-            color: #ccc;
-        }
-
-        body.dark-mode .search-box,
-        body.dark-mode .specialization-card,
-        body.dark-mode .doctor-card,
-        body.dark-mode .why-card,
-        body.dark-mode .about-box,
-        body.dark-mode .contact-box {
-            background: #1f2937;
-            color: #eee;
-        }
-
-        body.dark-mode .specialization-card h4,
-        body.dark-mode .doctor-info p,
-        body.dark-mode .doctor-info strong {
-            color: #eee;
-        }
-
-        body.dark-mode .section-title p,
-        body.dark-mode .about-box p,
-        body.dark-mode .why-card p {
-            color: #ccc;
-        }
-
-        body.dark-mode .form-control {
-            background: #374151;
-            color: white;
-            border-color: #555;
-        }
-
-        body.dark-mode .navbar-profile-default {
-            background: #374151;
-        }
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 768px) {
-
-            .hero {
-                text-align: center;
-                padding: 50px 0;
-            }
-
-            .hero h1 {
-                font-size: 38px;
-            }
-
-            .hero-icon {
-                font-size: 100px;
-                margin-top: 30px;
-            }
-
-            .profile-menu {
-                margin-top: 10px;
-                margin-bottom: 10px;
-            }
-
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
-<nav class="navbar navbar-expand-lg sticky-top">
-
+{% extends "base.html" %}
+
+{% block title %}MediCare | Modern Healthcare & Doctor Appointments{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Hero Section */
+    .hero-section {
+        padding: 5rem 0 4.5rem;
+        background: radial-gradient(100% 100% at 50% 0%, var(--primary-light) 0%, transparent 100%), var(--bg-page);
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 1rem;
+        border-radius: 50px;
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        box-shadow: var(--card-shadow);
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+    }
+    .hero-title {
+        font-size: clamp(2.3rem, 4.8vw, 3.75rem);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.035em;
+        margin-bottom: 1.25rem;
+        color: var(--text-heading);
+    }
+    .hero-title .text-gradient {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+        font-size: 1.12rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 2.25rem;
+        max-width: 540px;
+    }
+    .hero-card-preview {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 1.75rem;
+        box-shadow: var(--elevated-shadow);
+    }
+    .hero-mini-stat {
+        background: var(--bg-surface-alt);
+        border-radius: 14px;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--border-color);
+    }
+
+    /* Live Search Section */
+    .search-container-box {
+        margin-top: -2.25rem;
+        position: relative;
+        z-index: 10;
+    }
+    .search-card-inner {
+        background: var(--bg-surface);
+        border: 1.5px solid var(--border-color);
+        border-radius: 20px;
+        box-shadow: var(--card-shadow-hover);
+        padding: 1.25rem 1.5rem;
+    }
+
+    /* Stat Cards */
+    .stat-metric-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 1.75rem 1.25rem;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .stat-metric-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+    }
+    .stat-number {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: var(--primary);
+        line-height: 1;
+        margin-bottom: 0.4rem;
+    }
+
+    /* Section Styling */
+    .section-wrap {
+        padding: 5rem 0;
+    }
+    .section-header {
+        text-align: center;
+        max-width: 620px;
+        margin: 0 auto 3.5rem;
+    }
+    .section-eyebrow {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--primary);
+        background-color: var(--primary-light);
+        padding: 0.35rem 0.85rem;
+        border-radius: 50px;
+        display: inline-block;
+        margin-bottom: 0.85rem;
+    }
+    .section-title {
+        font-size: 2.15rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.75rem;
+    }
+    .section-subtitle {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+    }
+
+    /* Specialization Card */
+    .spec-item-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 2rem 1.5rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-shadow: var(--card-shadow);
+        transition: all 0.25s ease;
+    }
+    .spec-item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--card-shadow-hover);
+        border-color: var(--primary);
+    }
+    .spec-icon-wrapper {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        background: var(--primary-light);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        margin-bottom: 1.25rem;
+        transition: transform 0.25s ease;
+    }
+    .spec-item-card:hover .spec-icon-wrapper {
+        transform: scale(1.08);
+    }
+
+    /* Doctor Card */
+    .doctor-grid-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--card-shadow);
+        transition: all 0.25s ease;
+    }
+    .doctor-grid-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--card-shadow-hover);
+        border-color: var(--border-hover);
+    }
+    .doctor-thumb-area {
+        position: relative;
+        height: 220px;
+        background-color: var(--bg-surface-alt);
+        overflow: hidden;
+    }
+    .doctor-thumb-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    .doctor-grid-card:hover .doctor-thumb-img {
+        transform: scale(1.04);
+    }
+    .doctor-placeholder-thumb {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4.5rem;
+        color: var(--primary);
+        background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-surface-alt) 100%);
+    }
+    .doctor-verified-badge {
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        background: rgba(255, 255, 255, 0.94);
+        color: #047857;
+        font-weight: 700;
+        font-size: 0.78rem;
+        padding: 0.3rem 0.65rem;
+        border-radius: 50px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    [data-bs-theme="dark"] .doctor-verified-badge {
+        background: rgba(17, 24, 39, 0.94);
+        color: #34d399;
+    }
+    .doctor-card-content {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .doctor-fee-tag {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--primary);
+    }
+
+    /* Workflow Steps */
+    .step-box-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 2.25rem 1.75rem;
+        height: 100%;
+        position: relative;
+        box-shadow: var(--card-shadow);
+    }
+    .step-index-badge {
+        width: 44px;
+        height: 44px;
+        background: var(--primary-gradient);
+        color: #ffffff;
+        font-weight: 800;
+        font-size: 1.15rem;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.35rem;
+        box-shadow: 0 6px 14px rgba(2, 132, 199, 0.28);
+    }
+
+    /* Benefit Cards */
+    .benefit-item-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 2rem 1.5rem;
+        height: 100%;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.2s ease;
+    }
+    .benefit-item-card:hover {
+        transform: translateY(-4px);
+    }
+
+    /* CTA Section Banner */
+    .cta-banner-wrapper {
+        background: var(--primary-gradient);
+        border-radius: 28px;
+        color: #ffffff;
+        padding: 4.5rem 2.5rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--elevated-shadow);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="hero-section" id="home">
     <div class="container">
-
-        <a class="navbar-brand" href="{% url 'home' %}">
-            🏥 MediCare
-        </a>
-
-
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarMenu">
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-
-        <div
-            class="collapse navbar-collapse"
-            id="navbarMenu">
-
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#home">
-                        Home
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#doctors">
-                        Doctors
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#specializations">
-                        Specializations
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">
-                        About
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">
-                        Contact
-                    </a>
-                </li>
-
-
-                <!-- DARK / LIGHT MODE -->
-
-                <li class="nav-item">
-
-                    <button
-                        class="theme-btn"
-                        id="themeToggle"
-                        title="Change Theme">
-
-                        🌙
-
-                    </button>
-
-                </li>
-
-
-                <!-- =================================================
-                     LOGGED IN / LOGGED OUT
-                ================================================== -->
-
-                {% if user %}
-
-                    <!-- Logged In -->
-
-                    <li class="nav-item">
-
-                        <a
-                            href="{% url 'profile' %}"
-                            class="profile-menu"
-                            title="View Profile">
-
-                            {% if user.profile_pic %}
-
-                                <img
-                                    src="{{ user.profile_pic.url }}"
-                                    class="navbar-profile-pic"
-                                    alt="Profile Picture">
-
-                            {% else %}
-
-                                <div class="navbar-profile-default">
-                                    👤
-                                </div>
-
-                            {% endif %}
-
-
-                            <span class="patient-name">
-                                {{ user.username }}
-                            </span>
-
-                        </a>
-
-                    </li>
-
-
-                    <li class="nav-item">
-
-                        <a
-                            href="{% url 'logout' %}"
-                            class="btn btn-outline-danger">
-
-                            Logout
-
-                        </a>
-
-                    </li>
-
-                {% else %}
-
-                    <!-- Logged Out -->
-
-                    <li class="nav-item me-2">
-
-                        <a
-                            href="{% url 'login' %}"
-                            class="btn btn-outline-primary">
-
-                            Login
-
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a
-                            href="{% url 'signup' %}"
-                            class="btn btn-primary">
-
-                            Sign Up
-
-                        </a>
-
-                    </li>
-
-                {% endif %}
-
-            </ul>
-
-        </div>
-
-    </div>
-
-</nav>
-
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section
-    class="hero"
-    id="home">
-
-    <div class="container">
-
-        <div class="row align-items-center">
-
+        <div class="row align-items-center g-5">
             <div class="col-lg-7">
+                <div class="hero-badge">
+                    <i class="bi bi-shield-check text-primary fs-6"></i>
+                    <span>Certified & Verified Healthcare Portal</span>
+                </div>
 
                 {% if user %}
-
-                    <h1>
-                        Welcome back,
-                        {{ user.username }}! 👋
+                    <h1 class="hero-title">
+                        Welcome Back,<br>
+                        <span class="text-gradient">{{ user.username }}!</span>
                     </h1>
-
-                    <p>
-                        Welcome to MediCare. Find trusted doctors,
-                        explore specializations, and manage your
-                        healthcare easily.
+                    <p class="hero-desc">
+                        Manage your medical consultations, explore leading healthcare specialists, and schedule appointments with complete peace of mind.
                     </p>
-
                 {% else %}
-
-                    <h1>
-                        Your Health, Our Priority.
+                    <h1 class="hero-title">
+                        Your Trusted Healthcare,<br>
+                        <span class="text-gradient">Just a Click Away.</span>
                     </h1>
-
-                    <p>
-                        Find trusted doctors, explore medical
-                        specializations, and take control of your
-                        healthcare journey with MediCare.
+                    <p class="hero-desc">
+                        Discover top-rated doctors, book verified medical consultations, and take confident control of your well-being with MediCare.
                     </p>
-
                 {% endif %}
 
-
-                <div class="hero-buttons">
-
-                    <a
-                        href="#doctors"
-                        class="btn-primary-custom">
-
-                        Find a Doctor
-
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                    <a href="#doctors" class="btn-modern-primary btn-lg">
+                        <i class="bi bi-search"></i> Find a Doctor
                     </a>
-
-
                     {% if user %}
-
-                        <a
-                            href="{% url 'profile' %}"
-                            class="btn-outline-custom">
-
-                            👤 My Profile
-
+                        <a href="{% url 'profile' %}" class="btn-modern-outline btn-lg">
+                            <i class="bi bi-person-circle"></i> My Patient Profile
                         </a>
-
                     {% else %}
-
-                        <a
-                            href="{% url 'signup' %}"
-                            class="btn-outline-custom">
-
-                            Create Account
-
+                        <a href="{% url 'signup' %}" class="btn-modern-outline btn-lg">
+                            <i class="bi bi-person-plus"></i> Create Free Account
                         </a>
-
                     {% endif %}
-
                 </div>
 
+                <!-- Proof Bar -->
+                <div class="d-flex align-items-center gap-4 mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span class="small fw-semibold" style="color: var(--text-heading);">100% Verified Doctors</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-clock-history text-primary fs-5"></i>
+                        <span class="small fw-semibold" style="color: var(--text-heading);">24/7 Portal Access</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 d-none d-sm-flex">
+                        <i class="bi bi-lock-fill text-primary fs-5"></i>
+                        <span class="small fw-semibold" style="color: var(--text-heading);">Confidential & Secure</span>
+                    </div>
+                </div>
             </div>
 
-
+            <!-- Hero Visual Preview Card -->
             <div class="col-lg-5">
+                <div class="hero-card-preview">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="brand-icon-box" style="width: 44px; height: 44px; font-size: 1.3rem;">
+                                <i class="bi bi-heart-pulse-fill"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Live Health Portal</h6>
+                                <small class="text-muted">Instant Doctor Consultations</small>
+                            </div>
+                        </div>
+                        <span class="modern-badge badge-success-subtle">
+                            <i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> Active System
+                        </span>
+                    </div>
 
-                <div class="hero-icon">
-                    🩺
+                    <!-- Mini Highlight 1 -->
+                    <div class="hero-mini-stat d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 p-2 bg-primary-subtle text-primary">
+                                <i class="bi bi-person-check fs-5"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold small" style="color: var(--text-heading);">Verified Specialists</div>
+                                <div class="text-muted" style="font-size: 0.78rem;">Multidisciplinary medical team</div>
+                            </div>
+                        </div>
+                        <span class="fw-bold text-primary small">{{ doctors|length }}+ Active</span>
+                    </div>
+
+                    <!-- Mini Highlight 2 -->
+                    <div class="hero-mini-stat d-flex align-items-center justify-content-between mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 p-2 bg-info-subtle text-info">
+                                <i class="bi bi-hospital fs-5"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold small" style="color: var(--text-heading);">Reputed Hospitals</div>
+                                <div class="text-muted" style="font-size: 0.78rem;">Premier healthcare facilities</div>
+                            </div>
+                        </div>
+                        <span class="fw-bold text-info small">City-wide</span>
+                    </div>
+
+                    <!-- Mini Highlight 3 -->
+                    <div class="hero-mini-stat d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 p-2 bg-success-subtle text-success">
+                                <i class="bi bi-shield-lock fs-5"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold small" style="color: var(--text-heading);">Direct Appointment Desk</div>
+                                <div class="text-muted" style="font-size: 0.78rem;">Zero waiting room hassle</div>
+                            </div>
+                        </div>
+                        <span class="fw-bold text-success small">Instant</span>
+                    </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </section>
 
-
-
-<!-- =====================================================
-     SEARCH
-===================================================== -->
-
-<section class="search-section">
-
-    <div class="container">
-
-        <div class="search-box">
-
-            <div class="row g-2">
-
-                <div class="col-md-10">
-
-                    <input
-                        type="text"
-                        id="doctorSearch"
-                        class="form-control"
-                        placeholder="Search doctor or specialization..."
-                    >
-
+<!-- REALTIME DOCTOR SEARCH BAR -->
+<div class="container search-container-box">
+    <div class="search-card-inner">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-9 col-md-8">
+                <div class="input-icon-group">
+                    <i class="bi bi-search input-icon fs-5"></i>
+                    <input type="text" id="doctorSearchInput" class="form-control form-control-lg form-control-modern" 
+                           placeholder="Search by doctor's name, specialization (e.g. Cardiology), qualification, or hospital..."
+                           autocomplete="off">
                 </div>
-
-
-                <div class="col-md-2">
-
-                    <button
-                        class="w-100"
-                        onclick="searchDoctors()">
-
-                        🔍 Search
-
-                    </button>
-
-                </div>
-
             </div>
-
+            <div class="col-lg-3 col-md-4 d-flex gap-2">
+                <button type="button" class="btn-modern-primary w-100 justify-content-center py-3" onclick="applyDoctorSearch()">
+                    <i class="bi bi-funnel"></i> Search Doctors
+                </button>
+                <button type="button" class="btn-modern-outline px-3" id="clearSearchBtn" title="Clear filter" onclick="resetDoctorSearch()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
         </div>
-
     </div>
+</div>
 
+<!-- KEY METRICS STATS -->
+<section class="section-wrap pt-5 pb-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-6 col-lg-3">
+                <div class="stat-metric-card">
+                    <div class="stat-number">{{ doctors|length }}</div>
+                    <div class="fw-semibold" style="color: var(--text-heading);">Doctors Available</div>
+                    <small class="text-muted">Verified Specialists</small>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-metric-card">
+                    <div class="stat-number">8+</div>
+                    <div class="fw-semibold" style="color: var(--text-heading);">Specializations</div>
+                    <small class="text-muted">Comprehensive Care</small>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-metric-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="fw-semibold" style="color: var(--text-heading);">Portal Access</div>
+                    <small class="text-muted">Always Available</small>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-metric-card">
+                    <div class="stat-number">100%</div>
+                    <div class="fw-semibold" style="color: var(--text-heading);">Verified Reviews</div>
+                    <small class="text-muted">Patient Satisfaction</small>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-
-
-<!-- =====================================================
-     SPECIALIZATIONS
-===================================================== -->
-
-<section
-    class="section"
-    id="specializations">
-
+<!-- SPECIALIZATIONS SECTION -->
+<section class="section-wrap" id="specializations" style="background-color: var(--bg-surface-alt);">
     <div class="container">
-
-        <div class="section-title">
-
-            <h2>
-                Medical Specializations
-            </h2>
-
-            <p>
-                Find doctors according to your healthcare needs.
-            </p>
-
+        <div class="section-header">
+            <span class="section-eyebrow">Medical Departments</span>
+            <h2 class="section-title">Explore Medical Specializations</h2>
+            <p class="section-subtitle">Find dedicated medical specialists across all major clinical fields for targeted treatment and care.</p>
         </div>
-
 
         <div class="row g-4">
-
-            <div class="col-md-3">
-
-                <div class="specialization-card">
-
-                    <div class="specialization-icon">
-                        ❤️
+            <div class="col-md-6 col-lg-3">
+                <div class="spec-item-card" onclick="filterBySpecialization('Cardiology')" style="cursor: pointer;">
+                    <div class="spec-icon-wrapper">
+                        <i class="bi bi-heart-pulse-fill"></i>
                     </div>
-
-                    <h4>
-                        Cardiology
-                    </h4>
-
-                    <p>
-                        Heart and cardiovascular care.
-                    </p>
-
+                    <h5 class="fw-bold mb-1">Cardiology</h5>
+                    <p class="text-muted small mb-3">Heart, blood vessels & comprehensive cardiovascular diagnostics.</p>
+                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
                 </div>
-
             </div>
 
-
-            <div class="col-md-3">
-
-                <div class="specialization-card">
-
-                    <div class="specialization-icon">
-                        🧠
+            <div class="col-md-6 col-lg-3">
+                <div class="spec-item-card" onclick="filterBySpecialization('Neurology')" style="cursor: pointer;">
+                    <div class="spec-icon-wrapper">
+                        <i class="bi bi-activity"></i>
                     </div>
-
-                    <h4>
-                        Neurology
-                    </h4>
-
-                    <p>
-                        Brain and nervous system care.
-                    </p>
-
+                    <h5 class="fw-bold mb-1">Neurology</h5>
+                    <p class="text-muted small mb-3">Brain, spinal cord, nerves & neurological rehabilitation.</p>
+                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
                 </div>
-
             </div>
 
-
-            <div class="col-md-3">
-
-                <div class="specialization-card">
-
-                    <div class="specialization-icon">
-                        🦷
+            <div class="col-md-6 col-lg-3">
+                <div class="spec-item-card" onclick="filterBySpecialization('Dentistry')" style="cursor: pointer;">
+                    <div class="spec-icon-wrapper">
+                        <i class="bi bi-emoji-smile-fill"></i>
                     </div>
-
-                    <h4>
-                        Dentistry
-                    </h4>
-
-                    <p>
-                        Complete dental healthcare.
-                    </p>
-
+                    <h5 class="fw-bold mb-1">Dentistry</h5>
+                    <p class="text-muted small mb-3">Oral health, orthodontic corrections and restorative dental care.</p>
+                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
                 </div>
-
             </div>
 
-
-            <div class="col-md-3">
-
-                <div class="specialization-card">
-
-                    <div class="specialization-icon">
-                        👁️
+            <div class="col-md-6 col-lg-3">
+                <div class="spec-item-card" onclick="filterBySpecialization('Ophthalmology')" style="cursor: pointer;">
+                    <div class="spec-icon-wrapper">
+                        <i class="bi bi-eye-fill"></i>
                     </div>
-
-                    <h4>
-                        Ophthalmology
-                    </h4>
-
-                    <p>
-                        Eye and vision care.
-                    </p>
-
+                    <h5 class="fw-bold mb-1">Ophthalmology</h5>
+                    <p class="text-muted small mb-3">Vision testing, optical surgery and complete eye health care.</p>
+                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
                 </div>
-
             </div>
 
+            <div class="col-md-6 col-lg-3">
+                <div class="spec-item-card" onclick="filterBySpecialization('Orthopedics')" style="cursor: pointer;">
+                    <div class="spec-icon-wrapper">
+                        <i class="bi bi-shield-plus"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Orthopedics</h5>
+                    <p class="text-muted small mb-3">Bone disorders, joint replacements, sports injuries and spine care.</p>
+                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="spec-item-card" onclick="filterBySpecialization('Pediatrics')" style="cursor: pointer;">
+                    <div class="spec-icon-wrapper">
+                        <i class="bi bi-balloon-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Pediatrics</h5>
+                    <p class="text-muted small mb-3">Infant development, child healthcare and adolescent medicine.</p>
+                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="spec-item-card" onclick="filterBySpecialization('Dermatology')" style="cursor: pointer;">
+                    <div class="spec-icon-wrapper">
+                        <i class="bi bi-bandaid-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Dermatology</h5>
+                    <p class="text-muted small mb-3">Skin conditions, clinical cosmetic therapy and allergen care.</p>
+                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="spec-item-card" onclick="filterBySpecialization('General Medicine')" style="cursor: pointer;">
+                    <div class="spec-icon-wrapper">
+                        <i class="bi bi-capsule"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">General Medicine</h5>
+                    <p class="text-muted small mb-3">Primary care, chronic condition management & preventive medicine.</p>
+                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                </div>
+            </div>
         </div>
-
     </div>
-
 </section>
 
-
-
-<!-- =====================================================
-     DOCTORS
-===================================================== -->
-
-<section
-    class="section"
-    id="doctors">
-
+<!-- DOCTORS DIRECTORY SECTION -->
+<section class="section-wrap" id="doctors">
     <div class="container">
-
-        <div class="section-title">
-
-            <h2>
-                Our Doctors
-            </h2>
-
-            <p>
-                Meet our trusted healthcare professionals.
-            </p>
-
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
+            <div>
+                <span class="section-eyebrow">Medical Staff</span>
+                <h2 class="section-title mb-1">Our Verified Doctors</h2>
+                <p class="section-subtitle mb-0">Book appointments with certified specialists across leading medical centers.</p>
+            </div>
+            <div>
+                <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 rounded-pill fw-bold" id="doctorCounterBadge">
+                    {{ doctors|length }} Doctor{{ doctors|length|pluralize }} Available
+                </span>
+            </div>
         </div>
 
-
-        <div class="row g-4" id="doctorContainer">
-
-
+        <!-- Doctor Cards Grid -->
+        <div class="row g-4" id="doctorsGridContainer">
             {% for doctor in doctors %}
-
-                <div
-                    class="col-lg-4 col-md-6 doctor-item"
-                    data-search="
-                        {{ doctor.name }}
-                        {{ doctor.specialization }}
-                        {{ doctor.qualification }}
-                    ">
-
-                    <div class="doctor-card">
-
-
-                        {% if doctor.image %}
-
-                            <img
-                                src="{{ doctor.image.url }}"
-                                class="doctor-image"
-                                alt="{{ doctor.name }}">
-
-                        {% else %}
-
-                            <div class="doctor-placeholder">
-
-                                👨‍⚕️
-
+                <div class="col-lg-4 col-md-6 doctor-item-col"
+                     data-name="{{ doctor.name|lower }}"
+                     data-spec="{{ doctor.specialization|lower }}"
+                     data-qual="{{ doctor.qualification|lower }}"
+                     data-hosp="{{ doctor.hospital|lower }}">
+                    <div class="doctor-grid-card">
+                        <!-- Thumbnail Photo -->
+                        <div class="doctor-thumb-area">
+                            {% if doctor.image %}
+                                <img src="{{ doctor.image.url }}" alt="{{ doctor.name }}" class="doctor-thumb-img">
+                            {% else %}
+                                <div class="doctor-placeholder-thumb">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                            {% endif %}
+                            <div class="doctor-verified-badge">
+                                <i class="bi bi-patch-check-fill"></i> Verified Specialist
                             </div>
-
-                        {% endif %}
-
-
-                        <div class="doctor-info">
-
-                            <h4>
-                                Dr. {{ doctor.name }}
-                            </h4>
-
-
-                            <p>
-                                <strong>
-                                    Specialization:
-                                </strong>
-
-                                {{ doctor.specialization }}
-
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Qualification:
-                                </strong>
-
-                                {{ doctor.qualification }}
-
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Experience:
-                                </strong>
-
-                                {{ doctor.experience }} years
-
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Hospital:
-                                </strong>
-
-                                {{ doctor.hospital }}
-
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Consultation Fee:
-                                </strong>
-
-                                ₹{{ doctor.fee }}
-
-                            </p>
-
-
-                            <a
-                                href="{% url 'doctor_detail' doctor.id %}"
-                                class="doctor-btn">
-
-                                View Details
-
-                            </a>
-
                         </div>
 
+                        <!-- Card Body -->
+                        <div class="doctor-card-content">
+                            <div class="mb-2">
+                                <span class="modern-badge badge-primary-subtle">
+                                    {{ doctor.specialization }}
+                                </span>
+                            </div>
+
+                            <h4 class="fw-bold mb-1" style="font-size: 1.25rem; color: var(--text-heading);">
+                                {{ doctor.name }}
+                            </h4>
+
+                            <div class="text-muted small mb-2 d-flex align-items-center gap-1">
+                                <i class="bi bi-mortarboard text-primary"></i>
+                                <span>{{ doctor.qualification }}</span>
+                            </div>
+
+                            <div class="text-muted small mb-3 d-flex align-items-center gap-1">
+                                <i class="bi bi-hospital text-primary"></i>
+                                <span class="text-truncate">{{ doctor.hospital }}</span>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-3 pt-3 mt-auto border-top" style="border-color: var(--border-color) !important;">
+                                <div>
+                                    <small class="text-muted d-block" style="font-size: 0.76rem;">Consultation Fee</small>
+                                    <div class="doctor-fee-tag">&#8377;{{ doctor.fee }}</div>
+                                </div>
+                                <div class="ms-auto text-end">
+                                    <small class="text-muted d-block" style="font-size: 0.76rem;">Experience</small>
+                                    <span class="badge bg-secondary-subtle text-secondary fw-semibold">
+                                        {{ doctor.experience }} Yrs Exp
+                                    </span>
+                                </div>
+                            </div>
+
+                            <a href="{% url 'doctor_detail' doctor.id %}" class="btn-modern-primary w-100 justify-content-center mt-3">
+                                <span>View Profile & Book</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
-
                 </div>
-
-
             {% empty %}
-
                 <div class="col-12">
-
-                    <div class="text-center">
-
-                        <h4>
-                            No Doctors Available
-                        </h4>
-
-                        <p>
-                            Doctors will appear here once they
-                            are registered.
-                        </p>
-
+                    <div class="modern-card text-center py-5 px-4">
+                        <div class="brand-icon-box mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.8rem;">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                        <h4 class="fw-bold">No Doctors Registered Yet</h4>
+                        <p class="text-muted mb-0">Registered healthcare professionals will appear here once added through the administrative portal.</p>
                     </div>
-
                 </div>
-
             {% endfor %}
-
-
         </div>
 
-
-        <div id="noResults">
-
-            No doctors found matching your search.
-
+        <!-- No Filter Search Results Placeholder -->
+        <div id="noSearchResults" class="text-center py-5 d-none">
+            <div class="modern-card p-5 mx-auto" style="max-width: 500px;">
+                <i class="bi bi-search text-muted mb-3" style="font-size: 3rem;"></i>
+                <h4 class="fw-bold mb-2">No Matching Doctors Found</h4>
+                <p class="text-muted small mb-4">We couldn't find any doctor matching your search terms. Try searching for another name or medical field.</p>
+                <button type="button" class="btn-modern-outline mx-auto" onclick="resetDoctorSearch()">
+                    <i class="bi bi-arrow-repeat"></i> Reset Search Filter
+                </button>
+            </div>
         </div>
-
     </div>
-
 </section>
 
-
-
-<!-- =====================================================
-     WHY CHOOSE MEDICARE
-===================================================== -->
-
-<section class="section">
-
+<!-- HOW IT WORKS SECTION -->
+<section class="section-wrap" id="how-it-works" style="background-color: var(--bg-surface-alt);">
     <div class="container">
-
-        <div class="section-title">
-
-            <h2>
-                Why Choose MediCare?
-            </h2>
-
-            <p>
-                Everything you need for a better healthcare experience.
-            </p>
-
+        <div class="section-header">
+            <span class="section-eyebrow">Simple Workflow</span>
+            <h2 class="section-title">How MediCare Works</h2>
+            <p class="section-subtitle">Connecting you to professional clinical care in three straightforward steps.</p>
         </div>
-
 
         <div class="row g-4">
-
+            <div class="col-md-4">
+                <div class="step-box-card">
+                    <div class="step-index-badge">1</div>
+                    <h5 class="fw-bold mb-2">Create Your Profile</h5>
+                    <p class="text-muted small mb-0">Register in under a minute with your basic information to get your unique patient identity securely saved.</p>
+                </div>
+            </div>
 
             <div class="col-md-4">
+                <div class="step-box-card">
+                    <div class="step-index-badge">2</div>
+                    <h5 class="fw-bold mb-2">Select Your Doctor</h5>
+                    <p class="text-muted small mb-0">Filter by specialization, hospital, credentials, experience, and fee structure to find the right physician.</p>
+                </div>
+            </div>
 
-                <div class="why-card">
+            <div class="col-md-4">
+                <div class="step-box-card">
+                    <div class="step-index-badge">3</div>
+                    <h5 class="fw-bold mb-2">Consult & Heal</h5>
+                    <p class="text-muted small mb-0">Book your appointment, receive full medical guidance, and maintain complete continuity of healthcare records.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-                    <div class="why-icon">
-                        🔍
+<!-- WHY CHOOSE US -->
+<section class="section-wrap">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-eyebrow">The MediCare Advantage</span>
+            <h2 class="section-title">Why Patients Choose MediCare</h2>
+            <p class="section-subtitle">We build healthcare experiences based on trust, transparency, and clinical excellence.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="benefit-item-card">
+                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                        <i class="bi bi-award-fill"></i>
                     </div>
-
-                    <h4>
-                        Find Doctors Easily
-                    </h4>
-
-                    <p>
-                        Search and explore doctors according
-                        to specialization and healthcare needs.
-                    </p>
-
+                    <h5 class="fw-bold mb-2">Verified Doctors</h5>
+                    <p class="text-muted small mb-0">Every physician on our portal undergoes thorough credential checks and background verification.</p>
                 </div>
-
             </div>
 
-
-            <div class="col-md-4">
-
-                <div class="why-card">
-
-                    <div class="why-icon">
-                        📅
+            <div class="col-md-6 col-lg-3">
+                <div class="benefit-item-card">
+                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                        <i class="bi bi-cash-stack"></i>
                     </div>
-
-                    <h4>
-                        Easy Appointments
-                    </h4>
-
-                    <p>
-                        Manage your healthcare appointments
-                        through a simple and convenient platform.
-                    </p>
-
+                    <h5 class="fw-bold mb-2">Transparent Fees</h5>
+                    <p class="text-muted small mb-0">Clear consultation costs upfront with zero hidden charges or surprise administrative fees.</p>
                 </div>
-
             </div>
 
-
-            <div class="col-md-4">
-
-                <div class="why-card">
-
-                    <div class="why-icon">
-                        🔐
+            <div class="col-md-6 col-lg-3">
+                <div class="benefit-item-card">
+                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                        <i class="bi bi-shield-check"></i>
                     </div>
-
-                    <h4>
-                        Secure Platform
-                    </h4>
-
-                    <p>
-                        Your account and healthcare information
-                        are handled through a secure platform.
-                    </p>
-
+                    <h5 class="fw-bold mb-2">Private & Confidential</h5>
+                    <p class="text-muted small mb-0">Your profile, contact details, and consultations are secured according to strict digital privacy standards.</p>
                 </div>
-
             </div>
 
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     ABOUT
-===================================================== -->
-
-<section
-    class="section"
-    id="about">
-
-    <div class="container">
-
-        <div class="about-box">
-
-            <h2>
-                About MediCare
-            </h2>
-
-            <p>
-                MediCare is a healthcare platform designed to
-                make it easier for patients to find doctors,
-                explore medical specializations, and manage
-                their healthcare journey.
-            </p>
-
-            <p>
-                Our goal is to provide patients with a simple
-                and convenient way to connect with healthcare
-                professionals.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     CTA
-===================================================== -->
-
-<section class="cta">
-
-    <div class="container">
-
-        {% if user %}
-
-            <h2>
-                Take Care of Your Health 💙
-            </h2>
-
-            <p>
-                Find the right doctor and take the next step
-                toward better healthcare.
-            </p>
-
-            <a href="#doctors">
-                Find a Doctor
-            </a>
-
-        {% else %}
-
-            <h2>
-                Take the First Step Toward Better Healthcare
-            </h2>
-
-            <p>
-                Create your account and start your healthcare
-                journey with MediCare.
-            </p>
-
-            <a href="{% url 'signup' %}">
-                Create Account
-            </a>
-
-        {% endif %}
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     CONTACT
-===================================================== -->
-
-<section
-    class="section"
-    id="contact">
-
-    <div class="container">
-
-        <div class="section-title">
-
-            <h2>
-                Contact Us
-            </h2>
-
-            <p>
-                We're here to help you.
-            </p>
-
-        </div>
-
-
-        <div class="row justify-content-center">
-
-            <div class="col-md-4">
-
-                <div class="contact-box">
-
-                    <h4>
-                        📧 Email
-                    </h4>
-
-                    <p>
-                        support@medicare.com
-                    </p>
-
+            <div class="col-md-6 col-lg-3">
+                <div class="benefit-item-card">
+                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Rapid Coordination</h5>
+                    <p class="text-muted small mb-0">Direct clinic contacts and hospital scheduling without long waiting queues or call center loops.</p>
                 </div>
-
             </div>
-
-
-            <div class="col-md-4">
-
-                <div class="contact-box">
-
-                    <h4>
-                        📞 Phone
-                    </h4>
-
-                    <p>
-                        +91 98765 43210
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-md-4">
-
-                <div class="contact-box">
-
-                    <h4>
-                        📍 Location
-                    </h4>
-
-                    <p>
-                        India
-                    </p>
-
-                </div>
-
-            </div>
-
         </div>
-
     </div>
-
 </section>
 
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer>
-
+<!-- ABOUT SECTION -->
+<section class="section-wrap" id="about" style="background-color: var(--bg-surface-alt);">
     <div class="container">
-
-        <div class="row">
-
-
-            <div class="col-md-6">
-
-                <h4>
-                    🏥 MediCare
-                </h4>
-
-                <p>
-                    Your health, our priority.
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="section-eyebrow">About MediCare</span>
+                <h2 class="section-title mb-3">Reinventing Patient Access to Quality Medicine</h2>
+                <p class="text-muted mb-3" style="font-size: 1.02rem; line-height: 1.75;">
+                    MediCare is designed to eliminate the friction between patients seeking timely care and certified doctors offering clinical excellence. Whether you need an urgent specialist consultation or a trusted primary physician, our portal connects you instantly.
                 </p>
-
-            </div>
-
-
-            <div class="col-md-6">
-
-                <h4>
-                    Quick Links
-                </h4>
-
-                <p>
-
-                    <a
-                        href="#home"
-                        style="color:white; text-decoration:none;">
-
-                        Home
-
-                    </a>
-
-                    &nbsp; | &nbsp;
-
-                    <a
-                        href="#doctors"
-                        style="color:white; text-decoration:none;">
-
-                        Doctors
-
-                    </a>
-
-                    &nbsp; | &nbsp;
-
-                    <a
-                        href="#about"
-                        style="color:white; text-decoration:none;">
-
-                        About
-
-                    </a>
-
-                    &nbsp; | &nbsp;
-
-                    <a
-                        href="#contact"
-                        style="color:white; text-decoration:none;">
-
-                        Contact
-
-                    </a>
-
+                <p class="text-muted mb-4" style="font-size: 1.02rem; line-height: 1.75;">
+                    Built with patient convenience, data integrity, and intuitive navigation at its core, MediCare serves thousands of families and medical practitioners nationwide.
                 </p>
-
+                <div class="d-flex flex-wrap gap-4">
+                    <div>
+                        <h4 class="fw-bold text-primary mb-0">50,000+</h4>
+                        <small class="text-muted">Patients Served</small>
+                    </div>
+                    <div class="border-start ps-4" style="border-color: var(--border-color) !important;">
+                        <h4 class="fw-bold text-primary mb-0">99.4%</h4>
+                        <small class="text-muted">Positive Experience</small>
+                    </div>
+                    <div class="border-start ps-4" style="border-color: var(--border-color) !important;">
+                        <h4 class="fw-bold text-primary mb-0">15+</h4>
+                        <small class="text-muted">Partner Hospitals</small>
+                    </div>
+                </div>
             </div>
 
-
+            <div class="col-lg-6">
+                <div class="modern-card p-4 p-md-5">
+                    <h4 class="fw-bold mb-3">Our Core Commitments</h4>
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px;">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Patient-First Ethics</h6>
+                            <p class="text-muted small mb-0">Unbiased doctor recommendations focused entirely on clinical competence and patient comfort.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px;">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Strict Credential Verification</h6>
+                            <p class="text-muted small mb-0">Every listed doctor's qualifications, medical councils, and hospital affiliations are verified.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px;">
+                            <i class="bi bi-headset"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Continuous Patient Support</h6>
+                            <p class="text-muted small mb-0">Dedicated support team to guide you through scheduling inquiries, account access, and clinic coordination.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
-        <div class="footer-bottom">
-
-            © 2026 MediCare. All Rights Reserved.
-
-        </div>
-
     </div>
+</section>
 
-</footer>
+<!-- CONTACT SECTION -->
+<section class="section-wrap" id="contact">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-eyebrow">Assistance Desk</span>
+            <h2 class="section-title">Get in Touch with Our Team</h2>
+            <p class="section-subtitle">Have questions about an appointment, doctor profile, or account? We are here to help.</p>
+        </div>
 
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="modern-card p-4 text-center h-100">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem;">
+                        <i class="bi bi-envelope-at-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Email Support</h5>
+                    <p class="text-muted small mb-3">Drop us a line anytime and we will respond within 4 business hours.</p>
+                    <a href="mailto:support@medicare.com" class="fw-bold text-primary">support@medicare.com</a>
+                </div>
+            </div>
 
+            <div class="col-md-4">
+                <div class="modern-card p-4 text-center h-100">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem;">
+                        <i class="bi bi-telephone-inbound-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Direct Phone Hotline</h5>
+                    <p class="text-muted small mb-3">Talk directly to our healthcare coordination helpline.</p>
+                    <a href="tel:+919876543210" class="fw-bold text-primary">+91 98765 43210</a>
+                </div>
+            </div>
 
-<!-- Bootstrap JS -->
+            <div class="col-md-4">
+                <div class="modern-card p-4 text-center h-100">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem;">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">Central Office</h5>
+                    <p class="text-muted small mb-3">Healthcare Information Center, Connaught Place, New Delhi, India.</p>
+                    <span class="fw-semibold small text-muted">Open Mon &ndash; Sat, 8:00 AM &ndash; 8:00 PM</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
+<!-- CALL TO ACTION BANNER -->
+<section class="container pb-5">
+    <div class="cta-banner-wrapper text-center">
+        <h2 class="display-6 fw-bold mb-3">Take the First Step Toward Better Health</h2>
+        <p class="lead mb-4 opacity-90 mx-auto" style="max-width: 600px;">
+            Join thousands of satisfied patients who manage their clinical visits easily with MediCare.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            {% if user %}
+                <a href="#doctors" class="btn btn-light btn-lg rounded-pill px-4 fw-bold text-primary">
+                    <i class="bi bi-search me-1"></i> Browse All Doctors
+                </a>
+            {% else %}
+                <a href="{% url 'signup' %}" class="btn btn-light btn-lg rounded-pill px-4 fw-bold text-primary">
+                    <i class="bi bi-person-plus me-1"></i> Create Your Patient Account
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Patient Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
 
-
+{% block extra_js %}
 <script>
+    // Live Doctor Search Filter
+    const searchInput = document.getElementById('doctorSearchInput');
+    const doctorCards = document.querySelectorAll('.doctor-item-col');
+    const noResultsBox = document.getElementById('noSearchResults');
+    const doctorCounterBadge = document.getElementById('doctorCounterBadge');
 
-    /* =====================================================
-       DARK / LIGHT MODE
-    ===================================================== */
+    function applyDoctorSearch() {
+        const query = (searchInput.value || '').toLowerCase().trim();
+        let visibleCount = 0;
 
-    const themeToggle =
-        document.getElementById("themeToggle");
+        doctorCards.forEach(card => {
+            const name = card.getAttribute('data-name') || '';
+            const spec = card.getAttribute('data-spec') || '';
+            const qual = card.getAttribute('data-qual') || '';
+            const hosp = card.getAttribute('data-hosp') || '';
 
+            const matched = name.includes(query) || spec.includes(query) || qual.includes(query) || hosp.includes(query);
 
-    themeToggle.addEventListener("click", function () {
-
-        document.body.classList.toggle("dark-mode");
-
-
-        if (
-            document.body.classList.contains("dark-mode")
-        ) {
-
-            themeToggle.innerHTML = "☀️";
-
-            localStorage.setItem(
-                "theme",
-                "dark"
-            );
-
-        } else {
-
-            themeToggle.innerHTML = "🌙";
-
-            localStorage.setItem(
-                "theme",
-                "light"
-            );
-
-        }
-
-    });
-
-
-    /* Load saved theme */
-
-    const savedTheme =
-        localStorage.getItem("theme");
-
-
-    if (savedTheme === "dark") {
-
-        document.body.classList.add("dark-mode");
-
-        themeToggle.innerHTML = "☀️";
-
-    }
-
-
-
-    /* =====================================================
-       DOCTOR SEARCH
-    ===================================================== */
-
-    function searchDoctors() {
-
-        const searchInput =
-            document.getElementById("doctorSearch");
-
-
-        const searchText =
-            searchInput.value.toLowerCase().trim();
-
-
-        const doctors =
-            document.querySelectorAll(".doctor-item");
-
-
-        let found = false;
-
-
-        doctors.forEach(function (doctor) {
-
-            const doctorText =
-                doctor.getAttribute("data-search")
-                .toLowerCase();
-
-
-            if (
-                doctorText.includes(searchText)
-            ) {
-
-                doctor.style.display = "";
-
-                found = true;
-
+            if (matched) {
+                card.classList.remove('d-none');
+                visibleCount++;
             } else {
-
-                doctor.style.display = "none";
-
+                card.classList.add('d-none');
             }
-
         });
 
-
-        const noResults =
-            document.getElementById("noResults");
-
-
-        if (!found && doctors.length > 0) {
-
-            noResults.style.display = "block";
-
+        if (visibleCount === 0 && doctorCards.length > 0) {
+            noResultsBox.classList.remove('d-none');
         } else {
-
-            noResults.style.display = "none";
-
+            noResultsBox.classList.add('d-none');
         }
 
+        if (doctorCounterBadge) {
+            doctorCounterBadge.textContent = `${visibleCount} Doctor${visibleCount === 1 ? '' : 's'} Found`;
+        }
     }
 
+    function resetDoctorSearch() {
+        if (searchInput) {
+            searchInput.value = '';
+        }
+        doctorCards.forEach(card => card.classList.remove('d-none'));
+        if (noResultsBox) {
+            noResultsBox.classList.add('d-none');
+        }
+        if (doctorCounterBadge) {
+            doctorCounterBadge.textContent = `${doctorCards.length} Doctor${doctorCards.length === 1 ? '' : 's'} Available`;
+        }
+    }
 
-    /* Search while typing */
+    function filterBySpecialization(specName) {
+        if (searchInput) {
+            searchInput.value = specName;
+            applyDoctorSearch();
+            const doctorsSection = document.getElementById('doctors');
+            if (doctorsSection) {
+                doctorsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
 
-    document
-        .getElementById("doctorSearch")
-        .addEventListener(
-            "keyup",
-            searchDoctors
-        );
-
+    if (searchInput) {
+        searchInput.addEventListener('input', applyDoctorSearch);
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                applyDoctorSearch();
+            }
+        });
+    }
 </script>
-
-
-</body>
-
-</html>
+{% endblock %}

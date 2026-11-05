@@ -1,347 +1,174 @@
-<!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Patient Signup</title>
-
-<style>
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f7fc;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .signup-container {
-        width: 500px;
-        background-color: white;
-        padding: 35px;
-        border-radius: 10px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .signup-container h1 {
-        text-align: center;
-        color: #1677ff;
-        margin-bottom: 8px;
-    }
-
-    .signup-container .subtitle {
-        text-align: center;
-        color: #666;
-        margin-bottom: 25px;
-    }
-
-    .form-group {
-        margin-bottom: 17px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 7px;
-        font-weight: bold;
-        color: #333;
-    }
-
-    .form-group input,
-    .form-group select {
-        width: 100%;
-        padding: 11px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 15px;
-        outline: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-        border-color: #1677ff;
-    }
-
-    .signup-btn {
-        width: 100%;
-        padding: 13px;
-        border: none;
-        border-radius: 6px;
-        background-color: #1677ff;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        margin-top: 8px;
-    }
-
-    .signup-btn:hover {
-        background-color: #095dcc;
-    }
-
-    .login-text {
-        text-align: center;
-        margin-top: 20px;
-        color: #666;
-    }
-
-    .login-text a {
-        color: #1677ff;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .login-text a:hover {
-        text-decoration: underline;
-    }
-
-    .row {
-        display: flex;
-        gap: 15px;
-    }
-
-    .row .form-group {
-        flex: 1;
-    }
-
-    @media (max-width: 600px) {
-
-        .signup-container {
-            width: 90%;
-            padding: 25px;
-        }
-
-        .row {
-            flex-direction: column;
-            gap: 0;
-        }
-
-    }
-
-</style>
-
-
-</head>
-
-<body>
-
-
-<div class="signup-container">
-
-    <h1>Patient Signup</h1>
-
-    <p class="subtitle">
-        Create your account
-    </p>
-
-    <form method="POST">
-
-        {% csrf_token %}
-
-        <!-- Username -->
-
-        <div class="form-group">
-
-            <label for="username">
-                Username
-            </label>
-
-            <input
-                type="text"
-                id="username"
-                name="username"
-                maxlength="20"
-                placeholder="Enter your username"
-                required
-            >
-
-        </div>
-
-
-        <!-- Email -->
-
-        <div class="form-group">
-
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-            >
-
-        </div>
-
-
-        <!-- Mobile -->
-
-        <div class="form-group">
-
-            <label for="mobile">
-                Mobile Number
-            </label>
-
-            <input
-                type="tel"
-                id="mobile"
-                name="mobile"
-                placeholder="Enter your mobile number"
-                maxlength="10"
-                pattern="[0-9]{10}"
-                required
-            >
-
-        </div>
-
-
-        <!-- Date of Birth -->
-
-        <div class="form-group">
-
-            <label for="dob">
-                Date of Birth
-            </label>
-
-            <input
-                type="date"
-                id="dob"
-                name="dob"
-                required
-            >
-
-        </div>
-
-
-        <!-- Gender -->
-
-        <div class="form-group">
-
-            <label for="gender">
-                Gender
-            </label>
-
-            <select id="gender" name="gender" required>
-
-                <option value="">
-                    Select Gender
-                </option>
-
-                <option value="Male">
-                    Male
-                </option>
-
-                <option value="Female">
-                    Female
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- City & State -->
-
-        <div class="row">
-
-            <div class="form-group">
-
-                <label for="city">
-                    City
-                </label>
-
-                <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    maxlength="20"
-                    placeholder="Enter city"
-                    required
-                >
-
+{% extends "base.html" %}
+
+{% block title %}Patient Registration | MediCare{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-md-3">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+            <div class="modern-card p-4 p-sm-5 shadow-sm">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.5rem;">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+                    <h2 class="fw-bold mb-1" style="font-size: 1.75rem;">Create Patient Account</h2>
+                    <p class="text-muted small mb-0">Join MediCare to discover top doctors and book healthcare appointments</p>
+                </div>
+
+                <!-- Registration Form -->
+                <form method="POST" class="modern-form" novalidate>
+                    {% csrf_token %}
+
+                    <div class="row g-3">
+                        <!-- Username -->
+                        <div class="col-md-6">
+                            <label for="usernameInput" class="form-label">
+                                <i class="bi bi-person text-primary"></i> Username
+                            </label>
+                            <div class="input-icon-group">
+                                <i class="bi bi-person input-icon"></i>
+                                <input type="text" class="form-control" id="usernameInput" name="username" 
+                                       placeholder="e.g. rahul_sharma" maxlength="20" required autofocus autocomplete="username">
+                            </div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Max 20 alphanumeric characters</small>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <label for="emailInput" class="form-label">
+                                <i class="bi bi-envelope text-primary"></i> Email Address
+                            </label>
+                            <div class="input-icon-group">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" class="form-control" id="emailInput" name="email" 
+                                       placeholder="rahul@example.com" required autocomplete="email">
+                            </div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Used for verification & notifications</small>
+                        </div>
+
+                        <!-- Mobile Number -->
+                        <div class="col-md-6">
+                            <label for="mobileInput" class="form-label">
+                                <i class="bi bi-telephone text-primary"></i> Mobile Number
+                            </label>
+                            <div class="input-icon-group">
+                                <i class="bi bi-telephone input-icon"></i>
+                                <input type="tel" class="form-control" id="mobileInput" name="mobile" 
+                                       placeholder="9876543210" maxlength="10" pattern="[0-9]{10}" required autocomplete="tel">
+                            </div>
+                            <small class="text-muted" style="font-size: 0.75rem;">10-digit Indian contact number</small>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="col-md-6">
+                            <label for="dobInput" class="form-label">
+                                <i class="bi bi-calendar3 text-primary"></i> Date of Birth
+                            </label>
+                            <div class="input-icon-group">
+                                <i class="bi bi-calendar3 input-icon"></i>
+                                <input type="date" class="form-control" id="dobInput" name="dob" required>
+                            </div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Patient birth date</small>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="col-md-6">
+                            <label for="genderSelect" class="form-label">
+                                <i class="bi bi-gender-ambiguous text-primary"></i> Gender
+                            </label>
+                            <div class="input-icon-group">
+                                <i class="bi bi-gender-ambiguous input-icon"></i>
+                                <select class="form-select form-control" id="genderSelect" name="gender" required>
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- City -->
+                        <div class="col-md-6">
+                            <label for="cityInput" class="form-label">
+                                <i class="bi bi-geo-alt text-primary"></i> City
+                            </label>
+                            <div class="input-icon-group">
+                                <i class="bi bi-geo-alt input-icon"></i>
+                                <input type="text" class="form-control" id="cityInput" name="city" 
+                                       placeholder="e.g. New Delhi" maxlength="20" required autocomplete="address-level2">
+                            </div>
+                        </div>
+
+                        <!-- State -->
+                        <div class="col-md-6">
+                            <label for="stateInput" class="form-label">
+                                <i class="bi bi-map text-primary"></i> State
+                            </label>
+                            <div class="input-icon-group">
+                                <i class="bi bi-map input-icon"></i>
+                                <input type="text" class="form-control" id="stateInput" name="state" 
+                                       placeholder="e.g. Delhi" maxlength="20" required autocomplete="address-level1">
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="col-md-6">
+                            <label for="passwordInput" class="form-label">
+                                <i class="bi bi-shield-lock text-primary"></i> Password
+                            </label>
+                            <div class="input-icon-group position-relative">
+                                <i class="bi bi-lock input-icon"></i>
+                                <input type="password" class="form-control pe-5" id="passwordInput" name="password" 
+                                       placeholder="Create a password" minlength="6" maxlength="50" required autocomplete="new-password">
+                                <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-muted text-decoration-none pe-3 border-0 bg-transparent" id="togglePasswordVisibility" title="Toggle password visibility">
+                                    <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted" style="font-size: 0.75rem;">Minimum 6 characters</small>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="mt-4 pt-2">
+                        <button type="submit" class="btn-modern-primary w-100 justify-content-center py-3 fs-6">
+                            <span>Create Account</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Footer Links -->
+                <div class="text-center mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
+                    <p class="text-muted small mb-2">
+                        Already have an account?
+                        <a href="{% url 'login' %}" class="fw-bold text-primary text-decoration-none">
+                            Sign In
+                        </a>
+                    </p>
+                    <a href="{% url 'home' %}" class="small text-muted text-decoration-none">
+                        <i class="bi bi-arrow-left me-1"></i> Return to Homepage
+                    </a>
+                </div>
             </div>
-
-
-            <div class="form-group">
-
-                <label for="state">
-                    State
-                </label>
-
-                <input
-                    type="text"
-                    id="state"
-                    name="state"
-                    maxlength="20"
-                    placeholder="Enter state"
-                    required
-                >
-
-            </div>
-
         </div>
-
-
-        <!-- Password -->
-
-        <div class="form-group">
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                name="password"
-                maxlength="15"
-                placeholder="Enter your password"
-                required
-            >
-
-        </div>
-
-
-        <!-- Submit -->
-
-        <button type="submit" class="signup-btn">
-            Create Account
-        </button>
-
-    </form>
-
-
-    <p class="login-text">
-
-        Already have an account?
-
-        <a href="/login/">
-            Login
-        </a>
-
-    </p>
-
+    </div>
 </div>
+{% endblock %}
 
+{% block extra_js %}
+<script>
+    // Password visibility toggle
+    const toggleBtn = document.getElementById('togglePasswordVisibility');
+    const passwordInput = document.getElementById('passwordInput');
+    const toggleIcon = document.getElementById('togglePasswordIcon');
 
-</body>
-
-</html>
+    if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', function () {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            toggleIcon.className = isPassword ? 'bi bi-eye-slash text-primary' : 'bi bi-eye';
+        });
+    }
+</script>
+{% endblock %}
