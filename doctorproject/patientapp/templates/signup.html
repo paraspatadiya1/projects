@@ -1,148 +1,183 @@
 {% extends "base.html" %}
 
-{% block title %}Patient Registration | MediCare{% endblock %}
+{% block title %}Patient Registration | MediCare Portal{% endblock %}
 
 {% block content %}
 <div class="container py-5 my-md-3">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-7">
-            <div class="modern-card p-4 p-sm-5 shadow-sm">
+            <div class="glass-card p-4 p-sm-5">
                 <!-- Header -->
                 <div class="text-center mb-4">
-                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.5rem;">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.6rem; background: var(--grad-tri);">
                         <i class="bi bi-person-plus-fill"></i>
                     </div>
-                    <h2 class="fw-bold mb-1" style="font-size: 1.75rem;">Create Patient Account</h2>
-                    <p class="text-muted small mb-0">Join MediCare to discover top doctors and book healthcare appointments</p>
+                    <h2 class="fw-bold mb-1" style="font-size: 1.8rem; color: var(--text-heading);">Create Patient Account</h2>
+                    <p class="text-muted small mb-0">Join MediCare to connect with top verified doctors and manage medical consultations</p>
                 </div>
 
+                <!-- Validation Errors Alert -->
+                {% if errors or form.errors %}
+                    <div class="glass-alert glass-alert-danger mb-4 p-3" role="alert" style="animation: none;">
+                        <i class="bi bi-exclamation-octagon-fill fs-5 text-danger flex-shrink-0"></i>
+                        <div class="small">
+                            <strong class="text-danger d-block mb-1">Please correct the following:</strong>
+                            <ul class="mb-0 ps-3 text-danger">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ field.label }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
                 <!-- Registration Form -->
-                <form method="POST" class="modern-form" novalidate>
+                <form method="POST" enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
 
                     <div class="row g-3">
                         <!-- Username -->
                         <div class="col-md-6">
-                            <label for="usernameInput" class="form-label">
-                                <i class="bi bi-person text-primary"></i> Username
+                            <label for="usernameInput" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-person-fill" style="color: var(--c-sapphire);"></i> Full Username
                             </label>
                             <div class="input-icon-group">
                                 <i class="bi bi-person input-icon"></i>
-                                <input type="text" class="form-control" id="usernameInput" name="username" 
+                                <input type="text" class="glass-input form-control" id="usernameInput" name="username" 
+                                       value="{{ form.username.value|default:'' }}"
                                        placeholder="e.g. rahul_sharma" maxlength="20" required autofocus autocomplete="username">
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Max 20 alphanumeric characters</small>
+                            <small class="text-muted" style="font-size: 0.74rem;">Min 3, max 20 characters</small>
                         </div>
 
                         <!-- Email -->
                         <div class="col-md-6">
-                            <label for="emailInput" class="form-label">
-                                <i class="bi bi-envelope text-primary"></i> Email Address
+                            <label for="emailInput" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-envelope-fill" style="color: var(--c-sapphire);"></i> Email Address
                             </label>
                             <div class="input-icon-group">
                                 <i class="bi bi-envelope input-icon"></i>
-                                <input type="email" class="form-control" id="emailInput" name="email" 
-                                       placeholder="rahul@example.com" required autocomplete="email">
+                                <input type="email" class="glass-input form-control" id="emailInput" name="email" 
+                                       value="{{ form.email.value|default:'' }}"
+                                       placeholder="name@example.com" required autocomplete="email">
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Used for verification & notifications</small>
+                            <small class="text-muted" style="font-size: 0.74rem;">Used for verification & login</small>
                         </div>
 
                         <!-- Mobile Number -->
                         <div class="col-md-6">
-                            <label for="mobileInput" class="form-label">
-                                <i class="bi bi-telephone text-primary"></i> Mobile Number
+                            <label for="mobileInput" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-telephone-fill" style="color: var(--c-jade);"></i> Contact Phone
                             </label>
                             <div class="input-icon-group">
                                 <i class="bi bi-telephone input-icon"></i>
-                                <input type="tel" class="form-control" id="mobileInput" name="mobile" 
-                                       placeholder="9876543210" maxlength="10" pattern="[0-9]{10}" required autocomplete="tel">
+                                <input type="tel" class="glass-input form-control" id="mobileInput" name="mobile" 
+                                       value="{{ form.mobile.value|default:'' }}"
+                                       placeholder="9876543210" maxlength="10" required autocomplete="tel">
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">10-digit Indian contact number</small>
+                            <small class="text-muted" style="font-size: 0.74rem;">10-digit mobile contact number</small>
                         </div>
 
                         <!-- Date of Birth -->
                         <div class="col-md-6">
-                            <label for="dobInput" class="form-label">
-                                <i class="bi bi-calendar3 text-primary"></i> Date of Birth
+                            <label for="dobInput" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-calendar3" style="color: var(--c-indigo);"></i> Date of Birth
                             </label>
                             <div class="input-icon-group">
                                 <i class="bi bi-calendar3 input-icon"></i>
-                                <input type="date" class="form-control" id="dobInput" name="dob" required>
+                                <input type="date" class="glass-input form-control" id="dobInput" name="dob" 
+                                       value="{{ form.dob.value|date:'Y-m-d'|default:form.dob.value|default:'' }}" required>
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Patient birth date</small>
+                            <small class="text-muted" style="font-size: 0.74rem;">Birth date for patient chart</small>
                         </div>
 
                         <!-- Gender -->
                         <div class="col-md-6">
-                            <label for="genderSelect" class="form-label">
-                                <i class="bi bi-gender-ambiguous text-primary"></i> Gender
+                            <label for="genderSelect" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-gender-ambiguous" style="color: var(--c-jade);"></i> Gender
                             </label>
                             <div class="input-icon-group">
                                 <i class="bi bi-gender-ambiguous input-icon"></i>
-                                <select class="form-select form-control" id="genderSelect" name="gender" required>
-                                    <option value="" disabled selected>Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
+                                <select class="glass-input form-select" id="genderSelect" name="gender" required>
+                                    <option value="" disabled {% if not form.gender.value %}selected{% endif %}>Select Gender</option>
+                                    <option value="Male" {% if form.gender.value == 'Male' %}selected{% endif %}>Male</option>
+                                    <option value="Female" {% if form.gender.value == 'Female' %}selected{% endif %}>Female</option>
+                                    <option value="Other" {% if form.gender.value == 'Other' %}selected{% endif %}>Other</option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- City -->
                         <div class="col-md-6">
-                            <label for="cityInput" class="form-label">
-                                <i class="bi bi-geo-alt text-primary"></i> City
+                            <label for="cityInput" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-geo-alt-fill" style="color: var(--c-sapphire);"></i> City
                             </label>
                             <div class="input-icon-group">
                                 <i class="bi bi-geo-alt input-icon"></i>
-                                <input type="text" class="form-control" id="cityInput" name="city" 
-                                       placeholder="e.g. New Delhi" maxlength="20" required autocomplete="address-level2">
+                                <input type="text" class="glass-input form-control" id="cityInput" name="city" 
+                                       value="{{ form.city.value|default:'' }}"
+                                       placeholder="e.g. Mumbai" maxlength="20" required autocomplete="address-level2">
                             </div>
                         </div>
 
                         <!-- State -->
                         <div class="col-md-6">
-                            <label for="stateInput" class="form-label">
-                                <i class="bi bi-map text-primary"></i> State
+                            <label for="stateInput" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-map-fill" style="color: var(--c-indigo);"></i> State
                             </label>
                             <div class="input-icon-group">
                                 <i class="bi bi-map input-icon"></i>
-                                <input type="text" class="form-control" id="stateInput" name="state" 
-                                       placeholder="e.g. Delhi" maxlength="20" required autocomplete="address-level1">
+                                <input type="text" class="glass-input form-control" id="stateInput" name="state" 
+                                       value="{{ form.state.value|default:'' }}"
+                                       placeholder="e.g. Maharashtra" maxlength="20" required autocomplete="address-level1">
                             </div>
                         </div>
 
                         <!-- Password -->
                         <div class="col-md-6">
-                            <label for="passwordInput" class="form-label">
-                                <i class="bi bi-shield-lock text-primary"></i> Password
+                            <label for="passwordInput" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-shield-lock-fill" style="color: var(--c-indigo);"></i> Password
                             </label>
                             <div class="input-icon-group position-relative">
                                 <i class="bi bi-lock input-icon"></i>
-                                <input type="password" class="form-control pe-5" id="passwordInput" name="password" 
+                                <input type="password" class="glass-input form-control pe-5" id="passwordInput" name="password" 
                                        placeholder="Create a password" minlength="6" maxlength="50" required autocomplete="new-password">
                                 <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-muted text-decoration-none pe-3 border-0 bg-transparent" id="togglePasswordVisibility" title="Toggle password visibility">
                                     <i class="bi bi-eye" id="togglePasswordIcon"></i>
                                 </button>
                             </div>
-                            <small class="text-muted" style="font-size: 0.75rem;">Minimum 6 characters</small>
+                            <small class="text-muted" style="font-size: 0.74rem;">Minimum 6 characters</small>
+                        </div>
+
+                        <!-- Optional Profile Picture -->
+                        <div class="col-12">
+                            <label for="profilePicInput" class="form-label small fw-bold text-heading d-flex align-items-center gap-2">
+                                <i class="bi bi-camera-fill" style="color: var(--c-jade);"></i> Profile Picture <span class="text-muted fw-normal">(Optional)</span>
+                            </label>
+                            <input type="file" class="glass-input form-control" id="profilePicInput" name="profile_pic" accept="image/*">
+                            <small class="text-muted" style="font-size: 0.74rem;">JPG, PNG or WEBP avatar image</small>
                         </div>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="mt-4 pt-2">
-                        <button type="submit" class="btn-modern-primary w-100 justify-content-center py-3 fs-6">
-                            <span>Create Account</span>
-                            <i class="bi bi-arrow-right"></i>
+                        <button type="submit" class="btn-glass-primary w-100 justify-content-center py-3 fs-6">
+                            <span>Register Patient Account</span>
+                            <i class="bi bi-arrow-right-short fs-5"></i>
                         </button>
                     </div>
                 </form>
 
-                <!-- Footer Links -->
-                <div class="text-center mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
+                <!-- Footer Navigation -->
+                <div class="text-center mt-4 pt-3 border-top" style="border-color: var(--glass-border) !important;">
                     <p class="text-muted small mb-2">
-                        Already have an account?
-                        <a href="{% url 'login' %}" class="fw-bold text-primary text-decoration-none">
+                        Already have a registered account?
+                        <a href="{% url 'login' %}" class="fw-bold text-decoration-none ms-1" style="color: var(--c-sapphire);">
                             Sign In
                         </a>
                     </p>
@@ -158,16 +193,15 @@
 
 {% block extra_js %}
 <script>
-    // Password visibility toggle
     const toggleBtn = document.getElementById('togglePasswordVisibility');
     const passwordInput = document.getElementById('passwordInput');
     const toggleIcon = document.getElementById('togglePasswordIcon');
 
     if (toggleBtn && passwordInput) {
         toggleBtn.addEventListener('click', function () {
-            const isPassword = passwordInput.getAttribute('type') === 'password';
-            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-            toggleIcon.className = isPassword ? 'bi bi-eye-slash text-primary' : 'bi bi-eye';
+            const isPass = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPass ? 'text' : 'password');
+            toggleIcon.className = isPass ? 'bi bi-eye-slash text-primary' : 'bi bi-eye';
         });
     }
 </script>

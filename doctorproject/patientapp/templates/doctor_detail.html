@@ -4,8 +4,7 @@
 
 {% block extra_head %}
 <style>
-    .doctor-profile-header {
-        background: linear-gradient(180deg, var(--primary-light) 0%, transparent 100%), var(--bg-page);
+    .doctor-hero {
         padding: 3rem 0 2rem;
     }
     .doctor-avatar-box {
@@ -13,9 +12,9 @@
         height: 170px;
         border-radius: 24px;
         overflow: hidden;
-        background-color: var(--bg-surface-alt);
-        border: 4px solid var(--bg-surface);
-        box-shadow: var(--card-shadow-hover);
+        background: var(--bg-glass-input);
+        border: 4px solid rgba(255, 255, 255, 0.85);
+        box-shadow: 0 12px 30px rgba(37, 99, 235, 0.22);
         flex-shrink: 0;
     }
     .doctor-avatar-box img {
@@ -23,67 +22,68 @@
         height: 100%;
         object-fit: cover;
     }
-    .doctor-avatar-placeholder {
+    .doctor-avatar-fallback {
         width: 100%;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 5rem;
-        color: var(--primary);
-        background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-surface-alt) 100%);
+        color: #ffffff;
+        background: var(--grad-tri);
     }
-    .booking-summary-card {
+    .booking-card-sticky {
         position: sticky;
         top: 90px;
     }
-    .info-metric-tile {
-        background: var(--bg-surface-alt);
-        border: 1px solid var(--border-color);
-        border-radius: 14px;
-        padding: 1rem 1.25rem;
+    .info-tile {
+        background: var(--bg-glass-input);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 1.1rem 1.25rem;
+        height: 100%;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Breadcrumb Header -->
-<div class="doctor-profile-header">
+<!-- Doctor Profile Hero -->
+<div class="doctor-hero">
     <div class="container">
-        <!-- Breadcrumb navigation -->
+        <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb small">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="bi bi-house me-1"></i>Home</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'home' %}#doctors">Doctors</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none" style="color: var(--c-sapphire);"><i class="bi bi-house me-1"></i>Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'home' %}#doctors" class="text-decoration-none" style="color: var(--c-sapphire);">Doctors</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ doctor.name }}</li>
             </ol>
         </nav>
 
-        <!-- Doctor Banner Intro -->
-        <div class="modern-card p-4 p-md-5">
+        <!-- Doctor Banner Intro Card -->
+        <div class="glass-card p-4 p-md-5">
             <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-4">
                 <!-- Avatar -->
                 <div class="doctor-avatar-box">
                     {% if doctor.image %}
                         <img src="{{ doctor.image.url }}" alt="{{ doctor.name }}">
                     {% else %}
-                        <div class="doctor-avatar-placeholder">
+                        <div class="doctor-avatar-fallback">
                             <i class="bi bi-person-fill"></i>
                         </div>
                     {% endif %}
                 </div>
 
-                <!-- Doctor Details Header -->
+                <!-- Doctor Details -->
                 <div class="flex-grow-1 text-center text-md-start">
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2 mb-2">
-                        <span class="modern-badge badge-primary-subtle fs-6">
+                        <span class="glass-pill pill-sapphire fs-6">
                             {{ doctor.specialization }}
                         </span>
-                        <span class="modern-badge badge-success-subtle">
-                            <i class="bi bi-patch-check-fill"></i> Verified Practitioner
+                        <span class="glass-pill pill-jade">
+                            <i class="bi bi-patch-check-fill"></i> Verified Specialist
                         </span>
-                        <span class="badge bg-warning-subtle text-warning-emphasis fw-semibold">
-                            <i class="bi bi-star-fill text-warning me-1"></i> 4.9 (90+ Reviews)
+                        <span class="glass-pill pill-indigo">
+                            <i class="bi bi-star-fill text-warning me-1"></i> 4.9 Rating
                         </span>
                     </div>
 
@@ -92,17 +92,17 @@
                     </h1>
 
                     <p class="text-muted mb-3 fs-5">
-                        <i class="bi bi-mortarboard text-primary me-2"></i>{{ doctor.qualification }}
+                        <i class="bi bi-mortarboard me-2" style="color: var(--c-sapphire);"></i>{{ doctor.qualification }}
                     </p>
 
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-3">
                         <div class="d-flex align-items-center gap-2 text-muted small">
-                            <i class="bi bi-hospital text-primary fs-5"></i>
-                            <span class="fw-semibold text-heading">{{ doctor.hospital }}</span>
+                            <i class="bi bi-hospital fs-5" style="color: var(--c-sapphire);"></i>
+                            <span class="fw-semibold" style="color: var(--text-heading);">{{ doctor.hospital }}</span>
                         </div>
-                        <div class="border-start d-none d-sm-block ps-3" style="border-color: var(--border-color) !important;">
+                        <div class="border-start d-none d-sm-block ps-3" style="border-color: var(--glass-border) !important;">
                             <span class="text-muted small">Clinical Experience:</span>
-                            <span class="fw-bold text-primary ms-1">{{ doctor.experience }} Years</span>
+                            <span class="fw-bold ms-1" style="color: var(--c-sapphire);">{{ doctor.experience }} Years</span>
                         </div>
                     </div>
                 </div>
@@ -112,15 +112,32 @@
 </div>
 
 <!-- Main Doctor Content & Booking Sidebar -->
-<div class="container py-5">
+<div class="container py-4 mb-5">
+    <!-- Booking Success Confirmation Banner -->
+    {% if booking_success %}
+        <div class="glass-card p-4 mb-4 border-success-subtle" style="background: rgba(13, 148, 136, 0.08);">
+            <div class="d-flex align-items-center gap-3">
+                <div class="brand-icon-box flex-shrink-0" style="background: var(--grad-jade); width: 48px; height: 48px;">
+                    <i class="bi bi-calendar-check-fill fs-5"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Consultation Confirmed!</h5>
+                    <p class="text-muted small mb-0">
+                        Appointment successfully scheduled with <strong>Dr. {{ booking_success.doctor_name }}</strong> for <strong>{{ booking_success.date }}</strong> at <strong>{{ booking_success.time }}</strong>. A confirmation message has been queued.
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="row g-4">
         <!-- Left Column: Biography, Credentials, Schedule -->
         <div class="col-lg-8">
             <!-- Biography Card -->
-            <div class="modern-card p-4 p-md-5 mb-4">
+            <div class="glass-card p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center gap-2 mb-3">
-                    <i class="bi bi-file-earmark-medical text-primary fs-4"></i>
-                    <h4 class="fw-bold mb-0">Professional Biography</h4>
+                    <i class="bi bi-file-earmark-medical fs-4" style="color: var(--c-sapphire);"></i>
+                    <h4 class="fw-bold mb-0" style="color: var(--text-heading);">Professional Biography</h4>
                 </div>
                 <div class="text-muted" style="line-height: 1.85; font-size: 1.02rem;">
                     {% if doctor.about %}
@@ -134,32 +151,32 @@
             </div>
 
             <!-- Credentials & Clinic Highlights -->
-            <div class="modern-card p-4 p-md-5 mb-4">
+            <div class="glass-card p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center gap-2 mb-4">
-                    <i class="bi bi-award text-primary fs-4"></i>
-                    <h4 class="fw-bold mb-0">Credentials & Clinical Information</h4>
+                    <i class="bi bi-award fs-4" style="color: var(--c-indigo);"></i>
+                    <h4 class="fw-bold mb-0" style="color: var(--text-heading);">Credentials & Clinical Information</h4>
                 </div>
                 <div class="row g-3">
                     <div class="col-sm-6">
-                        <div class="info-metric-tile">
+                        <div class="info-tile">
                             <div class="small text-muted mb-1">Primary Specialty</div>
                             <div class="fw-bold" style="color: var(--text-heading);">{{ doctor.specialization }}</div>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="info-metric-tile">
+                        <div class="info-tile">
                             <div class="small text-muted mb-1">Academic Qualification</div>
                             <div class="fw-bold" style="color: var(--text-heading);">{{ doctor.qualification }}</div>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="info-metric-tile">
+                        <div class="info-tile">
                             <div class="small text-muted mb-1">Years of Practice</div>
                             <div class="fw-bold" style="color: var(--text-heading);">{{ doctor.experience }} Years</div>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="info-metric-tile">
+                        <div class="info-tile">
                             <div class="small text-muted mb-1">Hospital Affiliation</div>
                             <div class="fw-bold" style="color: var(--text-heading);">{{ doctor.hospital }}</div>
                         </div>
@@ -168,53 +185,54 @@
             </div>
 
             <!-- Working Schedule & Availability -->
-            <div class="modern-card p-4 p-md-5">
+            <div class="glass-card p-4 p-md-5">
                 <div class="d-flex align-items-center gap-2 mb-3">
-                    <i class="bi bi-calendar-week text-primary fs-4"></i>
-                    <h4 class="fw-bold mb-0">Consultation Schedule</h4>
+                    <i class="bi bi-calendar-week fs-4" style="color: var(--c-jade);"></i>
+                    <h4 class="fw-bold mb-0" style="color: var(--text-heading);">Consultation Schedule</h4>
                 </div>
-                <p class="text-muted small mb-4">Regular OPD consultation timings and available days at {{ doctor.hospital }}.</p>
-                <div class="d-flex align-items-center justify-content-between p-3 rounded-3" style="background-color: var(--bg-surface-alt); border: 1px solid var(--border-color);">
+                <p class="text-muted small mb-4">Regular clinical OPD timings and consultation days at {{ doctor.hospital }}.</p>
+                <div class="d-flex align-items-center justify-content-between p-3 rounded-4" style="background: var(--bg-glass-input); border: 1px solid var(--glass-border);">
                     <div class="d-flex align-items-center gap-3">
-                        <i class="bi bi-clock-fill text-primary fs-4"></i>
+                        <i class="bi bi-clock-fill fs-4" style="color: var(--c-jade);"></i>
                         <div>
-                            <div class="fw-bold" style="color: var(--text-heading);">Regular Working Days</div>
+                            <div class="fw-bold" style="color: var(--text-heading);">Working Consultation Days</div>
                             <div class="text-muted small">{{ doctor.available_days|default:"Monday - Saturday" }}</div>
                         </div>
                     </div>
-                    <span class="modern-badge badge-success-subtle">
+                    <span class="glass-pill pill-jade">
                         <i class="bi bi-check-circle-fill"></i> Slots Open
                     </span>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column: Consultation Fee & Direct Contact Action Box -->
+        <!-- Right Column: Consultation Fee & Booking Card -->
         <div class="col-lg-4">
-            <div class="modern-card p-4 booking-summary-card">
+            <div class="glass-card p-4 booking-card-sticky">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted fw-semibold small">Consultation Fee</span>
-                    <span class="modern-badge badge-primary-subtle">Direct Booking</span>
+                    <span class="glass-pill pill-sapphire">Verified Rate</span>
                 </div>
 
                 <div class="mb-4">
                     <div class="d-flex align-items-baseline gap-1">
-                        <span class="display-6 fw-bold text-primary">&#8377;{{ doctor.fee }}</span>
+                        <span class="display-6 fw-bold" style="color: var(--c-sapphire);">&#8377;{{ doctor.fee }}</span>
                         <span class="text-muted small">/ session</span>
                     </div>
-                    <small class="text-muted">Includes direct physician consultation & digital summary</small>
+                    <small class="text-muted">Direct physician examination & digital prescription summary</small>
                 </div>
 
-                <div class="border-top pt-3 mb-4" style="border-color: var(--border-color) !important;">
-                    <h6 class="fw-bold mb-3 small text-uppercase letter-spacing-1">Doctor Contact Details</h6>
+                <!-- Doctor Direct Contacts -->
+                <div class="border-top pt-3 mb-4" style="border-color: var(--glass-border) !important;">
+                    <h6 class="fw-bold mb-3 small text-uppercase" style="letter-spacing: 0.05em; color: var(--text-heading);">Direct Clinic Details</h6>
 
                     {% if doctor.phone %}
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="brand-icon-box" style="width: 36px; height: 36px; font-size: 1rem;">
+                            <div class="brand-icon-box" style="width: 36px; height: 36px; font-size: 1rem; background: var(--grad-sapphire);">
                                 <i class="bi bi-telephone-fill"></i>
                             </div>
                             <div class="overflow-hidden">
-                                <small class="text-muted d-block" style="font-size: 0.75rem;">Direct Phone</small>
+                                <small class="text-muted d-block" style="font-size: 0.74rem;">Direct Clinic Phone</small>
                                 <a href="tel:{{ doctor.phone }}" class="fw-bold text-decoration-none" style="color: var(--text-heading);">
                                     {{ doctor.phone }}
                                 </a>
@@ -224,11 +242,11 @@
 
                     {% if doctor.email %}
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <div class="brand-icon-box" style="width: 36px; height: 36px; font-size: 1rem;">
+                            <div class="brand-icon-box" style="width: 36px; height: 36px; font-size: 1rem; background: var(--grad-indigo);">
                                 <i class="bi bi-envelope-fill"></i>
                             </div>
                             <div class="overflow-hidden">
-                                <small class="text-muted d-block" style="font-size: 0.75rem;">Hospital Email</small>
+                                <small class="text-muted d-block" style="font-size: 0.74rem;">Hospital Email</small>
                                 <a href="mailto:{{ doctor.email }}" class="fw-bold text-decoration-none text-truncate d-block" style="color: var(--text-heading);">
                                     {{ doctor.email }}
                                 </a>
@@ -237,11 +255,11 @@
                     {% endif %}
 
                     <div class="d-flex align-items-center gap-3">
-                        <div class="brand-icon-box" style="width: 36px; height: 36px; font-size: 1rem;">
+                        <div class="brand-icon-box" style="width: 36px; height: 36px; font-size: 1rem; background: var(--grad-jade);">
                             <i class="bi bi-geo-alt-fill"></i>
                         </div>
                         <div>
-                            <small class="text-muted d-block" style="font-size: 0.75rem;">Clinic Location</small>
+                            <small class="text-muted d-block" style="font-size: 0.74rem;">Practice Location</small>
                             <span class="fw-semibold small" style="color: var(--text-heading);">{{ doctor.hospital }}</span>
                         </div>
                     </div>
@@ -249,23 +267,22 @@
 
                 <!-- Action Buttons -->
                 <div class="d-grid gap-2">
+                    <button type="button" class="btn-glass-primary justify-content-center py-3 fs-6" data-bs-toggle="modal" data-bs-target="#appointmentBookingModal">
+                        <i class="bi bi-calendar2-plus-fill"></i> Book Appointment Now
+                    </button>
+
                     {% if doctor.phone %}
-                        <a href="tel:{{ doctor.phone }}" class="btn-modern-primary justify-content-center py-3">
-                            <i class="bi bi-telephone-outbound"></i> Call for Appointment
-                        </a>
-                    {% else %}
-                        <a href="tel:+919876543210" class="btn-modern-primary justify-content-center py-3">
-                            <i class="bi bi-headset"></i> Call Hospital Desk
+                        <a href="tel:{{ doctor.phone }}" class="btn-glass-jade justify-content-center py-2">
+                            <i class="bi bi-telephone-outbound-fill"></i> Call for Queries
                         </a>
                     {% endif %}
 
-                    <a href="{% url 'home' %}#doctors" class="btn-modern-outline justify-content-center py-2">
+                    <a href="{% url 'home' %}#doctors" class="btn-glass-outline justify-content-center py-2">
                         <i class="bi bi-arrow-left"></i> Back to Doctors List
                     </a>
                 </div>
 
-                <!-- Trust Guarantee -->
-                <div class="mt-4 pt-3 border-top small text-muted text-center" style="border-color: var(--border-color) !important;">
+                <div class="mt-4 pt-3 border-top small text-muted text-center" style="border-color: var(--glass-border) !important;">
                     <i class="bi bi-shield-check text-success me-1"></i>
                     Official credential verified by MediCare
                 </div>
@@ -273,4 +290,93 @@
         </div>
     </div>
 </div>
+
+<!-- Modal: Interactive Appointment Booking -->
+<div class="modal fade" id="appointmentBookingModal" tabindex="-1" aria-labelledby="appointmentBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card border-0" style="backdrop-filter: blur(25px);">
+            <div class="modal-header border-bottom" style="border-color: var(--glass-border) !important;">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="brand-icon-box" style="width: 38px; height: 38px; font-size: 1.1rem; background: var(--grad-sapphire);">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold mb-0" id="appointmentBookingModalLabel" style="color: var(--text-heading);">Book Consultation</h5>
+                        <small class="text-muted">Dr. {{ doctor.name }} ({{ doctor.specialization }})</small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-heading">Patient Name</label>
+                        <input type="text" class="glass-input form-control" name="patient_name" 
+                               value="{{ user.username|default:'' }}" placeholder="Enter patient full name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-heading">Contact Phone Number</label>
+                        <input type="tel" class="glass-input form-control" name="phone" 
+                               value="{{ user.mobile|default:'' }}" placeholder="10-digit phone number" required>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-heading">Preferred Date</label>
+                            <input type="date" class="glass-input form-control" name="appointment_date" id="appointmentDateInput" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-heading">Time Slot</label>
+                            <select class="glass-input form-select" name="time_slot" required>
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="11:30 AM">11:30 AM</option>
+                                <option value="02:00 PM">02:00 PM</option>
+                                <option value="03:30 PM">03:30 PM</option>
+                                <option value="05:00 PM">05:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-heading">Reason for Visit / Symptoms (Optional)</label>
+                        <textarea class="glass-input form-control" name="notes" rows="2" placeholder="Briefly describe your symptoms..."></textarea>
+                    </div>
+
+                    <div class="p-3 rounded-3" style="background: var(--c-sapphire-light); border: 1px solid rgba(var(--c-sapphire-rgb), 0.2);">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="small fw-semibold" style="color: var(--c-sapphire);">Pay at Hospital / Clinic:</span>
+                            <span class="fw-bold" style="color: var(--c-sapphire); font-size: 1.15rem;">&#8377;{{ doctor.fee }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top" style="border-color: var(--glass-border) !important;">
+                    <button type="button" class="btn-glass-outline py-2 px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn-glass-primary py-2 px-4">
+                        <i class="bi bi-check2-circle"></i> Confirm Booking
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Set default appointment date to tomorrow
+    const dateInput = document.getElementById('appointmentDateInput');
+    if (dateInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const yyyy = tomorrow.getFullYear();
+        const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        const dd = String(tomorrow.getDate()).padStart(2, '0');
+        dateInput.value = `${yyyy}-${mm}-${dd}`;
+        dateInput.min = `${yyyy}-${mm}-${dd}`;
+    }
+</script>
 {% endblock %}

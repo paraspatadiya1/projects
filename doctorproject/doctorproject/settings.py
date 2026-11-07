@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-^i(+9c93(!osdi746%syh_33oz_i+x0r^3m00md9cxgd4b8ib_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -62,6 +62,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'patientapp.context_processors.patient_context',
             ],
         },
     },
@@ -114,6 +115,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/

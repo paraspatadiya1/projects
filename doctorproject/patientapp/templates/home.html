@@ -6,57 +6,28 @@
 <style>
     /* Hero Section */
     .hero-section {
-        padding: 5rem 0 4.5rem;
-        background: radial-gradient(100% 100% at 50% 0%, var(--primary-light) 0%, transparent 100%), var(--bg-page);
+        padding: 5.5rem 0 4.5rem;
         position: relative;
-        overflow: hidden;
-    }
-    .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.45rem 1rem;
-        border-radius: 50px;
-        background-color: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        box-shadow: var(--card-shadow);
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: var(--primary);
-        margin-bottom: 1.5rem;
     }
     .hero-title {
-        font-size: clamp(2.3rem, 4.8vw, 3.75rem);
+        font-size: clamp(2.4rem, 4.8vw, 3.8rem);
         font-weight: 800;
         line-height: 1.15;
         letter-spacing: -0.035em;
         margin-bottom: 1.25rem;
         color: var(--text-heading);
     }
-    .hero-title .text-gradient {
-        background: var(--primary-gradient);
+    .text-gradient-tri {
+        background: var(--grad-tri);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
     .hero-desc {
-        font-size: 1.12rem;
+        font-size: 1.15rem;
         color: var(--text-muted);
         line-height: 1.7;
         margin-bottom: 2.25rem;
-        max-width: 540px;
-    }
-    .hero-card-preview {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 24px;
-        padding: 1.75rem;
-        box-shadow: var(--elevated-shadow);
-    }
-    .hero-mini-stat {
-        background: var(--bg-surface-alt);
-        border-radius: 14px;
-        padding: 0.85rem 1rem;
-        border: 1px solid var(--border-color);
+        max-width: 560px;
     }
 
     /* Live Search Section */
@@ -65,32 +36,23 @@
         position: relative;
         z-index: 10;
     }
-    .search-card-inner {
-        background: var(--bg-surface);
-        border: 1.5px solid var(--border-color);
-        border-radius: 20px;
-        box-shadow: var(--card-shadow-hover);
-        padding: 1.25rem 1.5rem;
-    }
 
     /* Stat Cards */
     .stat-metric-card {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 18px;
         padding: 1.75rem 1.25rem;
         text-align: center;
-        box-shadow: var(--card-shadow);
         transition: transform 0.25s ease, border-color 0.25s ease;
     }
     .stat-metric-card:hover {
         transform: translateY(-4px);
-        border-color: var(--primary);
+        border-color: var(--c-sapphire);
     }
     .stat-number {
-        font-size: 2.4rem;
+        font-size: 2.5rem;
         font-weight: 800;
-        color: var(--primary);
+        background: var(--grad-tri);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         line-height: 1;
         margin-bottom: 0.4rem;
     }
@@ -104,85 +66,51 @@
         max-width: 620px;
         margin: 0 auto 3.5rem;
     }
-    .section-eyebrow {
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: var(--primary);
-        background-color: var(--primary-light);
-        padding: 0.35rem 0.85rem;
-        border-radius: 50px;
-        display: inline-block;
-        margin-bottom: 0.85rem;
-    }
     .section-title {
-        font-size: 2.15rem;
+        font-size: 2.2rem;
         font-weight: 800;
         letter-spacing: -0.03em;
         margin-bottom: 0.75rem;
-    }
-    .section-subtitle {
-        color: var(--text-muted);
-        font-size: 1.05rem;
+        color: var(--text-heading);
     }
 
     /* Specialization Card */
-    .spec-item-card {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 18px;
+    .spec-card {
         padding: 2rem 1.5rem;
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        box-shadow: var(--card-shadow);
-        transition: all 0.25s ease;
+        cursor: pointer;
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
-    .spec-item-card:hover {
+    .spec-card:hover {
         transform: translateY(-5px);
-        box-shadow: var(--card-shadow-hover);
-        border-color: var(--primary);
+        border-color: var(--c-sapphire);
+        box-shadow: var(--glass-shadow-hover);
     }
-    .spec-icon-wrapper {
+    .spec-icon-box {
         width: 54px;
         height: 54px;
-        border-radius: 14px;
-        background: var(--primary-light);
-        color: var(--primary);
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.6rem;
         margin-bottom: 1.25rem;
-        transition: transform 0.25s ease;
-    }
-    .spec-item-card:hover .spec-icon-wrapper {
-        transform: scale(1.08);
     }
 
-    /* Doctor Card */
-    .doctor-grid-card {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 20px;
+    /* Doctor Grid Card */
+    .doctor-card {
         overflow: hidden;
-        height: 100%;
         display: flex;
         flex-direction: column;
-        box-shadow: var(--card-shadow);
-        transition: all 0.25s ease;
-    }
-    .doctor-grid-card:hover {
-        transform: translateY(-6px);
-        box-shadow: var(--card-shadow-hover);
-        border-color: var(--border-hover);
+        height: 100%;
     }
     .doctor-thumb-area {
         position: relative;
         height: 220px;
-        background-color: var(--bg-surface-alt);
+        background: var(--bg-glass-input);
         overflow: hidden;
     }
     .doctor-thumb-img {
@@ -191,8 +119,8 @@
         object-fit: cover;
         transition: transform 0.4s ease;
     }
-    .doctor-grid-card:hover .doctor-thumb-img {
-        transform: scale(1.04);
+    .doctor-card:hover .doctor-thumb-img {
+        transform: scale(1.05);
     }
     .doctor-placeholder-thumb {
         width: 100%;
@@ -201,27 +129,13 @@
         align-items: center;
         justify-content: center;
         font-size: 4.5rem;
-        color: var(--primary);
-        background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-surface-alt) 100%);
+        color: #ffffff;
+        background: var(--grad-tri);
     }
-    .doctor-verified-badge {
+    .doctor-badge-overlay {
         position: absolute;
         bottom: 12px;
         left: 12px;
-        background: rgba(255, 255, 255, 0.94);
-        color: #047857;
-        font-weight: 700;
-        font-size: 0.78rem;
-        padding: 0.3rem 0.65rem;
-        border-radius: 50px;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    [data-bs-theme="dark"] .doctor-verified-badge {
-        background: rgba(17, 24, 39, 0.94);
-        color: #34d399;
     }
     .doctor-card-content {
         padding: 1.5rem;
@@ -230,59 +144,20 @@
         flex-grow: 1;
     }
     .doctor-fee-tag {
-        font-size: 1.25rem;
+        font-size: 1.35rem;
         font-weight: 800;
-        color: var(--primary);
+        color: var(--c-sapphire);
     }
 
-    /* Workflow Steps */
-    .step-box-card {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 18px;
-        padding: 2.25rem 1.75rem;
-        height: 100%;
-        position: relative;
-        box-shadow: var(--card-shadow);
-    }
-    .step-index-badge {
-        width: 44px;
-        height: 44px;
-        background: var(--primary-gradient);
-        color: #ffffff;
-        font-weight: 800;
-        font-size: 1.15rem;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1.35rem;
-        box-shadow: 0 6px 14px rgba(2, 132, 199, 0.28);
-    }
-
-    /* Benefit Cards */
-    .benefit-item-card {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 18px;
-        padding: 2rem 1.5rem;
-        height: 100%;
-        box-shadow: var(--card-shadow);
-        transition: transform 0.2s ease;
-    }
-    .benefit-item-card:hover {
-        transform: translateY(-4px);
-    }
-
-    /* CTA Section Banner */
-    .cta-banner-wrapper {
-        background: var(--primary-gradient);
+    /* CTA Section */
+    .cta-banner-glass {
+        background: var(--grad-tri);
         border-radius: 28px;
         color: #ffffff;
         padding: 4.5rem 2.5rem;
         position: relative;
         overflow: hidden;
-        box-shadow: var(--elevated-shadow);
+        box-shadow: 0 20px 45px rgba(37, 99, 235, 0.35);
     }
 </style>
 {% endblock %}
@@ -293,119 +168,110 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-7">
-                <div class="hero-badge">
-                    <i class="bi bi-shield-check text-primary fs-6"></i>
-                    <span>Certified & Verified Healthcare Portal</span>
+                <div class="d-inline-flex align-items-center gap-2 mb-3">
+                    <span class="glass-pill pill-sapphire">
+                        <i class="bi bi-shield-check"></i> Certified & Verified Healthcare Portal
+                    </span>
+                    <span class="glass-pill pill-jade d-none d-sm-inline-flex">
+                        <i class="bi bi-lightning-charge-fill"></i> Instant Direct Booking
+                    </span>
                 </div>
 
                 {% if user %}
                     <h1 class="hero-title">
                         Welcome Back,<br>
-                        <span class="text-gradient">{{ user.username }}!</span>
+                        <span class="text-gradient-tri">{{ user.username }}!</span>
                     </h1>
                     <p class="hero-desc">
-                        Manage your medical consultations, explore leading healthcare specialists, and schedule appointments with complete peace of mind.
+                        Manage your medical consultations, explore leading healthcare specialists, and schedule verified doctor visits with complete peace of mind.
                     </p>
                 {% else %}
                     <h1 class="hero-title">
                         Your Trusted Healthcare,<br>
-                        <span class="text-gradient">Just a Click Away.</span>
+                        <span class="text-gradient-tri">Just a Click Away.</span>
                     </h1>
                     <p class="hero-desc">
-                        Discover top-rated doctors, book verified medical consultations, and take confident control of your well-being with MediCare.
+                        Discover certified doctors across leading medical centers, book verified clinical consultations, and take confident control of your well-being.
                     </p>
                 {% endif %}
 
                 <div class="d-flex flex-wrap align-items-center gap-3">
-                    <a href="#doctors" class="btn-modern-primary btn-lg">
+                    <a href="#doctors" class="btn-glass-primary btn-lg">
                         <i class="bi bi-search"></i> Find a Doctor
                     </a>
                     {% if user %}
-                        <a href="{% url 'profile' %}" class="btn-modern-outline btn-lg">
+                        <a href="{% url 'profile' %}" class="btn-glass-outline btn-lg">
                             <i class="bi bi-person-circle"></i> My Patient Profile
                         </a>
                     {% else %}
-                        <a href="{% url 'signup' %}" class="btn-modern-outline btn-lg">
-                            <i class="bi bi-person-plus"></i> Create Free Account
+                        <a href="{% url 'signup' %}" class="btn-glass-outline btn-lg">
+                            <i class="bi bi-person-plus-fill"></i> Create Free Account
                         </a>
                     {% endif %}
                 </div>
 
-                <!-- Proof Bar -->
-                <div class="d-flex align-items-center gap-4 mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
+                <!-- Proof Badges -->
+                <div class="d-flex align-items-center gap-4 mt-4 pt-3 border-top" style="border-color: var(--glass-border) !important;">
                     <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
-                        <span class="small fw-semibold" style="color: var(--text-heading);">100% Verified Doctors</span>
+                        <i class="bi bi-check-circle-fill fs-5" style="color: var(--c-jade);"></i>
+                        <span class="small fw-semibold" style="color: var(--text-heading);">100% Verified Specialists</span>
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-clock-history text-primary fs-5"></i>
-                        <span class="small fw-semibold" style="color: var(--text-heading);">24/7 Portal Access</span>
+                        <i class="bi bi-clock-history fs-5" style="color: var(--c-sapphire);"></i>
+                        <span class="small fw-semibold" style="color: var(--text-heading);">24/7 Access</span>
                     </div>
                     <div class="d-flex align-items-center gap-2 d-none d-sm-flex">
-                        <i class="bi bi-lock-fill text-primary fs-5"></i>
-                        <span class="small fw-semibold" style="color: var(--text-heading);">Confidential & Secure</span>
+                        <i class="bi bi-lock-fill fs-5" style="color: var(--c-indigo);"></i>
+                        <span class="small fw-semibold" style="color: var(--text-heading);">Digital Privacy</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Hero Visual Preview Card -->
+            <!-- Hero Interactive Preview Card -->
             <div class="col-lg-5">
-                <div class="hero-card-preview">
+                <div class="glass-card p-4 p-md-5">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="brand-icon-box" style="width: 44px; height: 44px; font-size: 1.3rem;">
-                                <i class="bi bi-heart-pulse-fill"></i>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="brand-icon-box" style="width: 38px; height: 38px; font-size: 1.1rem;">
+                                <i class="bi bi-hospital"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fw-bold">Live Health Portal</h6>
-                                <small class="text-muted">Instant Doctor Consultations</small>
+                                <h6 class="fw-bold mb-0" style="color: var(--text-heading);">MediCare Portal</h6>
+                                <small class="text-muted">Live Consultation Network</small>
                             </div>
                         </div>
-                        <span class="modern-badge badge-success-subtle">
-                            <i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> Active System
-                        </span>
+                        <span class="glass-pill pill-jade">Active Now</span>
                     </div>
 
-                    <!-- Mini Highlight 1 -->
-                    <div class="hero-mini-stat d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-3 p-2 bg-primary-subtle text-primary">
-                                <i class="bi bi-person-check fs-5"></i>
-                            </div>
+                    <!-- Mini Stat Preview -->
+                    <div class="p-3 rounded-4 mb-3" style="background: var(--bg-glass-input); border: 1px solid var(--glass-border);">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <div class="fw-bold small" style="color: var(--text-heading);">Verified Specialists</div>
-                                <div class="text-muted" style="font-size: 0.78rem;">Multidisciplinary medical team</div>
+                                <small class="text-muted d-block" style="font-size: 0.76rem;">Practicing Specialists</small>
+                                <span class="fw-bold fs-5" style="color: var(--text-heading);">{{ doctors|length }}+ Certified Doctors</span>
                             </div>
+                            <i class="bi bi-person-badge fs-2" style="color: var(--c-sapphire);"></i>
                         </div>
-                        <span class="fw-bold text-primary small">{{ doctors|length }}+ Active</span>
                     </div>
 
-                    <!-- Mini Highlight 2 -->
-                    <div class="hero-mini-stat d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-3 p-2 bg-info-subtle text-info">
-                                <i class="bi bi-hospital fs-5"></i>
-                            </div>
+                    <div class="p-3 rounded-4 mb-3" style="background: var(--bg-glass-input); border: 1px solid var(--glass-border);">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <div class="fw-bold small" style="color: var(--text-heading);">Reputed Hospitals</div>
-                                <div class="text-muted" style="font-size: 0.78rem;">Premier healthcare facilities</div>
+                                <small class="text-muted d-block" style="font-size: 0.76rem;">Direct Scheduling</small>
+                                <span class="fw-bold fs-5" style="color: var(--text-heading);">Zero Queue Waiting</span>
                             </div>
+                            <i class="bi bi-check2-all fs-2" style="color: var(--c-jade);"></i>
                         </div>
-                        <span class="fw-bold text-info small">City-wide</span>
                     </div>
 
-                    <!-- Mini Highlight 3 -->
-                    <div class="hero-mini-stat d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-3 p-2 bg-success-subtle text-success">
-                                <i class="bi bi-shield-lock fs-5"></i>
-                            </div>
+                    <div class="p-3 rounded-4" style="background: var(--bg-glass-input); border: 1px solid var(--glass-border);">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <div class="fw-bold small" style="color: var(--text-heading);">Direct Appointment Desk</div>
-                                <div class="text-muted" style="font-size: 0.78rem;">Zero waiting room hassle</div>
+                                <small class="text-muted d-block" style="font-size: 0.76rem;">Patient Satisfaction</small>
+                                <span class="fw-bold fs-5" style="color: var(--text-heading);">4.9 / 5.0 Star Rating</span>
                             </div>
+                            <i class="bi bi-stars fs-2" style="color: var(--c-indigo);"></i>
                         </div>
-                        <span class="fw-bold text-success small">Instant</span>
                     </div>
                 </div>
             </div>
@@ -415,21 +281,21 @@
 
 <!-- REALTIME DOCTOR SEARCH BAR -->
 <div class="container search-container-box">
-    <div class="search-card-inner">
+    <div class="glass-card p-3 p-md-4">
         <div class="row g-3 align-items-center">
             <div class="col-lg-9 col-md-8">
                 <div class="input-icon-group">
                     <i class="bi bi-search input-icon fs-5"></i>
-                    <input type="text" id="doctorSearchInput" class="form-control form-control-lg form-control-modern" 
-                           placeholder="Search by doctor's name, specialization (e.g. Cardiology), qualification, or hospital..."
-                           autocomplete="off">
+                    <input type="text" id="doctorSearchInput" class="glass-input form-control form-control-lg" 
+                           placeholder="Search by doctor's name, specialization (e.g. Cardiology), hospital, or qualification..."
+                           value="{{ current_search }}" autocomplete="off">
                 </div>
             </div>
             <div class="col-lg-3 col-md-4 d-flex gap-2">
-                <button type="button" class="btn-modern-primary w-100 justify-content-center py-3" onclick="applyDoctorSearch()">
+                <button type="button" class="btn-glass-primary w-100 justify-content-center py-3" onclick="applyDoctorSearch()">
                     <i class="bi bi-funnel"></i> Search Doctors
                 </button>
-                <button type="button" class="btn-modern-outline px-3" id="clearSearchBtn" title="Clear filter" onclick="resetDoctorSearch()">
+                <button type="button" class="btn-glass-outline px-3" id="clearSearchBtn" title="Reset filter" onclick="resetDoctorSearch()">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
@@ -442,31 +308,31 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-6 col-lg-3">
-                <div class="stat-metric-card">
+                <div class="glass-card stat-metric-card">
                     <div class="stat-number">{{ doctors|length }}</div>
-                    <div class="fw-semibold" style="color: var(--text-heading);">Doctors Available</div>
-                    <small class="text-muted">Verified Specialists</small>
+                    <div class="fw-bold" style="color: var(--text-heading);">Available Specialists</div>
+                    <small class="text-muted">Directly Bookable</small>
                 </div>
             </div>
             <div class="col-6 col-lg-3">
-                <div class="stat-metric-card">
+                <div class="glass-card stat-metric-card">
                     <div class="stat-number">8+</div>
-                    <div class="fw-semibold" style="color: var(--text-heading);">Specializations</div>
-                    <small class="text-muted">Comprehensive Care</small>
+                    <div class="fw-bold" style="color: var(--text-heading);">Medical Specialties</div>
+                    <small class="text-muted">Targeted Care</small>
                 </div>
             </div>
             <div class="col-6 col-lg-3">
-                <div class="stat-metric-card">
+                <div class="glass-card stat-metric-card">
                     <div class="stat-number">24/7</div>
-                    <div class="fw-semibold" style="color: var(--text-heading);">Portal Access</div>
-                    <small class="text-muted">Always Available</small>
+                    <div class="fw-bold" style="color: var(--text-heading);">Portal Access</div>
+                    <small class="text-muted">Always Online</small>
                 </div>
             </div>
             <div class="col-6 col-lg-3">
-                <div class="stat-metric-card">
+                <div class="glass-card stat-metric-card">
                     <div class="stat-number">100%</div>
-                    <div class="fw-semibold" style="color: var(--text-heading);">Verified Reviews</div>
-                    <small class="text-muted">Patient Satisfaction</small>
+                    <div class="fw-bold" style="color: var(--text-heading);">Verified Credentials</div>
+                    <small class="text-muted">Patient Trust</small>
                 </div>
             </div>
         </div>
@@ -474,100 +340,108 @@
 </section>
 
 <!-- SPECIALIZATIONS SECTION -->
-<section class="section-wrap" id="specializations" style="background-color: var(--bg-surface-alt);">
+<section class="section-wrap" id="specializations">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">Medical Departments</span>
+            <span class="glass-pill pill-indigo mb-2">Clinical Departments</span>
             <h2 class="section-title">Explore Medical Specializations</h2>
-            <p class="section-subtitle">Find dedicated medical specialists across all major clinical fields for targeted treatment and care.</p>
+            <p class="text-muted">Select any clinical specialty below to instantly filter matching doctors.</p>
         </div>
 
         <div class="row g-4">
+            <!-- 1. Cardiology -->
             <div class="col-md-6 col-lg-3">
-                <div class="spec-item-card" onclick="filterBySpecialization('Cardiology')" style="cursor: pointer;">
-                    <div class="spec-icon-wrapper">
+                <div class="glass-card spec-card" onclick="filterBySpecialization('Cardiology')">
+                    <div class="spec-icon-box" style="background: var(--c-sapphire-light); color: var(--c-sapphire);">
                         <i class="bi bi-heart-pulse-fill"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">Cardiology</h5>
-                    <p class="text-muted small mb-3">Heart, blood vessels & comprehensive cardiovascular diagnostics.</p>
-                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Cardiology</h5>
+                    <p class="text-muted small mb-3">Heart diagnostics, hypertension management & cardiovascular care.</p>
+                    <span class="small fw-semibold mt-auto" style="color: var(--c-sapphire);">Explore Doctors &rarr;</span>
                 </div>
             </div>
 
+            <!-- 2. Neurology -->
             <div class="col-md-6 col-lg-3">
-                <div class="spec-item-card" onclick="filterBySpecialization('Neurology')" style="cursor: pointer;">
-                    <div class="spec-icon-wrapper">
+                <div class="glass-card spec-card" onclick="filterBySpecialization('Neurology')">
+                    <div class="spec-icon-box" style="background: var(--c-indigo-light); color: var(--c-indigo);">
                         <i class="bi bi-activity"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">Neurology</h5>
-                    <p class="text-muted small mb-3">Brain, spinal cord, nerves & neurological rehabilitation.</p>
-                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Neurology</h5>
+                    <p class="text-muted small mb-3">Brain, nerves, migraine care & neurological rehabilitation.</p>
+                    <span class="small fw-semibold mt-auto" style="color: var(--c-indigo);">Explore Doctors &rarr;</span>
                 </div>
             </div>
 
+            <!-- 3. Orthopedics -->
             <div class="col-md-6 col-lg-3">
-                <div class="spec-item-card" onclick="filterBySpecialization('Dentistry')" style="cursor: pointer;">
-                    <div class="spec-icon-wrapper">
-                        <i class="bi bi-emoji-smile-fill"></i>
-                    </div>
-                    <h5 class="fw-bold mb-1">Dentistry</h5>
-                    <p class="text-muted small mb-3">Oral health, orthodontic corrections and restorative dental care.</p>
-                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="spec-item-card" onclick="filterBySpecialization('Ophthalmology')" style="cursor: pointer;">
-                    <div class="spec-icon-wrapper">
-                        <i class="bi bi-eye-fill"></i>
-                    </div>
-                    <h5 class="fw-bold mb-1">Ophthalmology</h5>
-                    <p class="text-muted small mb-3">Vision testing, optical surgery and complete eye health care.</p>
-                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="spec-item-card" onclick="filterBySpecialization('Orthopedics')" style="cursor: pointer;">
-                    <div class="spec-icon-wrapper">
+                <div class="glass-card spec-card" onclick="filterBySpecialization('Orthopedics')">
+                    <div class="spec-icon-box" style="background: var(--c-jade-light); color: var(--c-jade);">
                         <i class="bi bi-shield-plus"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">Orthopedics</h5>
-                    <p class="text-muted small mb-3">Bone disorders, joint replacements, sports injuries and spine care.</p>
-                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Orthopedics</h5>
+                    <p class="text-muted small mb-3">Bone disorders, joint replacements, sports injury & spine therapy.</p>
+                    <span class="small fw-semibold mt-auto" style="color: var(--c-jade);">Explore Doctors &rarr;</span>
                 </div>
             </div>
 
+            <!-- 4. Dermatology -->
             <div class="col-md-6 col-lg-3">
-                <div class="spec-item-card" onclick="filterBySpecialization('Pediatrics')" style="cursor: pointer;">
-                    <div class="spec-icon-wrapper">
-                        <i class="bi bi-balloon-fill"></i>
-                    </div>
-                    <h5 class="fw-bold mb-1">Pediatrics</h5>
-                    <p class="text-muted small mb-3">Infant development, child healthcare and adolescent medicine.</p>
-                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="spec-item-card" onclick="filterBySpecialization('Dermatology')" style="cursor: pointer;">
-                    <div class="spec-icon-wrapper">
+                <div class="glass-card spec-card" onclick="filterBySpecialization('Dermatology')">
+                    <div class="spec-icon-box" style="background: var(--c-sapphire-light); color: var(--c-sapphire);">
                         <i class="bi bi-bandaid-fill"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">Dermatology</h5>
-                    <p class="text-muted small mb-3">Skin conditions, clinical cosmetic therapy and allergen care.</p>
-                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Dermatology</h5>
+                    <p class="text-muted small mb-3">Skin conditions, clinical aesthetic therapy & allergen treatment.</p>
+                    <span class="small fw-semibold mt-auto" style="color: var(--c-sapphire);">Explore Doctors &rarr;</span>
                 </div>
             </div>
 
+            <!-- 5. Pediatrics -->
             <div class="col-md-6 col-lg-3">
-                <div class="spec-item-card" onclick="filterBySpecialization('General Medicine')" style="cursor: pointer;">
-                    <div class="spec-icon-wrapper">
+                <div class="glass-card spec-card" onclick="filterBySpecialization('Pediatrics')">
+                    <div class="spec-icon-box" style="background: var(--c-jade-light); color: var(--c-jade);">
+                        <i class="bi bi-balloon-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Pediatrics</h5>
+                    <p class="text-muted small mb-3">Infant development, immunization & adolescent healthcare.</p>
+                    <span class="small fw-semibold mt-auto" style="color: var(--c-jade);">Explore Doctors &rarr;</span>
+                </div>
+            </div>
+
+            <!-- 6. Dentistry -->
+            <div class="col-md-6 col-lg-3">
+                <div class="glass-card spec-card" onclick="filterBySpecialization('Dentistry')">
+                    <div class="spec-icon-box" style="background: var(--c-indigo-light); color: var(--c-indigo);">
+                        <i class="bi bi-emoji-smile-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Dentistry</h5>
+                    <p class="text-muted small mb-3">Oral wellness, orthodontic smile corrections & implants.</p>
+                    <span class="small fw-semibold mt-auto" style="color: var(--c-indigo);">Explore Doctors &rarr;</span>
+                </div>
+            </div>
+
+            <!-- 7. Ophthalmology -->
+            <div class="col-md-6 col-lg-3">
+                <div class="glass-card spec-card" onclick="filterBySpecialization('Ophthalmology')">
+                    <div class="spec-icon-box" style="background: var(--c-sapphire-light); color: var(--c-sapphire);">
+                        <i class="bi bi-eye-fill"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Ophthalmology</h5>
+                    <p class="text-muted small mb-3">Vision testing, cataract surgery & comprehensive eye care.</p>
+                    <span class="small fw-semibold mt-auto" style="color: var(--c-sapphire);">Explore Doctors &rarr;</span>
+                </div>
+            </div>
+
+            <!-- 8. General Medicine -->
+            <div class="col-md-6 col-lg-3">
+                <div class="glass-card spec-card" onclick="filterBySpecialization('General Medicine')">
+                    <div class="spec-icon-box" style="background: var(--c-jade-light); color: var(--c-jade);">
                         <i class="bi bi-capsule"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">General Medicine</h5>
-                    <p class="text-muted small mb-3">Primary care, chronic condition management & preventive medicine.</p>
-                    <span class="small fw-semibold text-primary mt-auto">Explore Specialists &rarr;</span>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">General Medicine</h5>
+                    <p class="text-muted small mb-3">Primary diagnostics, lifestyle medicine & preventative wellness.</p>
+                    <span class="small fw-semibold mt-auto" style="color: var(--c-jade);">Explore Doctors &rarr;</span>
                 </div>
             </div>
         </div>
@@ -579,12 +453,12 @@
     <div class="container">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
             <div>
-                <span class="section-eyebrow">Medical Staff</span>
-                <h2 class="section-title mb-1">Our Verified Doctors</h2>
-                <p class="section-subtitle mb-0">Book appointments with certified specialists across leading medical centers.</p>
+                <span class="glass-pill pill-sapphire mb-2">Verified Practitioners</span>
+                <h2 class="section-title mb-1">Our Available Doctors</h2>
+                <p class="text-muted mb-0">Book appointments with certified specialists across leading healthcare centers.</p>
             </div>
             <div>
-                <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 rounded-pill fw-bold" id="doctorCounterBadge">
+                <span class="glass-pill pill-jade fs-6 px-3 py-2 fw-bold" id="doctorCounterBadge">
                     {{ doctors|length }} Doctor{{ doctors|length|pluralize }} Available
                 </span>
             </div>
@@ -598,7 +472,7 @@
                      data-spec="{{ doctor.specialization|lower }}"
                      data-qual="{{ doctor.qualification|lower }}"
                      data-hosp="{{ doctor.hospital|lower }}">
-                    <div class="doctor-grid-card">
+                    <div class="glass-card doctor-card glass-card-hover">
                         <!-- Thumbnail Photo -->
                         <div class="doctor-thumb-area">
                             {% if doctor.image %}
@@ -608,15 +482,17 @@
                                     <i class="bi bi-person-fill"></i>
                                 </div>
                             {% endif %}
-                            <div class="doctor-verified-badge">
-                                <i class="bi bi-patch-check-fill"></i> Verified Specialist
+                            <div class="doctor-badge-overlay">
+                                <span class="glass-pill pill-jade">
+                                    <i class="bi bi-patch-check-fill"></i> Verified Specialist
+                                </span>
                             </div>
                         </div>
 
                         <!-- Card Body -->
                         <div class="doctor-card-content">
                             <div class="mb-2">
-                                <span class="modern-badge badge-primary-subtle">
+                                <span class="glass-pill pill-sapphire">
                                     {{ doctor.specialization }}
                                 </span>
                             </div>
@@ -626,43 +502,43 @@
                             </h4>
 
                             <div class="text-muted small mb-2 d-flex align-items-center gap-1">
-                                <i class="bi bi-mortarboard text-primary"></i>
+                                <i class="bi bi-mortarboard" style="color: var(--c-sapphire);"></i>
                                 <span>{{ doctor.qualification }}</span>
                             </div>
 
                             <div class="text-muted small mb-3 d-flex align-items-center gap-1">
-                                <i class="bi bi-hospital text-primary"></i>
+                                <i class="bi bi-hospital" style="color: var(--c-sapphire);"></i>
                                 <span class="text-truncate">{{ doctor.hospital }}</span>
                             </div>
 
-                            <div class="d-flex align-items-center gap-3 pt-3 mt-auto border-top" style="border-color: var(--border-color) !important;">
+                            <div class="d-flex align-items-center gap-3 pt-3 mt-auto border-top" style="border-color: var(--glass-border) !important;">
                                 <div>
-                                    <small class="text-muted d-block" style="font-size: 0.76rem;">Consultation Fee</small>
+                                    <small class="text-muted d-block" style="font-size: 0.74rem;">Consultation Fee</small>
                                     <div class="doctor-fee-tag">&#8377;{{ doctor.fee }}</div>
                                 </div>
                                 <div class="ms-auto text-end">
-                                    <small class="text-muted d-block" style="font-size: 0.76rem;">Experience</small>
-                                    <span class="badge bg-secondary-subtle text-secondary fw-semibold">
+                                    <small class="text-muted d-block" style="font-size: 0.74rem;">Experience</small>
+                                    <span class="glass-pill pill-indigo py-1">
                                         {{ doctor.experience }} Yrs Exp
                                     </span>
                                 </div>
                             </div>
 
-                            <a href="{% url 'doctor_detail' doctor.id %}" class="btn-modern-primary w-100 justify-content-center mt-3">
+                            <a href="{% url 'doctor_detail' doctor.id %}" class="btn-glass-primary w-100 justify-content-center mt-3">
                                 <span>View Profile & Book</span>
-                                <i class="bi bi-arrow-right"></i>
+                                <i class="bi bi-arrow-right-short fs-5"></i>
                             </a>
                         </div>
                     </div>
                 </div>
             {% empty %}
                 <div class="col-12">
-                    <div class="modern-card text-center py-5 px-4">
+                    <div class="glass-card text-center py-5 px-4">
                         <div class="brand-icon-box mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.8rem;">
                             <i class="bi bi-person-badge"></i>
                         </div>
-                        <h4 class="fw-bold">No Doctors Registered Yet</h4>
-                        <p class="text-muted mb-0">Registered healthcare professionals will appear here once added through the administrative portal.</p>
+                        <h4 class="fw-bold" style="color: var(--text-heading);">No Doctors Registered Yet</h4>
+                        <p class="text-muted mb-0">Registered healthcare professionals will appear here once configured.</p>
                     </div>
                 </div>
             {% endfor %}
@@ -670,11 +546,11 @@
 
         <!-- No Filter Search Results Placeholder -->
         <div id="noSearchResults" class="text-center py-5 d-none">
-            <div class="modern-card p-5 mx-auto" style="max-width: 500px;">
+            <div class="glass-card p-5 mx-auto" style="max-width: 500px;">
                 <i class="bi bi-search text-muted mb-3" style="font-size: 3rem;"></i>
-                <h4 class="fw-bold mb-2">No Matching Doctors Found</h4>
-                <p class="text-muted small mb-4">We couldn't find any doctor matching your search terms. Try searching for another name or medical field.</p>
-                <button type="button" class="btn-modern-outline mx-auto" onclick="resetDoctorSearch()">
+                <h4 class="fw-bold mb-2" style="color: var(--text-heading);">No Matching Doctors Found</h4>
+                <p class="text-muted small mb-4">We couldn't find any specialist matching your search keyword. Try another name or medical field.</p>
+                <button type="button" class="btn-glass-outline mx-auto" onclick="resetDoctorSearch()">
                     <i class="bi bi-arrow-repeat"></i> Reset Search Filter
                 </button>
             </div>
@@ -683,36 +559,42 @@
 </section>
 
 <!-- HOW IT WORKS SECTION -->
-<section class="section-wrap" id="how-it-works" style="background-color: var(--bg-surface-alt);">
+<section class="section-wrap" id="how-it-works">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">Simple Workflow</span>
+            <span class="glass-pill pill-jade mb-2">Straightforward Process</span>
             <h2 class="section-title">How MediCare Works</h2>
-            <p class="section-subtitle">Connecting you to professional clinical care in three straightforward steps.</p>
+            <p class="text-muted">Connecting you to professional clinical care in three easy steps.</p>
         </div>
 
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="step-box-card">
-                    <div class="step-index-badge">1</div>
-                    <h5 class="fw-bold mb-2">Create Your Profile</h5>
-                    <p class="text-muted small mb-0">Register in under a minute with your basic information to get your unique patient identity securely saved.</p>
+                <div class="glass-card p-4 h-100">
+                    <div class="brand-icon-box mb-3" style="background: var(--grad-sapphire); width: 44px; height: 44px; font-size: 1.15rem; font-weight: 800;">
+                        1
+                    </div>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-heading);">Create Your Patient Profile</h5>
+                    <p class="text-muted small mb-0">Register in under a minute with your basic details to have your patient record securely stored.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="step-box-card">
-                    <div class="step-index-badge">2</div>
-                    <h5 class="fw-bold mb-2">Select Your Doctor</h5>
-                    <p class="text-muted small mb-0">Filter by specialization, hospital, credentials, experience, and fee structure to find the right physician.</p>
+                <div class="glass-card p-4 h-100">
+                    <div class="brand-icon-box mb-3" style="background: var(--grad-indigo); width: 44px; height: 44px; font-size: 1.15rem; font-weight: 800;">
+                        2
+                    </div>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-heading);">Choose Your Specialist</h5>
+                    <p class="text-muted small mb-0">Filter doctors by clinical specialty, hospital, qualifications, experience, and fee structure.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="step-box-card">
-                    <div class="step-index-badge">3</div>
-                    <h5 class="fw-bold mb-2">Consult & Heal</h5>
-                    <p class="text-muted small mb-0">Book your appointment, receive full medical guidance, and maintain complete continuity of healthcare records.</p>
+                <div class="glass-card p-4 h-100">
+                    <div class="brand-icon-box mb-3" style="background: var(--grad-jade); width: 44px; height: 44px; font-size: 1.15rem; font-weight: 800;">
+                        3
+                    </div>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-heading);">Consult & Receive Care</h5>
+                    <p class="text-muted small mb-0">Confirm your appointment slot, consult with your physician, and receive your digital medical prescription.</p>
                 </div>
             </div>
         </div>
@@ -723,48 +605,48 @@
 <section class="section-wrap">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">The MediCare Advantage</span>
+            <span class="glass-pill pill-indigo mb-2">The MediCare Advantage</span>
             <h2 class="section-title">Why Patients Choose MediCare</h2>
-            <p class="section-subtitle">We build healthcare experiences based on trust, transparency, and clinical excellence.</p>
+            <p class="text-muted">We build healthcare experiences based on trust, transparency, and clinical excellence.</p>
         </div>
 
         <div class="row g-4">
             <div class="col-md-6 col-lg-3">
-                <div class="benefit-item-card">
-                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                <div class="glass-card p-4 h-100">
+                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem; background: var(--grad-sapphire);">
                         <i class="bi bi-award-fill"></i>
                     </div>
-                    <h5 class="fw-bold mb-2">Verified Doctors</h5>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-heading);">Verified Doctors</h5>
                     <p class="text-muted small mb-0">Every physician on our portal undergoes thorough credential checks and background verification.</p>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="benefit-item-card">
-                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                <div class="glass-card p-4 h-100">
+                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem; background: var(--grad-jade);">
                         <i class="bi bi-cash-stack"></i>
                     </div>
-                    <h5 class="fw-bold mb-2">Transparent Fees</h5>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-heading);">Transparent Fees</h5>
                     <p class="text-muted small mb-0">Clear consultation costs upfront with zero hidden charges or surprise administrative fees.</p>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="benefit-item-card">
-                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                <div class="glass-card p-4 h-100">
+                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem; background: var(--grad-indigo);">
                         <i class="bi bi-shield-check"></i>
                     </div>
-                    <h5 class="fw-bold mb-2">Private & Confidential</h5>
-                    <p class="text-muted small mb-0">Your profile, contact details, and consultations are secured according to strict digital privacy standards.</p>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-heading);">Confidential Records</h5>
+                    <p class="text-muted small mb-0">Your profile, contact details, and consultations are secured with modern digital standards.</p>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="benefit-item-card">
-                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
+                <div class="glass-card p-4 h-100">
+                    <div class="brand-icon-box mb-3" style="width: 48px; height: 48px; font-size: 1.35rem; background: var(--grad-tri);">
                         <i class="bi bi-lightning-charge-fill"></i>
                     </div>
-                    <h5 class="fw-bold mb-2">Rapid Coordination</h5>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-heading);">Rapid Coordination</h5>
                     <p class="text-muted small mb-0">Direct clinic contacts and hospital scheduling without long waiting queues or call center loops.</p>
                 </div>
             </div>
@@ -773,11 +655,11 @@
 </section>
 
 <!-- ABOUT SECTION -->
-<section class="section-wrap" id="about" style="background-color: var(--bg-surface-alt);">
+<section class="section-wrap" id="about">
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <span class="section-eyebrow">About MediCare</span>
+                <span class="glass-pill pill-sapphire mb-3">About MediCare</span>
                 <h2 class="section-title mb-3">Reinventing Patient Access to Quality Medicine</h2>
                 <p class="text-muted mb-3" style="font-size: 1.02rem; line-height: 1.75;">
                     MediCare is designed to eliminate the friction between patients seeking timely care and certified doctors offering clinical excellence. Whether you need an urgent specialist consultation or a trusted primary physician, our portal connects you instantly.
@@ -787,47 +669,47 @@
                 </p>
                 <div class="d-flex flex-wrap gap-4">
                     <div>
-                        <h4 class="fw-bold text-primary mb-0">50,000+</h4>
+                        <h4 class="fw-bold mb-0" style="color: var(--c-sapphire);">50,000+</h4>
                         <small class="text-muted">Patients Served</small>
                     </div>
-                    <div class="border-start ps-4" style="border-color: var(--border-color) !important;">
-                        <h4 class="fw-bold text-primary mb-0">99.4%</h4>
-                        <small class="text-muted">Positive Experience</small>
+                    <div class="border-start ps-4" style="border-color: var(--glass-border) !important;">
+                        <h4 class="fw-bold mb-0" style="color: var(--c-jade);">99.4%</h4>
+                        <small class="text-muted">Positive Satisfaction</small>
                     </div>
-                    <div class="border-start ps-4" style="border-color: var(--border-color) !important;">
-                        <h4 class="fw-bold text-primary mb-0">15+</h4>
+                    <div class="border-start ps-4" style="border-color: var(--glass-border) !important;">
+                        <h4 class="fw-bold mb-0" style="color: var(--c-indigo);">15+</h4>
                         <small class="text-muted">Partner Hospitals</small>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6">
-                <div class="modern-card p-4 p-md-5">
-                    <h4 class="fw-bold mb-3">Our Core Commitments</h4>
+                <div class="glass-card p-4 p-md-5">
+                    <h4 class="fw-bold mb-3" style="color: var(--text-heading);">Our Core Commitments</h4>
                     <div class="d-flex align-items-start gap-3 mb-4">
-                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px;">
+                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px; background: var(--grad-sapphire);">
                             <i class="bi bi-heart-pulse"></i>
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-1">Patient-First Ethics</h6>
+                            <h6 class="fw-bold mb-1" style="color: var(--text-heading);">Patient-First Ethics</h6>
                             <p class="text-muted small mb-0">Unbiased doctor recommendations focused entirely on clinical competence and patient comfort.</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-start gap-3 mb-4">
-                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px;">
+                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px; background: var(--grad-jade);">
                             <i class="bi bi-shield-check"></i>
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-1">Strict Credential Verification</h6>
+                            <h6 class="fw-bold mb-1" style="color: var(--text-heading);">Strict Credential Verification</h6>
                             <p class="text-muted small mb-0">Every listed doctor's qualifications, medical councils, and hospital affiliations are verified.</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-start gap-3">
-                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px;">
+                        <div class="brand-icon-box flex-shrink-0" style="width: 40px; height: 40px; background: var(--grad-indigo);">
                             <i class="bi bi-headset"></i>
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-1">Continuous Patient Support</h6>
+                            <h6 class="fw-bold mb-1" style="color: var(--text-heading);">Continuous Patient Support</h6>
                             <p class="text-muted small mb-0">Dedicated support team to guide you through scheduling inquiries, account access, and clinic coordination.</p>
                         </div>
                     </div>
@@ -841,40 +723,40 @@
 <section class="section-wrap" id="contact">
     <div class="container">
         <div class="section-header">
-            <span class="section-eyebrow">Assistance Desk</span>
+            <span class="glass-pill pill-jade mb-2">Assistance Desk</span>
             <h2 class="section-title">Get in Touch with Our Team</h2>
-            <p class="section-subtitle">Have questions about an appointment, doctor profile, or account? We are here to help.</p>
+            <p class="text-muted">Have questions about an appointment, doctor profile, or account? We are here to help.</p>
         </div>
 
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="modern-card p-4 text-center h-100">
-                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem;">
+                <div class="glass-card p-4 text-center h-100">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem; background: var(--grad-sapphire);">
                         <i class="bi bi-envelope-at-fill"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">Email Support</h5>
-                    <p class="text-muted small mb-3">Drop us a line anytime and we will respond within 4 business hours.</p>
-                    <a href="mailto:support@medicare.com" class="fw-bold text-primary">support@medicare.com</a>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Email Support</h5>
+                    <p class="text-muted small mb-3">Drop us an inquiry anytime and our clinical support responds promptly.</p>
+                    <a href="mailto:support@medicare.com" class="fw-bold text-decoration-none" style="color: var(--c-sapphire);">support@medicare.com</a>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="modern-card p-4 text-center h-100">
-                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem;">
+                <div class="glass-card p-4 text-center h-100">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem; background: var(--grad-jade);">
                         <i class="bi bi-telephone-inbound-fill"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">Direct Phone Hotline</h5>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Direct Phone Hotline</h5>
                     <p class="text-muted small mb-3">Talk directly to our healthcare coordination helpline.</p>
-                    <a href="tel:+919876543210" class="fw-bold text-primary">+91 98765 43210</a>
+                    <a href="tel:+919876543210" class="fw-bold text-decoration-none" style="color: var(--c-jade);">+91 98765 43210</a>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="modern-card p-4 text-center h-100">
-                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem;">
+                <div class="glass-card p-4 text-center h-100">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.45rem; background: var(--grad-indigo);">
                         <i class="bi bi-geo-alt-fill"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">Central Office</h5>
+                    <h5 class="fw-bold mb-1" style="color: var(--text-heading);">Central Office</h5>
                     <p class="text-muted small mb-3">Healthcare Information Center, Connaught Place, New Delhi, India.</p>
                     <span class="fw-semibold small text-muted">Open Mon &ndash; Sat, 8:00 AM &ndash; 8:00 PM</span>
                 </div>
@@ -885,22 +767,22 @@
 
 <!-- CALL TO ACTION BANNER -->
 <section class="container pb-5">
-    <div class="cta-banner-wrapper text-center">
+    <div class="cta-banner-glass text-center">
         <h2 class="display-6 fw-bold mb-3">Take the First Step Toward Better Health</h2>
         <p class="lead mb-4 opacity-90 mx-auto" style="max-width: 600px;">
             Join thousands of satisfied patients who manage their clinical visits easily with MediCare.
         </p>
         <div class="d-flex flex-wrap justify-content-center gap-3">
             {% if user %}
-                <a href="#doctors" class="btn btn-light btn-lg rounded-pill px-4 fw-bold text-primary">
+                <a href="#doctors" class="btn btn-light btn-lg rounded-pill px-4 fw-bold" style="color: var(--c-sapphire);">
                     <i class="bi bi-search me-1"></i> Browse All Doctors
                 </a>
             {% else %}
-                <a href="{% url 'signup' %}" class="btn btn-light btn-lg rounded-pill px-4 fw-bold text-primary">
-                    <i class="bi bi-person-plus me-1"></i> Create Your Patient Account
+                <a href="{% url 'signup' %}" class="btn btn-light btn-lg rounded-pill px-4 fw-bold" style="color: var(--c-sapphire);">
+                    <i class="bi bi-person-plus-fill me-1"></i> Create Patient Account
                 </a>
                 <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold">
-                    <i class="bi bi-box-arrow-in-right me-1"></i> Patient Login
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Patient Sign In
                 </a>
             {% endif %}
         </div>

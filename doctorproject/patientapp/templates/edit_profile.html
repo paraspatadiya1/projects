@@ -1,196 +1,165 @@
 {% extends "base.html" %}
 
-{% block title %}Edit Profile | MediCare{% endblock %}
+{% block title %}Edit Patient Profile | MediCare Portal{% endblock %}
 
 {% block extra_head %}
 <style>
-    .edit-profile-wrapper {
-        max-width: 780px;
-        margin: 0 auto;
-    }
-    .current-avatar-preview {
-        width: 110px;
-        height: 110px;
+    .current-avatar-circle {
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid var(--primary);
-        box-shadow: var(--card-shadow);
+        border: 4px solid rgba(255, 255, 255, 0.85);
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
     }
-    .avatar-placeholder-sm {
-        width: 110px;
-        height: 110px;
+    .current-avatar-placeholder {
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-surface-alt) 100%);
-        color: var(--primary);
-        font-size: 2.8rem;
+        background: var(--grad-tri);
+        color: #ffffff;
+        font-size: 3.2rem;
         font-weight: 800;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 3px solid var(--border-color);
+        border: 4px solid rgba(255, 255, 255, 0.85);
         margin: 0 auto;
-    }
-    /* Style Django's form widgets uniformly */
-    .modern-form input[type="text"],
-    .modern-form input[type="email"],
-    .modern-form input[type="tel"],
-    .modern-form input[type="date"],
-    .modern-form input[type="number"],
-    .modern-form select {
-        width: 100%;
-        background-color: var(--bg-surface);
-        border: 1.5px solid var(--border-color);
-        border-radius: 12px;
-        padding: 0.72rem 1rem;
-        font-size: 0.95rem;
-        color: var(--text-heading);
-        outline: none;
-        transition: all 0.2s ease;
-    }
-    .modern-form input:focus,
-    .modern-form select:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3.5px rgba(2, 132, 199, 0.15);
-    }
-    .modern-form input[type="file"] {
-        width: 100%;
-        background-color: var(--bg-surface-alt);
-        border: 1.5px dashed var(--border-color);
-        border-radius: 12px;
-        padding: 0.75rem 1rem;
-        color: var(--text-body);
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container py-5">
-    <div class="edit-profile-wrapper">
-        <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb small">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="bi bi-house me-1"></i>Home</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'profile' %}">Profile</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
-            </ol>
-        </nav>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb small">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none" style="color: var(--c-sapphire);"><i class="bi bi-house me-1"></i>Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'profile' %}" class="text-decoration-none" style="color: var(--c-sapphire);">Profile</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+                </ol>
+            </nav>
 
-        <div class="modern-card p-4 p-md-5">
-            <!-- Header -->
-            <div class="text-center mb-4 pb-3 border-bottom" style="border-color: var(--border-color) !important;">
-                <div class="mb-3">
-                    {% if user.profile_pic %}
-                        <img src="{{ user.profile_pic.url }}" alt="{{ user.username }}" class="current-avatar-preview">
-                    {% else %}
-                        <div class="avatar-placeholder-sm">
-                            {{ user.username|slice:":1"|upper }}
-                        </div>
-                    {% endif %}
+            <div class="glass-card p-4 p-md-5">
+                <!-- Header -->
+                <div class="text-center mb-4 pb-4 border-bottom" style="border-color: var(--glass-border) !important;">
+                    <div class="mb-3">
+                        {% if user.profile_pic %}
+                            <img src="{{ user.profile_pic.url }}" alt="{{ user.username }}" class="current-avatar-circle">
+                        {% else %}
+                            <div class="current-avatar-placeholder">
+                                {{ user.username|slice:":1"|upper }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <h2 class="fw-bold mb-1" style="color: var(--text-heading);">Edit Patient Profile</h2>
+                    <p class="text-muted small mb-0">Update your medical portal profile, contact information and photo</p>
                 </div>
-                <h2 class="fw-bold mb-1" style="color: var(--text-heading);">Edit Patient Profile</h2>
-                <p class="text-muted small mb-0">Update your personal and contact details</p>
-            </div>
 
-            <!-- Form Error Feedback -->
-            {% if form.errors %}
-                <div class="modern-alert modern-alert-danger" role="alert">
-                    <i class="bi bi-exclamation-octagon-fill fs-5 flex-shrink-0"></i>
-                    <div>
-                        <div class="fw-bold mb-1">Please correct the following errors:</div>
-                        <ul class="mb-0 ps-3 small">
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                <!-- Form Errors Feedback -->
+                {% if form.errors %}
+                    <div class="glass-alert glass-alert-danger mb-4 p-3" role="alert" style="animation: none;">
+                        <i class="bi bi-exclamation-octagon-fill fs-5 text-danger flex-shrink-0"></i>
+                        <div class="small">
+                            <strong class="text-danger d-block mb-1">Please fix the following:</strong>
+                            <ul class="mb-0 ps-3 text-danger">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ field.label }}: {{ error }}</li>
+                                    {% endfor %}
                                 {% endfor %}
-                            {% endfor %}
-                            {% for error in form.non_field_errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
 
-            <!-- Form -->
-            <form method="POST" enctype="multipart/form-data" class="modern-form">
-                {% csrf_token %}
+                <!-- Form -->
+                <form method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
 
-                <div class="row g-3">
-                    <!-- Username -->
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ form.username.id_for_label }}">
-                            <i class="bi bi-person text-primary"></i> Username
-                        </label>
-                        {{ form.username }}
+                    <div class="row g-3">
+                        <!-- Username -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-heading d-flex align-items-center gap-2" for="{{ form.username.id_for_label }}">
+                                <i class="bi bi-person-fill" style="color: var(--c-sapphire);"></i> Username
+                            </label>
+                            {{ form.username }}
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-heading d-flex align-items-center gap-2" for="{{ form.email.id_for_label }}">
+                                <i class="bi bi-envelope-fill" style="color: var(--c-sapphire);"></i> Email Address
+                            </label>
+                            {{ form.email }}
+                        </div>
+
+                        <!-- Mobile -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-heading d-flex align-items-center gap-2" for="{{ form.mobile.id_for_label }}">
+                                <i class="bi bi-telephone-fill" style="color: var(--c-jade);"></i> Contact Phone
+                            </label>
+                            {{ form.mobile }}
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-heading d-flex align-items-center gap-2" for="{{ form.dob.id_for_label }}">
+                                <i class="bi bi-calendar3" style="color: var(--c-indigo);"></i> Date of Birth
+                            </label>
+                            {{ form.dob }}
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-heading d-flex align-items-center gap-2" for="{{ form.gender.id_for_label }}">
+                                <i class="bi bi-gender-ambiguous" style="color: var(--c-jade);"></i> Gender
+                            </label>
+                            {{ form.gender }}
+                        </div>
+
+                        <!-- City -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-heading d-flex align-items-center gap-2" for="{{ form.city.id_for_label }}">
+                                <i class="bi bi-geo-alt-fill" style="color: var(--c-sapphire);"></i> City
+                            </label>
+                            {{ form.city }}
+                        </div>
+
+                        <!-- State -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-heading d-flex align-items-center gap-2" for="{{ form.state.id_for_label }}">
+                                <i class="bi bi-map-fill" style="color: var(--c-indigo);"></i> State
+                            </label>
+                            {{ form.state }}
+                        </div>
+
+                        <!-- Profile Picture Upload -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-heading d-flex align-items-center gap-2" for="{{ form.profile_pic.id_for_label }}">
+                                <i class="bi bi-camera-fill" style="color: var(--c-jade);"></i> Upload New Photo
+                            </label>
+                            {{ form.profile_pic }}
+                        </div>
                     </div>
 
-                    <!-- Email -->
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ form.email.id_for_label }}">
-                            <i class="bi bi-envelope text-primary"></i> Email Address
-                        </label>
-                        {{ form.email }}
+                    <!-- Actions -->
+                    <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top" style="border-color: var(--glass-border) !important;">
+                        <button type="submit" class="btn-glass-primary px-4 py-2">
+                            <i class="bi bi-check2-circle"></i> Save Profile
+                        </button>
+                        <a href="{% url 'profile' %}" class="btn-glass-outline px-4 py-2">
+                            Cancel
+                        </a>
                     </div>
-
-                    <!-- Mobile -->
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ form.mobile.id_for_label }}">
-                            <i class="bi bi-telephone text-primary"></i> Contact Number
-                        </label>
-                        {{ form.mobile }}
-                    </div>
-
-                    <!-- Date of Birth -->
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ form.dob.id_for_label }}">
-                            <i class="bi bi-calendar3 text-primary"></i> Date of Birth
-                        </label>
-                        {{ form.dob }}
-                    </div>
-
-                    <!-- Gender -->
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ form.gender.id_for_label }}">
-                            <i class="bi bi-gender-ambiguous text-primary"></i> Gender
-                        </label>
-                        {{ form.gender }}
-                    </div>
-
-                    <!-- City -->
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ form.city.id_for_label }}">
-                            <i class="bi bi-geo-alt text-primary"></i> City
-                        </label>
-                        {{ form.city }}
-                    </div>
-
-                    <!-- State -->
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ form.state.id_for_label }}">
-                            <i class="bi bi-map text-primary"></i> State
-                        </label>
-                        {{ form.state }}
-                    </div>
-
-                    <!-- Profile Picture Upload -->
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ form.profile_pic.id_for_label }}">
-                            <i class="bi bi-image text-primary"></i> Profile Photo
-                        </label>
-                        {{ form.profile_pic }}
-                    </div>
-                </div>
-
-                <!-- Form Actions -->
-                <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
-                    <button type="submit" class="btn-modern-primary px-4 py-2">
-                        <i class="bi bi-check2-circle"></i> Save Changes
-                    </button>
-                    <a href="{% url 'profile' %}" class="btn-modern-outline px-4 py-2">
-                        Cancel
-                    </a>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>

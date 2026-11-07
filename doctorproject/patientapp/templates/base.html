@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MediCare | Modern Healthcare Portal{% endblock %}</title>
+    <title>{% block title %}MediCare | Modern Healthcare & Doctor Consultations{% endblock %}</title>
 
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5.3.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,62 +17,80 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
+        /* ==========================================================================
+           3 PREMIUM COLOUR PALETTE & GLASSMORPHISM DESIGN SYSTEM
+           Color 1: Royal Sapphire Blue (#2563EB) - Trust, Authority, Precision
+           Color 2: Medical Jade Emerald (#0D9488) - Vitality, Health, Rejuvenation
+           Color 3: Radiant Royal Indigo (#6366F1) - Modern Tech, Luxury, Innovation
+           ========================================================================== */
         :root {
             --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --primary: #0284c7;
-            --primary-hover: #0369a1;
-            --primary-dark: #075985;
-            --primary-light: #e0f2fe;
-            --primary-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-            --accent-teal: #0d9488;
-            --accent-teal-light: #ccfbf1;
-            --success: #10b981;
-            --success-light: #d1fae5;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --danger-light: #fee2e2;
 
-            /* Light theme colors */
-            --bg-page: #f8fafc;
-            --bg-surface: #ffffff;
-            --bg-surface-alt: #f1f5f9;
+            /* 3 Core Premium Colours */
+            --c-sapphire: #2563eb;
+            --c-sapphire-dark: #1d4ed8;
+            --c-sapphire-light: #eff6ff;
+            --c-sapphire-rgb: 37, 99, 235;
+
+            --c-jade: #0d9488;
+            --c-jade-dark: #0f766e;
+            --c-jade-light: #f0fdfa;
+            --c-jade-rgb: 13, 148, 136;
+
+            --c-indigo: #6366f1;
+            --c-indigo-dark: #4f46e5;
+            --c-indigo-light: #eef2ff;
+            --c-indigo-rgb: 99, 102, 241;
+
+            /* 3-Color Gradient Blends */
+            --grad-tri: linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #0d9488 100%);
+            --grad-sapphire: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --grad-jade: linear-gradient(135deg, #0d9488 0%, #059669 100%);
+            --grad-indigo: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+
+            /* Light Theme Glass & Surfaces */
+            --bg-base: #f8fafc;
+            --bg-glass-card: rgba(255, 255, 255, 0.75);
+            --bg-glass-nav: rgba(255, 255, 255, 0.82);
+            --bg-glass-input: rgba(255, 255, 255, 0.85);
+            --bg-glass-footer: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.65);
+            --glass-border-subtle: rgba(226, 232, 240, 0.7);
+            --glass-shadow: 0 10px 30px 0 rgba(31, 38, 135, 0.07);
+            --glass-shadow-hover: 0 20px 40px -10px rgba(37, 99, 235, 0.18);
+            
             --text-heading: #0f172a;
             --text-body: #334155;
             --text-muted: #64748b;
-            --text-subtle: #94a3b8;
-            --border-color: #e2e8f0;
-            --border-hover: #cbd5e1;
-            --nav-bg: rgba(255, 255, 255, 0.92);
-            --card-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
-            --card-shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
-            --elevated-shadow: 0 20px 40px -15px rgba(2, 132, 199, 0.12);
         }
 
         [data-bs-theme="dark"] {
-            --primary: #38bdf8;
-            --primary-hover: #0284c7;
-            --primary-dark: #bae6fd;
-            --primary-light: rgba(56, 189, 248, 0.12);
-            --primary-gradient: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
-            --accent-teal: #2dd4bf;
-            --accent-teal-light: rgba(45, 212, 191, 0.12);
-            --success-light: rgba(16, 185, 129, 0.12);
-            --danger-light: rgba(239, 68, 68, 0.12);
+            --c-sapphire: #3b82f6;
+            --c-sapphire-dark: #60a5fa;
+            --c-sapphire-light: rgba(59, 130, 246, 0.12);
+            
+            --c-jade: #14b8a6;
+            --c-jade-dark: #2dd4bf;
+            --c-jade-light: rgba(20, 184, 166, 0.12);
 
-            /* Dark theme colors */
-            --bg-page: #0b1120;
-            --bg-surface: #111827;
-            --bg-surface-alt: #1f2937;
+            --c-indigo: #818cf8;
+            --c-indigo-dark: #a5b4fc;
+            --c-indigo-light: rgba(129, 140, 248, 0.12);
+
+            /* Dark Theme Glass & Surfaces */
+            --bg-base: #090d16;
+            --bg-glass-card: rgba(17, 24, 39, 0.72);
+            --bg-glass-nav: rgba(15, 23, 42, 0.85);
+            --bg-glass-input: rgba(30, 41, 59, 0.65);
+            --bg-glass-footer: rgba(15, 23, 42, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border-subtle: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.45);
+            --glass-shadow-hover: 0 20px 45px -8px rgba(0, 0, 0, 0.65);
+
             --text-heading: #f8fafc;
             --text-body: #cbd5e1;
             --text-muted: #94a3b8;
-            --text-subtle: #64748b;
-            --border-color: #1e293b;
-            --border-hover: #334155;
-            --nav-bg: rgba(17, 24, 39, 0.92);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-            --card-shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.5);
-            --elevated-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
         }
 
         * {
@@ -87,322 +105,470 @@
 
         body {
             font-family: var(--font-family);
-            background-color: var(--bg-page);
+            background-color: var(--bg-base);
             color: var(--text-body);
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Typography Defaults */
-        h1, h2, h3, h4, h5, h6 {
-            color: var(--text-heading);
-            font-weight: 700;
-            letter-spacing: -0.025em;
+        /* Ambient Glowing Background Orbs (Creates real glass effect) */
+        .ambient-glow-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        a {
-            color: var(--primary);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        a:hover {
-            color: var(--primary-hover);
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.45;
+            animation: orbFloat 18s ease-in-out infinite alternate;
         }
 
-        /* Navbar Styling */
-        .navbar-custom {
-            background-color: var(--nav-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.25s ease;
-            padding: 0.85rem 0;
+        [data-bs-theme="dark"] .ambient-orb {
+            opacity: 0.28;
+            filter: blur(100px);
+        }
+
+        .orb-sapphire {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, var(--c-sapphire) 0%, transparent 70%);
+            top: -100px;
+            left: -100px;
+        }
+
+        .orb-jade {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--c-jade) 0%, transparent 70%);
+            top: 40%;
+            right: -150px;
+            animation-duration: 22s;
+            animation-delay: -5s;
+        }
+
+        .orb-indigo {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--c-indigo) 0%, transparent 70%);
+            bottom: -80px;
+            left: 20%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(40px, 30px) scale(1.08);
+            }
+            100% {
+                transform: translate(-30px, 50px) scale(0.95);
+            }
+        }
+
+        /* Glass Cards and Panels */
+        .glass-card, .glass-panel {
+            background: var(--bg-glass-card);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .glass-card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--glass-shadow-hover);
+            border-color: rgba(var(--c-sapphire-rgb), 0.4);
+        }
+
+        /* Glass Navbar */
+        .glass-navbar {
+            background: var(--bg-glass-nav);
+            backdrop-filter: blur(20px) saturate(190%);
+            -webkit-backdrop-filter: blur(20px) saturate(190%);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 0;
             z-index: 1030;
+            padding: 0.85rem 0;
+            transition: all 0.25s ease;
         }
 
-        .navbar-custom.scrolled {
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        .glass-navbar.scrolled {
             padding: 0.65rem 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
 
-        .navbar-brand {
+        /* Brand Styling */
+        .brand-logo {
             font-size: 1.35rem;
             font-weight: 800;
             color: var(--text-heading);
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.65rem;
+            text-decoration: none;
             letter-spacing: -0.03em;
         }
 
         .brand-icon-box {
-            width: 38px;
-            height: 38px;
-            background: var(--primary-gradient);
+            width: 40px;
+            height: 40px;
+            background: var(--grad-tri);
             color: #ffffff;
-            border-radius: 10px;
+            border-radius: 12px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15rem;
-            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+            font-size: 1.25rem;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+            transition: transform 0.25s ease;
+        }
+
+        .brand-logo:hover .brand-icon-box {
+            transform: rotate(-6deg) scale(1.05);
         }
 
         .nav-link {
             color: var(--text-body) !important;
             font-weight: 600;
-            font-size: 0.94rem;
-            padding: 0.5rem 0.85rem !important;
-            border-radius: 8px;
+            font-size: 0.92rem;
+            padding: 0.5rem 0.9rem !important;
+            border-radius: 10px;
             transition: all 0.2s ease;
         }
 
         .nav-link:hover, .nav-link.active {
-            color: var(--primary) !important;
-            background-color: var(--primary-light);
+            color: var(--c-sapphire) !important;
+            background-color: var(--c-sapphire-light);
         }
 
-        /* Modern Buttons */
-        .btn-modern-primary {
-            background: var(--primary-gradient);
+        /* Glass Buttons */
+        .btn-glass-primary {
+            background: var(--grad-sapphire);
             color: #ffffff !important;
             font-weight: 600;
             font-size: 0.92rem;
             padding: 0.6rem 1.35rem;
-            border-radius: 10px;
-            border: none;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
             transition: all 0.25s ease;
+            text-decoration: none;
         }
-        .btn-modern-primary:hover {
+
+        .btn-glass-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.38);
             color: #ffffff !important;
         }
 
-        .btn-modern-outline {
-            background-color: transparent;
-            color: var(--primary) !important;
+        .btn-glass-jade {
+            background: var(--grad-jade);
+            color: #ffffff !important;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 0.6rem 1.35rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            box-shadow: 0 4px 14px rgba(13, 148, 136, 0.28);
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-glass-jade:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(13, 148, 136, 0.38);
+            color: #ffffff !important;
+        }
+
+        .btn-glass-indigo {
+            background: var(--grad-indigo);
+            color: #ffffff !important;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 0.6rem 1.35rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.28);
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-glass-indigo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(99, 102, 241, 0.38);
+            color: #ffffff !important;
+        }
+
+        .btn-glass-outline {
+            background: var(--bg-glass-card);
+            backdrop-filter: blur(10px);
+            color: var(--text-heading) !important;
             font-weight: 600;
             font-size: 0.92rem;
             padding: 0.58rem 1.25rem;
-            border-radius: 10px;
-            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            border: 1.5px solid var(--glass-border-subtle);
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
             transition: all 0.2s ease;
+            text-decoration: none;
         }
-        .btn-modern-outline:hover {
-            background-color: var(--bg-surface-alt);
-            border-color: var(--primary);
-            color: var(--primary-hover) !important;
+
+        .btn-glass-outline:hover {
+            background: var(--c-sapphire-light);
+            border-color: var(--c-sapphire);
+            color: var(--c-sapphire) !important;
             transform: translateY(-1px);
         }
 
         .btn-theme-toggle {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: 1.5px solid var(--border-color);
-            background-color: var(--bg-surface);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1.5px solid var(--glass-border-subtle);
+            background: var(--bg-glass-card);
+            backdrop-filter: blur(10px);
             color: var(--text-body);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.2s ease;
         }
+
         .btn-theme-toggle:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background-color: var(--primary-light);
+            border-color: var(--c-sapphire);
+            color: var(--c-sapphire);
+            background: var(--c-sapphire-light);
         }
 
-        /* User Profile in Navbar */
+        /* User Profile Pill in Navbar */
         .nav-user-pill {
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.35rem 0.85rem 0.35rem 0.4rem;
-            background-color: var(--bg-surface);
-            border: 1.5px solid var(--border-color);
+            gap: 0.65rem;
+            padding: 0.35rem 0.95rem 0.35rem 0.45rem;
+            background: var(--bg-glass-card);
+            backdrop-filter: blur(10px);
+            border: 1.5px solid var(--glass-border-subtle);
             border-radius: 50px;
             text-decoration: none;
             transition: all 0.2s ease;
         }
+
         .nav-user-pill:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+            border-color: var(--c-sapphire);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.15);
         }
+
         .nav-user-avatar {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--primary);
+            border: 2px solid var(--c-sapphire);
         }
+
         .nav-user-initial {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: var(--primary-light);
-            color: var(--primary);
+            background: var(--grad-tri);
+            color: #ffffff;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .nav-user-name {
-            font-size: 0.88rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
             color: var(--text-heading);
         }
 
-        /* Cards and Surfaces */
-        .modern-card {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            box-shadow: var(--card-shadow);
-            transition: all 0.25s ease;
-        }
-        .modern-card:hover {
-            box-shadow: var(--card-shadow-hover);
-            border-color: var(--border-hover);
-        }
-
-        /* Modern Form Inputs */
-        .modern-form .form-label {
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--text-heading);
-            margin-bottom: 0.45rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-        .modern-form .form-control,
-        .modern-form .form-select,
-        .form-control-modern {
-            background-color: var(--bg-surface);
-            border: 1.5px solid var(--border-color);
-            border-radius: 12px;
-            padding: 0.72rem 1rem;
+        /* Glass Form Inputs */
+        .glass-input, .form-control.glass-input, .form-select.glass-input {
+            background: var(--bg-glass-input);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid var(--glass-border-subtle);
+            border-radius: 14px;
+            padding: 0.72rem 1.1rem;
             font-size: 0.95rem;
             color: var(--text-heading);
             transition: all 0.2s ease;
         }
-        .modern-form .form-control:focus,
-        .modern-form .form-select:focus,
-        .form-control-modern:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3.5px rgba(2, 132, 199, 0.15);
-            background-color: var(--bg-surface);
-            color: var(--text-heading);
+
+        .glass-input:focus, .form-control.glass-input:focus, .form-select.glass-input:focus {
+            background: var(--bg-glass-card);
+            border-color: var(--c-sapphire);
+            box-shadow: 0 0 0 4px rgba(var(--c-sapphire-rgb), 0.18);
             outline: none;
-        }
-        .modern-form .form-control::placeholder {
-            color: var(--text-subtle);
+            color: var(--text-heading);
         }
 
-        /* Input with Icon Group */
         .input-icon-group {
             position: relative;
         }
+
         .input-icon-group .input-icon {
             position: absolute;
-            left: 1rem;
+            left: 1.1rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             pointer-events: none;
             transition: color 0.2s ease;
-        }
-        .input-icon-group .form-control {
-            padding-left: 2.85rem;
-        }
-        .input-icon-group:focus-within .input-icon {
-            color: var(--primary);
+            z-index: 3;
         }
 
-        /* Status & Alert Badges */
-        .modern-badge {
+        .input-icon-group .glass-input {
+            padding-left: 3rem;
+        }
+
+        .input-icon-group:focus-within .input-icon {
+            color: var(--c-sapphire);
+        }
+
+        /* Glass Pills and Badges */
+        .glass-pill {
             font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.35rem 0.75rem;
-            border-radius: 8px;
+            font-weight: 700;
+            padding: 0.4rem 0.85rem;
+            border-radius: 50px;
             display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
-        }
-        .badge-primary-subtle {
-            background-color: var(--primary-light);
-            color: var(--primary);
-        }
-        .badge-teal-subtle {
-            background-color: var(--accent-teal-light);
-            color: var(--accent-teal);
-        }
-        .badge-success-subtle {
-            background-color: var(--success-light);
-            color: var(--success);
-        }
-        .badge-danger-subtle {
-            background-color: var(--danger-light);
-            color: var(--danger);
+            gap: 0.4rem;
+            backdrop-filter: blur(8px);
         }
 
-        /* Alert Banners */
-        .modern-alert {
-            border-radius: 14px;
-            border: 1px solid transparent;
+        .pill-sapphire {
+            background-color: var(--c-sapphire-light);
+            color: var(--c-sapphire);
+            border: 1px solid rgba(var(--c-sapphire-rgb), 0.25);
+        }
+
+        .pill-jade {
+            background-color: var(--c-jade-light);
+            color: var(--c-jade);
+            border: 1px solid rgba(var(--c-jade-rgb), 0.25);
+        }
+
+        .pill-indigo {
+            background-color: var(--c-indigo-light);
+            color: var(--c-indigo);
+            border: 1px solid rgba(var(--c-indigo-rgb), 0.25);
+        }
+
+        /* Floating Alert Banner */
+        .glass-alert-container {
+            position: fixed;
+            top: 85px;
+            right: 20px;
+            z-index: 1090;
+            max-width: 420px;
+            width: calc(100% - 40px);
+            pointer-events: none;
+        }
+
+        .glass-alert {
+            pointer-events: auto;
+            background: var(--bg-glass-card);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
             padding: 1rem 1.25rem;
-            font-size: 0.92rem;
-            font-weight: 500;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            margin-bottom: 0.85rem;
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-        .modern-alert-danger {
-            background-color: var(--danger-light);
-            border-color: rgba(239, 68, 68, 0.2);
-            color: #b91c1c;
-        }
-        [data-bs-theme="dark"] .modern-alert-danger {
-            color: #fca5a5;
-        }
-        .modern-alert-success {
-            background-color: var(--success-light);
-            border-color: rgba(16, 185, 129, 0.2);
-            color: #047857;
-        }
-        [data-bs-theme="dark"] .modern-alert-success {
-            color: #6ee7b7;
+            align-items: flex-start;
+            gap: 0.85rem;
+            animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        /* Main Wrapper */
-        .main-content {
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .glass-alert-success {
+            border-left: 5px solid var(--c-jade);
+        }
+
+        .glass-alert-danger, .glass-alert-error {
+            border-left: 5px solid #ef4444;
+        }
+
+        .glass-alert-info {
+            border-left: 5px solid var(--c-sapphire);
+        }
+
+        .glass-alert-warning {
+            border-left: 5px solid #f59e0b;
+        }
+
+        /* Main Container */
+        .main-wrapper {
             flex: 1 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Modern Footer */
-        .footer-modern {
-            background-color: var(--bg-surface);
-            border-top: 1px solid var(--border-color);
+        /* Glass Footer */
+        .glass-footer {
+            background: var(--bg-glass-footer);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 2;
+            padding: 4.5rem 0 2rem;
             margin-top: auto;
-            padding: 4rem 0 2rem;
         }
+
         .footer-heading {
             font-size: 0.95rem;
             font-weight: 700;
@@ -411,48 +577,76 @@
             color: var(--text-heading);
             margin-bottom: 1.25rem;
         }
+
         .footer-links {
             list-style: none;
             padding: 0;
             margin: 0;
         }
+
         .footer-links li {
             margin-bottom: 0.65rem;
         }
+
         .footer-links a {
             color: var(--text-muted);
             font-size: 0.92rem;
-            transition: color 0.2s ease, transform 0.2s ease;
+            text-decoration: none;
+            transition: all 0.2s ease;
             display: inline-block;
         }
+
         .footer-links a:hover {
-            color: var(--primary);
-            transform: translateX(3px);
-        }
-        .footer-bottom {
-            margin-top: 3.5rem;
-            padding-top: 1.75rem;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.88rem;
-            color: var(--text-muted);
+            color: var(--c-sapphire);
+            transform: translateX(4px);
         }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
 
-    <!-- Sticky Modern Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top" id="mainNavbar">
+    <!-- Ambient Glowing Blurs (creates the translucent frosted glass lighting) -->
+    <div class="ambient-glow-wrapper">
+        <div class="ambient-orb orb-sapphire"></div>
+        <div class="ambient-orb orb-jade"></div>
+        <div class="ambient-orb orb-indigo"></div>
+    </div>
+
+    <!-- Floating Global Django Notifications / Messages -->
+    <div class="glass-alert-container" id="alertContainer">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="glass-alert glass-alert-{{ message.tags|default:'info' }}" role="alert">
+                    {% if 'success' in message.tags %}
+                        <i class="bi bi-check-circle-fill fs-5" style="color: var(--c-jade);"></i>
+                    {% elif 'error' in message.tags or 'danger' in message.tags %}
+                        <i class="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
+                    {% elif 'warning' in message.tags %}
+                        <i class="bi bi-exclamation-circle-fill fs-5 text-warning"></i>
+                    {% else %}
+                        <i class="bi bi-info-circle-fill fs-5" style="color: var(--c-sapphire);"></i>
+                    {% endif %}
+                    <div class="flex-grow-1">
+                        <div class="small fw-semibold" style="color: var(--text-heading);">{{ message }}</div>
+                    </div>
+                    <button type="button" class="btn-close ms-2" onclick="this.closest('.glass-alert').remove()" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Sticky Glass Navbar -->
+    <nav class="glass-navbar navbar navbar-expand-lg" id="mainNavbar">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
+            <a class="brand-logo" href="{% url 'home' %}">
                 <span class="brand-icon-box">
-                    <i class="bi bi-hospital"></i>
+                    <i class="bi bi-heart-pulse-fill"></i>
                 </span>
-                <span>Medi<span style="color: var(--primary);">Care</span></span>
+                <span>Medi<span style="background: var(--grad-tri); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Care</span></span>
             </a>
 
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="bi bi-list fs-2 text-primary"></i>
+                <i class="bi bi-list fs-2" style="color: var(--c-sapphire);"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarContent">
@@ -485,34 +679,34 @@
                 </ul>
 
                 <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
-                    <!-- Dark / Light Mode Toggle Button -->
+                    <!-- Light / Dark Theme Switcher -->
                     <button class="btn-theme-toggle" id="themeToggleBtn" type="button" title="Toggle color mode" aria-label="Toggle color mode">
                         <i class="bi bi-moon-stars" id="themeIcon"></i>
                     </button>
 
-                    <!-- Authenticated / Guest User Actions -->
-                    {% if user or request.session.userid %}
+                    <!-- User Authentication State -->
+                    {% if patient_user %}
                         <a href="{% url 'profile' %}" class="nav-user-pill" title="View Patient Profile">
-                            {% if user.profile_pic %}
-                                <img src="{{ user.profile_pic.url }}" alt="{{ user.username|default:request.session.username }}" class="nav-user-avatar">
+                            {% if patient_user.profile_pic %}
+                                <img src="{{ patient_user.profile_pic.url }}" alt="{{ patient_user.username }}" class="nav-user-avatar">
                             {% else %}
                                 <div class="nav-user-initial">
-                                    {{ user.username|default:request.session.username|slice:":1"|upper }}
+                                    {{ patient_user.username|slice:":1"|upper }}
                                 </div>
                             {% endif %}
-                            <span class="nav-user-name">{{ user.username|default:request.session.username }}</span>
+                            <span class="nav-user-name">{{ patient_user.username }}</span>
                         </a>
 
-                        <a href="{% url 'logout' %}" class="btn-modern-outline text-danger" title="Log Out">
+                        <a href="{% url 'logout' %}" class="btn-glass-outline text-danger border-danger-subtle" title="Log Out">
                             <i class="bi bi-box-arrow-right"></i>
                             <span class="d-none d-sm-inline">Logout</span>
                         </a>
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn-modern-outline">
+                        <a href="{% url 'login' %}" class="btn-glass-outline">
                             <i class="bi bi-box-arrow-in-right"></i> Log In
                         </a>
-                        <a href="{% url 'signup' %}" class="btn-modern-primary">
-                            <i class="bi bi-person-plus"></i> Register
+                        <a href="{% url 'signup' %}" class="btn-glass-primary">
+                            <i class="bi bi-person-plus-fill"></i> Register
                         </a>
                     {% endif %}
                 </div>
@@ -520,82 +714,92 @@
         </div>
     </nav>
 
-    <!-- Main Dynamic Content -->
-    <main class="main-content">
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Modern Shared Footer -->
-    <footer class="footer-modern">
+    <!-- Glass Modern Footer -->
+    <footer class="glass-footer">
         <div class="container">
             <div class="row g-4">
+                <!-- Col 1: Brand Info -->
                 <div class="col-lg-4 col-md-6">
-                    <a class="navbar-brand mb-3" href="{% url 'home' %}">
+                    <a class="brand-logo mb-3" href="{% url 'home' %}">
                         <span class="brand-icon-box">
-                            <i class="bi bi-hospital"></i>
+                            <i class="bi bi-heart-pulse-fill"></i>
                         </span>
-                        <span>Medi<span style="color: var(--primary);">Care</span></span>
+                        <span>Medi<span style="background: var(--grad-tri); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Care</span></span>
                     </a>
                     <p class="text-muted mt-3 mb-4" style="max-width: 320px; font-size: 0.92rem;">
-                        Your reliable healthcare appointment and doctor discovery portal. Connecting patients with verified specialists quickly and securely.
+                        Your premier certified healthcare portal. Seamlessly discover verified specialists, schedule consultations, and manage medical profiles with complete digital security.
                     </p>
                     <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-success-subtle text-success p-2 rounded-3">
-                            <i class="bi bi-shield-check me-1"></i> Verified & Secure Portal
+                        <span class="glass-pill pill-jade">
+                            <i class="bi bi-shield-check"></i> 100% Certified Practitioners
                         </span>
                     </div>
                 </div>
 
+                <!-- Col 2: Services -->
                 <div class="col-lg-2 col-md-6 col-6">
                     <h6 class="footer-heading">Services</h6>
                     <ul class="footer-links">
                         <li><a href="{% url 'home' %}#doctors">Find a Doctor</a></li>
                         <li><a href="{% url 'home' %}#specializations">Specializations</a></li>
-                        <li><a href="{% url 'home' %}#how-it-works">Booking Guide</a></li>
+                        <li><a href="{% url 'home' %}#how-it-works">How It Works</a></li>
                         <li><a href="{% url 'profile' %}">Patient Profile</a></li>
                     </ul>
                 </div>
 
+                <!-- Col 3: Portal Links -->
                 <div class="col-lg-2 col-md-6 col-6">
-                    <h6 class="footer-heading">Company</h6>
+                    <h6 class="footer-heading">Account</h6>
                     <ul class="footer-links">
-                        <li><a href="{% url 'home' %}#about">About Us</a></li>
-                        <li><a href="{% url 'home' %}#contact">Contact Support</a></li>
                         <li><a href="{% url 'login' %}">Patient Login</a></li>
                         <li><a href="{% url 'signup' %}">Create Account</a></li>
+                        <li><a href="{% url 'forgot_password' %}">Reset Password</a></li>
+                        <li><a href="{% url 'home' %}#about">About Us</a></li>
                     </ul>
                 </div>
 
+                <!-- Col 4: Support & Hotline -->
                 <div class="col-lg-4 col-md-6">
-                    <h6 class="footer-heading">Emergency & Helpdesk</h6>
-                    <p class="text-muted small mb-2">Available 24 hours a day, 7 days a week for medical inquiries and urgent care assistance.</p>
-                    <div class="p-3 rounded-3" style="background-color: var(--bg-surface-alt); border: 1px solid var(--border-color);">
+                    <h6 class="footer-heading">Medical Helpdesk</h6>
+                    <p class="text-muted small mb-3">Available 24 hours daily for urgent clinical inquiries and doctor appointments.</p>
+                    
+                    <div class="glass-panel p-3">
                         <div class="d-flex align-items-center gap-3 mb-2">
-                            <i class="bi bi-telephone-fill text-primary fs-5"></i>
+                            <div class="brand-icon-box" style="width: 36px; height: 36px; font-size: 1rem; background: var(--grad-sapphire);">
+                                <i class="bi bi-telephone-fill"></i>
+                            </div>
                             <div>
-                                <div class="small text-muted">Emergency Hotline</div>
-                                <div class="fw-bold" style="color: var(--text-heading);">+91 98765 43210</div>
+                                <small class="text-muted d-block" style="font-size: 0.75rem;">Emergency Hotline</small>
+                                <span class="fw-bold" style="color: var(--text-heading);">+91 98765 43210</span>
                             </div>
                         </div>
+
                         <div class="d-flex align-items-center gap-3">
-                            <i class="bi bi-envelope-fill text-primary fs-5"></i>
+                            <div class="brand-icon-box" style="width: 36px; height: 36px; font-size: 1rem; background: var(--grad-jade);">
+                                <i class="bi bi-envelope-fill"></i>
+                            </div>
                             <div>
-                                <div class="small text-muted">Official Support</div>
-                                <div class="fw-bold" style="color: var(--text-heading);">support@medicare.com</div>
+                                <small class="text-muted d-block" style="font-size: 0.75rem;">Support Email</small>
+                                <span class="fw-bold" style="color: var(--text-heading);">support@medicare.com</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 pt-4 mt-5 border-top" style="border-color: var(--glass-border) !important; font-size: 0.88rem; color: var(--text-muted);">
                 <div>
                     &copy; 2026 MediCare Health Systems. All rights reserved.
                 </div>
                 <div class="d-flex gap-4">
-                    <a href="{% url 'home' %}#about" class="text-muted text-decoration-none small">Privacy Policy</a>
-                    <a href="{% url 'home' %}#about" class="text-muted text-decoration-none small">Terms of Service</a>
-                    <a href="{% url 'home' %}#contact" class="text-muted text-decoration-none small">Support</a>
+                    <a href="{% url 'home' %}#about" class="text-muted text-decoration-none">Privacy Policy</a>
+                    <a href="{% url 'home' %}#about" class="text-muted text-decoration-none">Terms of Service</a>
+                    <a href="{% url 'home' %}#contact" class="text-muted text-decoration-none">Support</a>
                 </div>
             </div>
         </div>
@@ -604,42 +808,52 @@
     <!-- Bootstrap 5.3.3 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Shared Theme Toggle & Navbar Behavior -->
+    <!-- Theme & Global Glass Interaction Script -->
     <script>
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
         const htmlElement = document.documentElement;
 
-        // Apply saved theme preference or default to light
-        const currentTheme = localStorage.getItem('medicare_theme') || 'light';
-        applyTheme(currentTheme);
+        // Apply theme from localStorage or default
+        const savedTheme = localStorage.getItem('medicare_glass_theme') || 'light';
+        applyTheme(savedTheme);
 
         function applyTheme(theme) {
             htmlElement.setAttribute('data-bs-theme', theme);
             if (theme === 'dark') {
                 themeIcon.className = 'bi bi-sun-fill text-warning';
-                themeToggleBtn.setAttribute('title', 'Switch to Light Mode');
+                themeToggleBtn.setAttribute('title', 'Switch to Light Theme');
             } else {
                 themeIcon.className = 'bi bi-moon-stars';
-                themeToggleBtn.setAttribute('title', 'Switch to Dark Mode');
+                themeToggleBtn.setAttribute('title', 'Switch to Dark Theme');
             }
-            localStorage.setItem('medicare_theme', theme);
+            localStorage.setItem('medicare_glass_theme', theme);
         }
 
         themeToggleBtn.addEventListener('click', () => {
-            const activeTheme = htmlElement.getAttribute('data-bs-theme');
-            applyTheme(activeTheme === 'dark' ? 'light' : 'dark');
+            const current = htmlElement.getAttribute('data-bs-theme');
+            applyTheme(current === 'dark' ? 'light' : 'dark');
         });
 
         // Navbar shadow on scroll
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('mainNavbar');
-            if (window.scrollY > 20) {
+            if (window.scrollY > 15) {
                 nav.classList.add('scrolled');
             } else {
                 nav.classList.remove('scrolled');
             }
         });
+
+        // Auto dismiss global alert banners after 5 seconds
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.glass-alert');
+            alerts.forEach(alert => {
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateX(50px)';
+                setTimeout(() => alert.remove(), 350);
+            });
+        }, 5000);
     </script>
 
     {% block extra_js %}{% endblock %}
