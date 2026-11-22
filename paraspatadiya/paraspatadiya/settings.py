@@ -75,12 +75,12 @@ WSGI_APPLICATION = 'paraspatadiya.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'paraspatadiya',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'portfolio_db',
+        'USER': 'postgres',
+        'PASSWORD': 'paras$1011',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -128,8 +128,16 @@ STATICFILES_DIRS = [
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "paraspatadiya6@gmail.com"
+EMAIL_HOST_PASSWORD = "xaqt eflq qigj abgp"
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+#   xaqt eflq qigj abgp
+
