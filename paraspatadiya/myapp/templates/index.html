@@ -7,12 +7,17 @@
   <title>Paras Patadiya | Python &amp; Django Developer</title>
   <meta name="description" content="Paras Patadiya, Python and Django developer from Rajkot, Gujarat. Builds REST APIs with Django REST Framework and PostgreSQL. Live project: Aura SIS.">
   <meta name="theme-color" content="#f6f8fc">
+  <meta name="author" content="Paras Patadiya">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232457f5'/%3E%3Cstop offset='1' stop-color='%230d9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='45' font-size='36' font-family='Arial,sans-serif' font-weight='700' text-anchor='middle' fill='white'%3EP%3C/text%3E%3C/svg%3E">
+  <!-- Apply the saved theme before first paint (no flash) -->
+  <script>try{var _m=localStorage.getItem('pp-theme-mode');if(_m&&/^(light|sunset|dark|gamer|cyber|rain|sunny|streaming)$/.test(_m))document.documentElement.setAttribute('data-theme',_m);}catch(e){}</script>
 
-  <!-- Open Graph: replace YOUR-DOMAIN with your real domain so link previews work -->
+  <!-- Open Graph: the domain is read from the live request, so link previews work on any host -->
   <meta property="og:title" content="Paras Patadiya | Python &amp; Django Developer">
   <meta property="og:description" content="Django REST APIs, PostgreSQL and cloud deployment. See the live Aura SIS project.">
-  <meta property="og:image" content="https://YOUR-DOMAIN{% static 'images/aura_sis.jpg' %}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/aura_sis.jpg' %}">
   <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -187,7 +192,6 @@
     .nav-actions { display: flex; align-items: center; gap: 8px; }
     .chip { font-family: var(--f-mono); font-size: .75rem; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--r-full); background: var(--card); border: 1px solid var(--border); color: var(--muted); white-space: nowrap; }
     .chip i { color: var(--primary); }
-    .chip #weatherChip i { color: var(--tert); }
     .icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; display: grid; place-items: center; transition: .25s; }
     .icon-btn:hover { color: var(--accent); border-color: var(--accent); transform: rotate(15deg); }
 
@@ -743,7 +747,90 @@
         color-mix(in srgb, var(--m3) 16%, transparent));
     }
     @media (prefers-reduced-motion: reduce) { :root { transition: none; } }
+
+    /* =====================================================================
+       STEP 1: NAVBAR LOGO (no floating, theme-aware gradient badge)
+       ===================================================================== */
+    .brand .cube {
+      animation: none; transform: none; position: relative;
+      width: 36px; height: 36px; border-radius: 12px; font-size: 1.05rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: var(--on-primary);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--tert) 75%, transparent), 0 8px 22px -6px var(--glow), inset 0 1px 0 rgba(255,255,255,.4);
+      transition: box-shadow .3s ease;
+    }
+    .brand .cube::after {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+      background: linear-gradient(160deg, rgba(255,255,255,.34), transparent 52%);
+    }
+    .brand:hover .cube { box-shadow: 0 0 0 2px var(--tert), 0 10px 28px -4px var(--glow), inset 0 1px 0 rgba(255,255,255,.5); }
+
+    /* =====================================================================
+       STEP 2: NAVBAR BUTTONS (no tilting on hover)
+       ===================================================================== */
+    .icon-btn:hover, .icon-btn:focus-visible { transform: none; }
+    #themeBtn { white-space: nowrap; }
+
+    /* =====================================================================
+       STEP 5: wide skills card
+       ===================================================================== */
+    .skills-wrap .skill-group.wide {
+      grid-column: 1 / -1;
+      background: linear-gradient(145deg, color-mix(in srgb, var(--tert) calc(var(--card-tint) * 1.5), transparent), color-mix(in srgb, var(--primary) var(--card-tint), transparent)), var(--card);
+    }
+    .skills-wrap .skill-group.wide h3 i { color: var(--accent); }
+
+    /* =====================================================================
+       STEP 7: DEPLOY POLISH + FILL THE SIDE GAPS
+       ===================================================================== */
+    html, body { max-width: 100%; }
+    section { overflow-x: clip; }
+    .hero { min-height: 100vh; min-height: 100svh; }
+
+    /* wider layout so the content reaches closer to both edges */
+    .container { width: min(1440px, calc(100% - 48px)); }
+    .navbar { width: min(1440px, calc(100% - 32px)); }
+    @media (min-width: 1400px) {
+      .container { width: min(1440px, calc(100% - 190px)); }
+      .navbar { width: min(1440px, calc(100% - 190px)); }
+    }
+
+    /* dotted colour texture that lives in the side margins and fades toward the centre */
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none; opacity: .6;
+      background-image: radial-gradient(color-mix(in srgb, var(--m1) 55%, transparent) 1.3px, transparent 1.6px);
+      background-size: 26px 26px;
+      -webkit-mask-image: linear-gradient(90deg, #000 0, transparent 20%, transparent 80%, #000 100%);
+      mask-image: linear-gradient(90deg, #000 0, transparent 20%, transparent 80%, #000 100%);
+    }
+    /* soft colour columns on the far left and right */
+    body::after {
+      content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      background: linear-gradient(90deg,
+        color-mix(in srgb, var(--m2) 26%, transparent) 0,
+        transparent 16%, transparent 84%,
+        color-mix(in srgb, var(--m3) 26%, transparent) 100%);
+    }
+    /* the two side rails become glass columns instead of empty space */
+    .rail.left  { background: linear-gradient(90deg, color-mix(in srgb, var(--m1) 14%, transparent), transparent); border-right: 1px solid color-mix(in srgb, var(--primary) 18%, transparent); }
+    .rail.right { background: linear-gradient(270deg, color-mix(in srgb, var(--m3) 14%, transparent), transparent); border-left: 1px solid color-mix(in srgb, var(--primary) 18%, transparent); }
+    .rail { width: 76px; }
+
+    /* small screens: keep the navbar compact */
+    @media (max-width: 640px) {
+      section { padding: 72px 0; }
+      .navbar { padding: 8px 12px; }
+    }
+    @media (max-width: 520px) {
+      .navbar .btn { width: auto; }
+    }
+    @media (max-width: 440px) {
+      .navbar .resume-text { display: none; }
+      .navbar .btn-sm { padding: 8px 12px; }
+      .brand { font-size: 1.05rem; }
+    }
   </style>
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 </head>
 <body>
 
@@ -799,12 +886,6 @@
       </ul>
 
       <div class="nav-actions">
-        <span class="chip clock" title="Rajkot weather and time">
-          <i class="fa-solid fa-clock"></i><span id="clock">--:--</span>
-          <span id="weatherChip"><i class="fa-solid fa-cloud-sun"></i> --°C</span>
-        </span>
-
-        <button class="icon-btn" id="quickMode" aria-label="Toggle light or dark" title="Light / Dark"><i class="fa-solid fa-moon" id="modeIcon"></i></button>
         <div class="dropdown" id="themeDd">
           <button class="icon-btn" id="themeBtn" aria-haspopup="true" aria-expanded="false" title="Change theme" style="width:auto;padding:0 14px;border-radius:999px;gap:8px;display:inline-flex;align-items:center;font:600 .82rem var(--f-body)">
             <i class="fa-solid fa-palette" style="color:var(--primary)"></i><span class="label-text" id="themeLabel">Auto</span><i class="fa-solid fa-chevron-down" style="font-size:.65rem"></i>
@@ -825,7 +906,7 @@
 
         <!-- Put your PDF at static/resume/Paras_Patadiya_Resume.pdf -->
         <a href="{% static 'resume/Paras_Patadiya_Resume.pdf' %}" class="btn btn-primary btn-sm" download>
-          <i class="fa-solid fa-download"></i> Resume
+          <i class="fa-solid fa-download"></i> <span class="resume-text">Resume</span>
         </a>
         <button class="icon-btn burger" id="burger" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
       </div>
@@ -851,8 +932,8 @@
         <div class="typing"><span>&gt; </span><span id="typeTarget"></span><span class="caret"></span></div>
 
         <p class="lead">
-          Python developer focused on Django REST APIs, PostgreSQL and deploying working projects to the cloud.
-          My main project, Aura SIS, is live and tested. Try it below.
+          Python developer focused on building Django REST APIs, PostgreSQL-backed apps and deploying working projects to the cloud.
+          Aura SIS is one of my live, tested projects, with more on the way. Take a look below.
         </p>
 
         <div class="hero-actions">
@@ -1065,9 +1146,9 @@
         </div>
 
         <div class="card about-card c5 reveal">
-          <i class="fa-solid fa-database big"></i>
-          <h3>Efficient queries</h3>
-          <p>I use <code>select_related</code> and <code>prefetch_related</code> to avoid N+1 queries, and add indexes where the data needs them.</p>
+          <i class="fa-solid fa-server big"></i>
+          <h3>Building real APIs</h3>
+          <p>I build REST endpoints with Django REST Framework: validated serializers, search, JSON for API clients and pages for browsers, all backed by PostgreSQL models and migrations. Every feature gets automated tests so changes don't break what already works.</p>
         </div>
 
         <div class="card about-card c6 reveal">
@@ -1182,12 +1263,25 @@
           <h3><i class="fa-solid fa-seedling"></i> Familiar / learning</h3>
           <p>Used in smaller projects or still growing.</p>
           <div class="skill-list">
-            <span class="skill"><i class="fa-solid fa-cloud"></i> Render / PythonAnywhere</span>
             <span class="skill"><i class="fa-solid fa-bolt-lightning"></i> Redis</span>
             <span class="skill"><i class="fa-brands fa-docker"></i> Docker</span>
             <span class="skill"><i class="fa-brands fa-aws"></i> AWS basics</span>
             <span class="skill"><i class="fa-solid fa-shield-halved"></i> JWT auth</span>
             <span class="skill"><i class="fa-brands fa-css3-alt"></i> Tailwind CSS</span>
+          </div>
+        </div>
+
+        <div class="card skill-group wide reveal">
+          <h3><i class="fa-solid fa-cloud-arrow-up"></i> Deployment platforms</h3>
+          <p>Where I host and ship Python and web projects.</p>
+          <div class="skill-list">
+            <span class="skill"><i class="fa-solid fa-cloud"></i> Render</span>
+            <span class="skill"><i class="fa-brands fa-python"></i> PythonAnywhere</span>
+            <span class="skill"><i class="fa-solid fa-train"></i> Railway</span>
+            <span class="skill"><i class="fa-brands fa-heroku"></i> Heroku</span>
+            <span class="skill"><i class="fa-solid fa-bolt"></i> Vercel</span>
+            <span class="skill"><i class="fa-solid fa-globe"></i> Netlify</span>
+            <span class="skill"><i class="fa-brands fa-github"></i> GitHub Pages</span>
           </div>
         </div>
       </div>
@@ -1207,9 +1301,7 @@
             <span class="ico"><i class="fa-solid fa-envelope"></i></span>
             <div>
               <small>Email</small>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraspatadiya6@gmail.com" target="_blank" rel="noopener noreferrer">paraspatadiya6@gmail.com</a>
-              <button class="copy" id="copyEmail">Copy</button>
-            </div>
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraspatadiya6@gmail.com" target="_blank" rel="noopener noreferrer">paraspatadiya6@gmail.com</a>            </div>
           </div>
           <div class="meta">
             <span class="ico"><i class="fa-brands fa-github"></i></span>
@@ -1232,10 +1324,10 @@
         <div class="contact-form-wrap">
           <form id="contactForm" action="/contact/" method="POST" novalidate>
             {% csrf_token %}
-            <input class="input" id="fName" name="name" placeholder="Your name" required autocomplete="name">
-            <input class="input" id="fEmail" name="email" type="email" placeholder="Your email" required autocomplete="email">
-            <input class="input" id="fSubject" name="subject" placeholder="Subject" required>
-            <textarea class="input" id="fMsg" name="message" placeholder="Tell me about the role or project..." required></textarea>
+            <input class="input" id="fName" name="name" placeholder="Your name" aria-label="Your name" maxlength="100" required autocomplete="name">
+            <input class="input" id="fEmail" name="email" type="email" placeholder="Your email" aria-label="Your email" maxlength="150" required autocomplete="email">
+            <input class="input" id="fSubject" name="subject" placeholder="Subject" aria-label="Subject" maxlength="150" required>
+            <textarea class="input" id="fMsg" name="message" placeholder="Tell me about the role or project..." aria-label="Your message" maxlength="3000" required></textarea>
             <button class="btn btn-primary" id="fSubmit" type="submit" style="width:100%"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
             <p class="form-note">Your message is saved securely and delivered directly to my inbox.</p>
           </form>
@@ -1284,10 +1376,6 @@
     }
 
     /* ---------- clock + year ---------- */
-    function tick() {
-      $('#clock').textContent = new Intl.DateTimeFormat('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date());
-    }
-    tick(); setInterval(tick, 30000);
     $('#year').textContent = new Date().getFullYear();
 
     /* ---------- lightweight particle canvas (3 theme colours) ---------- */
@@ -1368,7 +1456,6 @@
         const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.3039&longitude=70.8022&current=temperature_2m,weather_code,is_day&timezone=Asia%2FKolkata');
         const c = (await r.json()).current;
         weatherTheme = themeFromWeather(c.weather_code, c.is_day);
-        $('#weatherChip').innerHTML = `<i class="fa-solid ${iconFor(c.weather_code, c.is_day)}"></i> ${Math.round(c.temperature_2m)}°C`;
         let mode = 'auto'; try { mode = localStorage.getItem(MODE_KEY) || 'auto'; } catch (e) {}
         if (mode === 'auto') paint(weatherTheme);
       } catch (e) { /* keep default theme if weather API is unreachable */ }
@@ -1382,8 +1469,6 @@
     document.addEventListener('click', e => { if (!dd.contains(e.target)) dd.classList.remove('open'); });
     addEventListener('keydown', e => { if (e.key === 'Escape') dd.classList.remove('open'); });
     $$('[data-theme-set]').forEach(b => b.addEventListener('click', () => { setMode(b.dataset.themeSet); dd.classList.remove('open'); }));
-    const qm = $('#quickMode');
-    if (qm) qm.addEventListener('click', () => { const cur = root.getAttribute('data-theme'); setMode(['light', 'sunset', 'sunny'].includes(cur) ? 'dark' : 'light'); });
 
     /* ---------- mobile menu ---------- */
     $('#burger').addEventListener('click', () => $('#mobileMenu').classList.toggle('open'));
@@ -1452,9 +1537,6 @@
     $('#toTop').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 
     /* ---------- contact ---------- */
-    $('#copyEmail').addEventListener('click', () => {
-      navigator.clipboard.writeText('paraspatadiya6@gmail.com').then(() => toast('Email copied'), () => toast('paraspatadiya6@gmail.com'));
-    });
     const cForm = $('#contactForm'), dBox = $('#deliverBox'), fBtn = $('#fSubmit');
     cForm.addEventListener('submit', async e => {
       e.preventDefault();
