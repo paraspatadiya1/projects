@@ -1,1857 +1,742 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="no-js">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paras Patadiya | Python &amp; Django Developer</title>
-  <meta name="description" content="Paras Patadiya, Python and Django developer from Rajkot, Gujarat. Builds REST APIs with Django REST Framework and PostgreSQL. Live project: Aura SIS.">
-  <meta name="theme-color" content="#f6f8fc">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paras Patadiya | Python Backend Developer (Django &amp; REST APIs)</title>
+  <meta name="description" content="Paras Patadiya is a Python backend developer in Rajkot, Gujarat, building Django and Django REST Framework applications. See the live Aura SIS project, case studies, certifications and resume.">
   <meta name="author" content="Paras Patadiya">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232457f5'/%3E%3Cstop offset='1' stop-color='%230d9488'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='45' font-size='36' font-family='Arial,sans-serif' font-weight='700' text-anchor='middle' fill='white'%3EP%3C/text%3E%3C/svg%3E">
-  <!-- Apply the saved theme before first paint (no flash) -->
-  <script>try{var _m=localStorage.getItem('pp-theme-mode');if(_m&&/^(light|sunset|dark|gamer|cyber|rain|sunny|streaming)$/.test(_m))document.documentElement.setAttribute('data-theme',_m);}catch(e){}</script>
+  <meta name="theme-color" content="#0a0f1f">
+  <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237aa2ff'/%3E%3Cstop offset='1' stop-color='%23f3b562'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='45' font-size='36' font-family='Arial,sans-serif' font-weight='700' text-anchor='middle' fill='%2306112e'%3EP%3C/text%3E%3C/svg%3E">
 
-  <!-- Open Graph: the domain is read from the live request, so link previews work on any host -->
-  <meta property="og:title" content="Paras Patadiya | Python &amp; Django Developer">
-  <meta property="og:description" content="Django REST APIs, PostgreSQL and cloud deployment. See the live Aura SIS project.">
-  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/aura_sis.jpg' %}">
+  <!-- Runs before first paint: applies the saved theme and decides whether the intro plays -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.className = 'js';
+      var themes = ['dark', 'light', 'cyber', 'sunset', 'aurora'], t = null;
+      try { t = localStorage.getItem('pp-theme'); } catch (e) {}
+      if (themes.indexOf(t) === -1) {
+        t = (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+      }
+      d.setAttribute('data-theme', t);
+      var bg = { dark: '#0a0f1f', light: '#f4f6fb', cyber: '#04110e', sunset: '#1b1020', aurora: '#06161f' };
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', bg[t]);
+      // Intro plays once per browser session and never with reduced motion
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var seen = false;
+      try { seen = sessionStorage.getItem('pp-intro') === '1'; } catch (e) {}
+      if (reduce || seen) d.setAttribute('data-intro', 'skip');
+      else d.classList.add('intro-on');
+    })();
+  </script>
+
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="paras.dev">
+  <meta property="og:title" content="Paras Patadiya | Python Backend Developer">
+  <meta property="og:description" content="Django and REST API projects, case studies, certifications and resume. Live demo: Aura SIS.">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}/">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/og-card.png' %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Paras Patadiya, Python Backend Developer, paras.dev">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Paras Patadiya | Python Backend Developer">
+  <meta name="twitter:description" content="Django and REST API projects, case studies, certifications and resume.">
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/og-card.png' %}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Paras Patadiya",
+    "jobTitle": "Python Backend Developer",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/",
+    "address": { "@type": "PostalAddress", "addressLocality": "Rajkot", "addressRegion": "Gujarat", "addressCountry": "IN" },
+    "sameAs": [
+      "https://github.com/paraspatadiya1",
+      "https://www.linkedin.com/in/patadiya-paras-5a6785305"
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Orbitron:wght@600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <style>
-    /* =====================================================================
-       THEMES: every theme uses exactly 3 brand colours
-         --primary  = main colour
-         --accent   = second colour
-         --tert     = third colour
-       (weather-driven: rain / sunny / dark / light, plus sunset, gamer, cyber, streaming)
-       ===================================================================== */
-    :root {
-      --f-body: 'Plus Jakarta Sans', system-ui, sans-serif;
-      --f-head: 'Space Grotesk', sans-serif;
-      --f-mono: 'JetBrains Mono', monospace;
-      --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-full: 999px;
-      --on-primary: #fff;
-      --grad3: linear-gradient(100deg, var(--primary), var(--accent) 55%, var(--tert));
-    }
-
-    /* LIGHT: Ocean Paper (cobalt + teal + orange) */
-    :root, [data-theme="light"] {
-      --bg: #f6f8fc; --surface: #ffffff; --surface-2: #e9eff9;
-      --card: rgba(255,255,255,.9); --border: rgba(36,87,245,.15); --border-hi: rgba(36,87,245,.55);
-      --text: #0b1220; --muted: #46536a; --dim: #66748b;
-      --primary: #2457f5; --accent: #0d9488; --tert: #f97316;
-      --glow: rgba(36,87,245,.28);
-      --ok: #059669; --code-bg: #0b1220; --code-text: #e2e8f0;
-      --nav: rgba(255,255,255,.9); --shadow: 0 18px 40px -18px rgba(11,18,32,.2);
-      --grad-btn: linear-gradient(120deg, #2457f5, #0d9488); --on-primary: #fff;
-    }
-    /* DARK: Midnight Luxe (gold + periwinkle + aqua) */
-    [data-theme="dark"] {
-      --bg: #080a12; --surface: #0e1220; --surface-2: #151b2e;
-      --card: rgba(16,21,38,.78); --border: rgba(255,255,255,.1); --border-hi: rgba(232,190,110,.6);
-      --text: #f6f7fb; --muted: #a0a8bd; --dim: #6f7890;
-      --primary: #e8be6e; --accent: #8b93ff; --tert: #3dd6c4;
-      --glow: rgba(232,190,110,.32);
-      --ok: #34d399; --code-bg: #070a12; --code-text: #e2e8f0;
-      --nav: rgba(8,10,18,.88); --shadow: 0 22px 50px -18px rgba(0,0,0,.75);
-      --grad-btn: linear-gradient(120deg, #e8be6e, #f2a46a); --on-primary: #17120a;
-    }
-    /* RAIN: Stormfront (sky + periwinkle + mint) */
-    [data-theme="rain"] {
-      --bg: #07111d; --surface: #0d1a2b; --surface-2: #14263d;
-      --card: rgba(14,29,48,.78); --border: rgba(125,190,255,.2); --border-hi: rgba(76,195,255,.7);
-      --text: #eaf4ff; --muted: #9db6d0; --dim: #6c88a6;
-      --primary: #4cc3ff; --accent: #8a8cff; --tert: #5eead4;
-      --glow: rgba(76,195,255,.38);
-      --ok: #2dd4bf; --code-bg: #050e19; --code-text: #e2edf8;
-      --nav: rgba(7,17,29,.88); --shadow: 0 22px 50px -18px rgba(0,0,0,.7);
-      --grad-btn: linear-gradient(120deg, #4cc3ff, #8a8cff); --on-primary: #051423;
-    }
-    /* SUNNY: Golden Hour (orange + gold + sky blue) */
-    [data-theme="sunny"] {
-      --bg: #fffaf1; --surface: #ffffff; --surface-2: #ffefd0;
-      --card: rgba(255,255,255,.92); --border: rgba(234,88,12,.22); --border-hi: rgba(234,88,12,.65);
-      --text: #2b1604; --muted: #6b4a2b; --dim: #8f7456;
-      --primary: #ea580c; --accent: #f2a900; --tert: #0891d1;
-      --glow: rgba(234,88,12,.3);
-      --ok: #16a34a; --code-bg: #2b1604; --code-text: #ffeccc;
-      --nav: rgba(255,250,241,.92); --shadow: 0 18px 40px -18px rgba(43,22,4,.2);
-      --grad-btn: linear-gradient(120deg, #f4720f, #f7b500); --on-primary: #2b1604;
-    }
-    /* SUNSET: Sunset Pastel (rose + amber + violet) */
-    [data-theme="sunset"] {
-      --bg: #fdf9f6; --surface: #ffffff; --surface-2: #f9eee4;
-      --card: rgba(255,255,255,.92); --border: rgba(225,29,72,.18); --border-hi: rgba(225,29,72,.6);
-      --text: #1e1b2e; --muted: #57536e; --dim: #797593;
-      --primary: #e11d48; --accent: #f59e0b; --tert: #7c3aed;
-      --glow: rgba(225,29,72,.28);
-      --ok: #10b981; --code-bg: #1c192c; --code-text: #f3f0fa;
-      --nav: rgba(253,249,246,.92); --shadow: 0 18px 40px -18px rgba(30,27,46,.2);
-      --grad-btn: linear-gradient(120deg, #e11d48, #7c3aed); --on-primary: #fff;
-    }
-    /* GAMER: Arcade Neon (magenta + cyan + yellow) */
-    [data-theme="gamer"] {
-      --bg: #080614; --surface: #130b22; --surface-2: #1d1034;
-      --card: rgba(21,12,37,.8); --border: rgba(255,63,208,.3); --border-hi: rgba(53,231,255,.75);
-      --text: #fff8ff; --muted: #c5b4d8; --dim: #8b7a9e;
-      --primary: #ff3fd0; --accent: #35e7ff; --tert: #ffe14d;
-      --glow: rgba(255,63,208,.45);
-      --ok: #10b981; --code-bg: #0e0719; --code-text: #fff8ff;
-      --nav: rgba(8,6,20,.9); --shadow: 0 24px 50px -18px rgba(0,0,0,.85), 0 0 28px rgba(255,63,208,.14);
-      --f-head: 'Orbitron', sans-serif;
-      --grad-btn: linear-gradient(120deg, #ff3fd0, #9b5cff); --on-primary: #19051a;
-    }
-    /* CYBER: Cyber Matrix (green + cyan + amber) */
-    [data-theme="cyber"] {
-      --bg: #03100e; --surface: #07201b; --surface-2: #0c2b24;
-      --card: rgba(7,32,27,.78); --border: rgba(54,247,154,.24); --border-hi: rgba(54,247,154,.7);
-      --text: #d9ffeb; --muted: #8ebba5; --dim: #5a8a73;
-      --primary: #36f79a; --accent: #22d3ee; --tert: #ffb020;
-      --glow: rgba(54,247,154,.4);
-      --ok: #36f79a; --code-bg: #020e0c; --code-text: #d9ffeb;
-      --nav: rgba(3,16,14,.92); --shadow: 0 24px 50px -18px rgba(0,0,0,.85), 0 0 26px rgba(54,247,154,.12);
-      --f-head: 'JetBrains Mono', monospace;
-      --grad-btn: linear-gradient(120deg, #36f79a, #22d3ee); --on-primary: #021410;
-    }
-    /* STREAMING: Creator Nebula (lilac + pink + ice cyan) */
-    [data-theme="streaming"] {
-      --bg: #100a1d; --surface: #1b1130; --surface-2: #271745;
-      --card: rgba(27,17,48,.78); --border: rgba(195,155,255,.26); --border-hi: rgba(255,128,181,.7);
-      --text: #fff8ff; --muted: #c7b8d7; --dim: #8b7b9d;
-      --primary: #c39bff; --accent: #ff80b5; --tert: #62e6ff;
-      --glow: rgba(195,155,255,.42);
-      --ok: #10b981; --code-bg: #130b23; --code-text: #fff8ff;
-      --nav: rgba(16,10,29,.9); --shadow: 0 24px 50px -18px rgba(0,0,0,.85), 0 0 30px rgba(195,155,255,.15);
-      --f-head: 'Syne', sans-serif;
-      --grad-btn: linear-gradient(120deg, #c39bff, #ff80b5); --on-primary: #150b25;
-    }
-
-    /* ===== BASE ===== */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 96px; background: var(--bg); }
-    body {
-      font-family: var(--f-body); color: var(--text); background: var(--bg);
-      line-height: 1.65; overflow-x: hidden; transition: background .5s ease, color .5s ease;
-    }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    ::selection { background: var(--primary); color: var(--on-primary); }
-    .container { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
-    section { padding: 100px 0; position: relative; }
-    :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
-
-    #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--grad3); z-index: 9999; box-shadow: 0 0 12px var(--primary); }
-
-    /* ===== BACKGROUND LAYERS (3 colour orbs) ===== */
-    #bg-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none; }
-    .orb { position: fixed; border-radius: 50%; filter: blur(95px); opacity: .26; z-index: -2; pointer-events: none; background: var(--primary); animation: drift 22s ease-in-out infinite alternate; }
-    .orb.a { width: 460px; height: 460px; top: -120px; right: -120px; }
-    .orb.b { width: 400px; height: 400px; bottom: 5%; left: -130px; background: var(--accent); animation-delay: -9s; }
-    .orb.c { width: 340px; height: 340px; top: 42%; right: 8%; background: var(--tert); opacity: .16; animation-delay: -15s; }
-    @keyframes drift { to { transform: translate(40px, 60px) scale(1.12); } }
-
-    .weather-fx { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; display: none; }
-    [data-theme="rain"] .weather-fx, [data-theme="sunny"] .weather-fx { display: block; }
-    .drop { display: none; position: absolute; top: -70px; width: 2px; height: 56px; background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--primary) 75%, #fff)); animation: fall linear infinite; }
-    [data-theme="rain"] .drop { display: block; }
-    @keyframes fall { to { transform: translateY(120vh); } }
-    .flash { display: none; position: absolute; inset: 0; background: color-mix(in srgb, var(--accent) 16%, transparent); opacity: 0; animation: flash 10s infinite; }
-    [data-theme="rain"] .flash { display: block; }
-    @keyframes flash { 0%, 92%, 96%, 100% { opacity: 0; } 93%, 95% { opacity: 1; } }
-    .sun-rays { display: none; position: absolute; top: -380px; right: -380px; width: 900px; height: 900px; border-radius: 50%;
-      background: repeating-conic-gradient(color-mix(in srgb, var(--accent) 34%, transparent) 0 8deg, transparent 8deg 24deg);
-      -webkit-mask-image: radial-gradient(circle, #000, transparent 68%); mask-image: radial-gradient(circle, #000, transparent 68%);
-      animation: spin 70s linear infinite; }
-    .sun-orb { display: none; position: absolute; top: 50px; right: 80px; width: 100px; height: 100px; border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff4b8, var(--accent) 55%, var(--primary)); box-shadow: 0 0 90px 36px color-mix(in srgb, var(--accent) 45%, transparent); animation: bob 6s ease-in-out infinite; }
-    [data-theme="sunny"] .sun-rays, [data-theme="sunny"] .sun-orb { display: block; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes bob { 50% { transform: translateY(-10px); } }
-
-    /* ===== NAV ===== */
-    .navbar {
-      position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 500;
-      width: min(1180px, calc(100% - 32px)); display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 20px; background: var(--nav); border: 1px solid var(--border); border-radius: var(--r-full);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: var(--shadow);
-    }
-    .brand { font-family: var(--f-head); font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-    .brand .cube { width: 30px; height: 30px; border-radius: 8px; background: var(--grad-btn); color: var(--on-primary); display: grid; place-items: center; font-size: .85rem; animation: bob 4s ease-in-out infinite; }
-    .brand em { font-style: normal; color: var(--primary); }
-    .nav-links { display: flex; gap: 4px; list-style: none; }
-    .nav-links a { padding: 7px 14px; border-radius: var(--r-full); font-size: .88rem; font-weight: 600; color: var(--muted); transition: .2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, transparent); }
-    .nav-actions { display: flex; align-items: center; gap: 8px; }
-    .chip { font-family: var(--f-mono); font-size: .75rem; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--r-full); background: var(--card); border: 1px solid var(--border); color: var(--muted); white-space: nowrap; }
-    .chip i { color: var(--primary); }
-    .icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; display: grid; place-items: center; transition: .25s; }
-    .icon-btn:hover { color: var(--accent); border-color: var(--accent); transform: rotate(15deg); }
-
-    .dropdown { position: relative; }
-    .dropdown-menu { position: absolute; right: 0; top: calc(100% + 10px); min-width: 210px; padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow); display: none; flex-direction: column; gap: 2px; z-index: 600; }
-    .dropdown.open .dropdown-menu { display: flex; animation: pop .2s ease; }
-    @keyframes pop { from { opacity: 0; transform: translateY(6px); } }
-    .opt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 12px; border: 0; border-radius: var(--r-sm); background: none; color: var(--muted); font: 600 .84rem var(--f-body); cursor: pointer; text-align: left; }
-    .opt:hover { background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--text); }
-    .opt.active { background: var(--grad-btn); color: var(--on-primary); }
-    .divider { height: 1px; background: var(--border); margin: 4px 0; }
-
-    .burger { display: none; }
-    .mobile-menu { display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); width: min(420px, calc(100% - 32px)); padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); z-index: 490; flex-direction: column; gap: 6px; }
-    .mobile-menu.open { display: flex; animation: pop .2s ease; }
-    .mobile-menu a { padding: 12px 16px; border-radius: var(--r-sm); font-weight: 600; text-align: center; color: var(--muted); }
-    .mobile-menu a:hover { background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--primary); }
-
-    /* ===== BUTTONS ===== */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 13px 26px; border-radius: var(--r-full); font: 700 .93rem var(--f-body); cursor: pointer; border: 1px solid transparent; transition: .3s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; }
-    .btn-primary { background: var(--grad-btn); color: var(--on-primary); box-shadow: 0 10px 28px -8px var(--glow); }
-    .btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 55%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent); transform: skewX(-25deg); transition: left .7s; }
-    .btn-primary:hover::after { left: 150%; }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -8px var(--glow), 0 0 0 3px color-mix(in srgb, var(--tert) 30%, transparent); }
-    .btn-ghost { background: var(--card); color: var(--text); border-color: var(--border); }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
-    .btn-sm { padding: 8px 18px; font-size: .84rem; }
-
-    /* ===== COMMON ===== */
-    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: var(--r-full); background: color-mix(in srgb, var(--primary) 9%, transparent); border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent); font: 600 .78rem var(--f-mono); }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); animation: ping 2s infinite; }
-    @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(16,185,129,.6); } 70%, 100% { box-shadow: 0 0 0 10px rgba(16,185,129,0); } }
-    .sec-head { text-align: center; max-width: 640px; margin: 0 auto 54px; }
-    .sec-tag { font: 700 .8rem var(--f-mono); color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
-    .sec-title { font-family: var(--f-head); font-size: clamp(1.9rem, 3.6vw, 2.8rem); line-height: 1.15; margin: 6px 0 12px; }
-    .sec-head .sec-title::after { content: ''; display: block; width: 74px; height: 4px; border-radius: 99px; margin: 14px auto 0; background: var(--grad3); }
-    .sec-sub { color: var(--muted); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: var(--shadow); transition: border-color .3s, box-shadow .3s, transform .3s; }
-    .card:hover { border-color: var(--border-hi); }
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1); }
-    .reveal.in { opacity: 1; transform: none; }
-    .tag { --tc: var(--primary); font: 600 .76rem var(--f-mono); padding: 5px 12px; border-radius: var(--r-full); border: 1px solid color-mix(in srgb, var(--tc) 32%, transparent); color: var(--tc); background: color-mix(in srgb, var(--tc) 8%, transparent); }
-    .tags .tag:nth-child(3n+2) { --tc: var(--accent); }
-    .tags .tag:nth-child(3n+3) { --tc: var(--tert); }
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    /* ===== HERO ===== */
-    .hero { min-height: 100vh; padding: 140px 0 70px; display: flex; align-items: center; }
-    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
-    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
-    .hero-badges .pill:nth-child(2) { background: color-mix(in srgb, var(--accent) 10%, transparent); border-color: color-mix(in srgb, var(--accent) 32%, transparent); }
-    .hero-badges .pill:nth-child(2) i { color: var(--accent) !important; }
-    .hero h1 { font-family: var(--f-head); font-size: clamp(2.5rem, 5vw, 4.3rem); line-height: 1.08; letter-spacing: -1.5px; margin-bottom: 14px; }
-    .hero h1 span { background: var(--grad3); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
-    .typing { font: 600 1.1rem var(--f-mono); color: var(--accent); min-height: 1.8em; margin-bottom: 16px; }
-    .caret { display: inline-block; width: 3px; height: 1.1em; background: var(--tert); margin-left: 4px; vertical-align: middle; animation: blink .9s infinite; }
-    @keyframes blink { 50% { opacity: 0; } }
-    .hero p.lead { color: var(--muted); font-size: 1.08rem; max-width: 560px; margin-bottom: 28px; }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 36px; }
-    .hero-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding-top: 22px; border-top: 1px solid var(--border); }
-    .fact b { display: block; font: 700 1.3rem var(--f-head); color: var(--primary); }
-    .fact:nth-child(2) b { color: var(--accent); }
-    .fact:nth-child(3) b { color: var(--tert); }
-    .fact span { font: .78rem var(--f-mono); color: var(--dim); }
-
-    .terminal { background: var(--code-bg); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow), 0 0 40px -12px var(--glow); transition: transform .35s cubic-bezier(.16,1,.3,1); }
-    .term-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(255,255,255,.05); border-bottom: 1px solid rgba(255,255,255,.1); }
-    .dots { display: flex; gap: 7px; }
-    .dots i { width: 11px; height: 11px; border-radius: 50%; display: block; }
-    .dots i:nth-child(1) { background: var(--primary); } .dots i:nth-child(2) { background: var(--accent); } .dots i:nth-child(3) { background: var(--tert); }
-    .term-tabs { display: flex; gap: 4px; }
-    .term-tab { padding: 4px 11px; font: .73rem var(--f-mono); border-radius: 6px; border: 1px solid transparent; background: none; color: #94a3b8; cursor: pointer; }
-    .term-tab.active { background: rgba(255,255,255,.13); color: #fff; }
-    .term-body { padding: 20px; font: .82rem/1.7 var(--f-mono); color: var(--code-text); min-height: 270px; overflow-x: auto; }
-    .term-panel { display: none; } .term-panel.active { display: block; animation: pop .3s ease; }
-    /* syntax colours follow the theme's 3 colours */
-    .k { color: var(--primary); } .f { color: var(--accent); } .s { color: var(--tert); } .n { color: var(--tert); } .c { color: #64748b; font-style: italic; }
-    [data-theme="light"] .k, [data-theme="sunset"] .k, [data-theme="sunny"] .k { color: color-mix(in srgb, var(--primary) 55%, #fff); }
-    [data-theme="light"] .f, [data-theme="sunset"] .f, [data-theme="sunny"] .f { color: color-mix(in srgb, var(--accent) 55%, #fff); }
-    [data-theme="light"] .s, [data-theme="sunset"] .s, [data-theme="sunny"] .s { color: color-mix(in srgb, var(--tert) 55%, #fff); }
-    .cli-out { max-height: 170px; overflow-y: auto; margin-bottom: 10px; color: #94a3b8; }
-    .cli-row { display: flex; gap: 8px; border-top: 1px solid rgba(255,255,255,.1); padding-top: 10px; }
-    .cli-row span { color: var(--primary); font-weight: 700; }
-    .cli-row input { flex: 1; background: none; border: 0; outline: 0; color: #fff; font: .82rem var(--f-mono); }
-    .cli-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-    .cli-chips button { padding: 4px 10px; font: .72rem var(--f-mono); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 4px; color: var(--accent); cursor: pointer; }
-    .cli-chips button:hover { background: var(--primary); color: var(--on-primary); }
-
-    /* ===== PROJECTS ===== */
-    .flagship { padding: 40px; position: relative; overflow: hidden; margin-bottom: 28px; }
-    .flagship::before { content: ''; position: absolute; top: -140px; right: -140px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, var(--glow), transparent 70%); opacity: .5; pointer-events: none; }
-    .flagship::after { content: ''; position: absolute; bottom: -160px; left: -120px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--tert) 30%, transparent), transparent 70%); opacity: .45; pointer-events: none; }
-    .flagship-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; position: relative; z-index: 1; }
-    .browser { background: #090c15; border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; box-shadow: 0 26px 50px -16px rgba(0,0,0,.5); transition: transform .5s cubic-bezier(.16,1,.3,1); }
-    .browser:hover { transform: perspective(1000px) rotateY(-3deg) rotateX(2deg) scale(1.02); }
-    .browser-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: rgba(255,255,255,.05); border-bottom: 1px solid var(--border); }
-    .url { flex: 1; padding: 4px 12px; border-radius: var(--r-full); background: rgba(0,0,0,.4); border: 1px solid var(--border); font: .72rem var(--f-mono); color: #e2e8f0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .url i { color: var(--ok); margin-right: 6px; }
-    .shot { position: relative; aspect-ratio: 16 / 9.5; background: #0d121f; overflow: hidden; }
-    .shot img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
-    .browser:hover .shot img { transform: scale(1.05); }
-    .shot .status { position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: var(--r-full); background: rgba(6,14,24,.88); border: 1px solid var(--glow); color: #fff; font: .72rem var(--f-mono); }
-    .badge-solid { display: inline-block; background: var(--grad-btn); color: var(--on-primary); font: 700 .7rem var(--f-mono); letter-spacing: 1.4px; text-transform: uppercase; padding: 5px 12px; border-radius: var(--r-full); margin-bottom: 12px; }
-    .flagship h3 { font: 700 clamp(1.6rem, 2.8vw, 2.2rem)/1.15 var(--f-head); margin-bottom: 12px; }
-    .flagship p { color: var(--muted); margin-bottom: 18px; }
-    .feature-list { list-style: none; display: grid; gap: 8px; margin-bottom: 20px; }
-    .feature-list li { display: flex; gap: 10px; font-size: .93rem; color: var(--muted); }
-    .feature-list i { color: var(--accent); margin-top: 5px; font-size: .8rem; }
-    .feature-list li:nth-child(3n+2) i { color: var(--tert); }
-    .feature-list li:nth-child(3n+3) i { color: var(--primary); }
-    .cold-note { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--r-sm); background: color-mix(in srgb, var(--primary) 8%, transparent); border: 1px dashed color-mix(in srgb, var(--primary) 40%, transparent); font-size: .83rem; color: var(--muted); margin-bottom: 22px; }
-    .cold-note i { color: var(--primary); margin-top: 3px; }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-
-    .soon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
-    .soon { --sc: var(--accent); padding: 30px; border-style: dashed; position: relative; overflow: hidden; }
-    .soon-grid .soon:nth-child(2) { --sc: var(--tert); }
-    .soon:hover { transform: translateY(-6px); box-shadow: 0 22px 46px -16px color-mix(in srgb, var(--sc) 45%, transparent); border-color: var(--sc); }
-    .soon-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .soon-ico { --sc: var(--primary); width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 1.25rem; color: var(--sc); background: color-mix(in srgb, var(--sc) 11%, transparent); border: 1px solid color-mix(in srgb, var(--sc) 30%, transparent); }
-    .soon .soon-ico { --sc: inherit; color: var(--sc); }
-    .soon h3 { font: 700 1.35rem var(--f-head); margin-bottom: 8px; }
-    .soon p { color: var(--muted); font-size: .95rem; margin-bottom: 18px; }
-    .bar { height: 6px; border-radius: 99px; background: color-mix(in srgb, var(--primary) 12%, transparent); overflow: hidden; margin-bottom: 14px; }
-    .bar i { display: block; height: 100%; width: 40%; border-radius: 99px; background: var(--grad3); animation: load 3s ease-in-out infinite alternate; }
-    @keyframes load { from { width: 25%; } to { width: 65%; } }
-
-    /* ===== ABOUT / EXPERIENCE ===== */
-    .about-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 22px; }
-    .about-card { padding: 30px; position: relative; overflow: hidden; }
-    .about-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad3); opacity: .95; }
-    .c7 { grid-column: span 7; } .c5 { grid-column: span 5; } .c6 { grid-column: span 6; }
-    .about-card h3 { font: 700 1.25rem var(--f-head); margin-bottom: 10px; }
-    .about-card p { color: var(--muted); font-size: .95rem; }
-    .about-card > i.big { font-size: 1.9rem; color: var(--primary); margin-bottom: 14px; display: block; }
-    .about-grid .about-card:nth-child(3) > i.big { color: var(--accent); }
-    .about-grid .about-card:nth-child(4) > i.big { color: var(--tert); }
-    .profile { display: flex; align-items: center; gap: 26px; }
-    .emblem { position: relative; width: 120px; height: 120px; flex-shrink: 0; display: grid; place-items: center; }
-    .emblem .core { width: 92px; height: 92px; border-radius: 24px; background: var(--grad-btn); color: var(--on-primary); display: grid; place-items: center; font-size: 2.2rem; transform: rotate(45deg); box-shadow: 0 0 30px var(--glow); transition: transform .4s; }
-    .emblem .core i { transform: rotate(-45deg); transition: transform .4s; }
-    .emblem:hover .core { transform: rotate(0) scale(1.06); } .emblem:hover .core i { transform: rotate(0); }
-    .emblem .ring { position: absolute; inset: -8px; border: 1.5px dashed var(--primary); border-radius: 50%; opacity: .6; animation: spin 20s linear infinite; }
-    .emblem .ring.r2 { inset: 0; border-style: dotted; border-color: var(--tert); animation-direction: reverse; animation-duration: 14s; }
-
-    .timeline { position: relative; display: grid; gap: 18px; padding-left: 26px; }
-    .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--primary), var(--accent), var(--tert)); opacity: .7; }
-    .tl-item { --tc: var(--primary); position: relative; }
-    .tl-item:nth-child(2) { --tc: var(--accent); }
-    .tl-item:nth-child(3) { --tc: var(--tert); }
-    .tl-item::before { content: ''; position: absolute; left: -26px; top: 7px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 3px solid var(--tc); }
-    .tl-item b { display: block; font-size: 1rem; }
-    .tl-item span { font: .76rem var(--f-mono); color: var(--tc); }
-    .tl-item p { font-size: .9rem; margin-top: 4px; }
-
-    /* ===== SKILLS ===== */
-    .skills-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .skill-group { padding: 30px; }
-    .skill-group h3 { font: 700 1.15rem var(--f-head); margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
-    .skill-group h3 i { color: var(--primary); }
-    .skills-wrap .skill-group:nth-child(2) h3 i { color: var(--tert); }
-    .skill-group > p { color: var(--dim); font-size: .86rem; margin-bottom: 18px; }
-    .skill-list { display: flex; flex-wrap: wrap; gap: 10px; }
-    .skill { --tc: var(--primary); display: inline-flex; align-items: center; gap: 9px; padding: 9px 16px; border-radius: var(--r-full); background: var(--surface); border: 1px solid var(--border); font-weight: 600; font-size: .9rem; transition: .25s; }
-    .skill-list .skill:nth-child(3n+2) { --tc: var(--accent); }
-    .skill-list .skill:nth-child(3n+3) { --tc: var(--tert); }
-    .skill i { color: var(--tc); }
-    .skill:hover { border-color: var(--tc); transform: translateY(-3px); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--tc) 55%, transparent); }
-
-    /* ===== CONTACT ===== */
-    .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; padding: 50px; position: relative; overflow: hidden; }
-    .contact::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--grad3); }
-    .contact h2 { font: 700 clamp(1.9rem, 3vw, 2.5rem)/1.15 var(--f-head); margin-bottom: 14px; }
-    .contact > div > p { color: var(--muted); margin-bottom: 28px; }
-    .meta { --tc: var(--primary); display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-    .contact .meta:nth-of-type(3n+2) { --tc: var(--accent); }
-    .contact .meta:nth-of-type(3n+3) { --tc: var(--tert); }
-    .meta .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: var(--tc); background: color-mix(in srgb, var(--tc) 10%, transparent); border: 1px solid color-mix(in srgb, var(--tc) 30%, transparent); flex-shrink: 0; }
-    .meta small { display: block; font: .72rem var(--f-mono); text-transform: uppercase; color: var(--dim); }
-    .meta a:hover { color: var(--tc); }
-    .copy { margin-left: 8px; padding: 3px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--card); color: var(--muted); font-size: .74rem; font-weight: 600; cursor: pointer; }
-    .copy:hover { background: var(--primary); color: var(--on-primary); }
-    .input { width: 100%; padding: 15px 18px; margin-bottom: 14px; border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--border); color: var(--text); font: .94rem var(--f-body); outline: 0; transition: .25s; }
-    .input:focus { border-color: var(--accent); box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent); }
-    textarea.input { min-height: 130px; resize: vertical; }
-    .form-note { font-size: .78rem; color: var(--dim); margin-top: 10px; text-align: center; }
-
-    footer { padding: 36px 0 56px; border-top: 1px solid var(--border); color: var(--dim); font-size: .9rem; position: relative; }
-    footer::before { content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 2px; background: var(--grad3); opacity: .7; }
-    .foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
-    .socials { display: flex; gap: 12px; }
-    .socials a { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--card); border: 1px solid var(--border); color: var(--muted); transition: .25s; }
-    .socials a:nth-child(3n+1):hover { color: var(--primary); border-color: var(--primary); }
-    .socials a:nth-child(3n+2):hover { color: var(--accent); border-color: var(--accent); }
-    .socials a:nth-child(3n+3):hover { color: var(--tert); border-color: var(--tert); }
-    .socials a:hover { transform: translateY(-3px); }
-
-    .toast { position: fixed; bottom: 28px; left: 50%; transform: translate(-50%, 100px); padding: 13px 26px; border-radius: var(--r-full); background: var(--surface-2); border: 1px solid var(--accent); color: var(--text); font-weight: 700; font-size: .9rem; box-shadow: var(--shadow); opacity: 0; z-index: 9999; transition: .4s cubic-bezier(.16,1,.3,1); pointer-events: none; }
-    .toast.show { transform: translate(-50%, 0); opacity: 1; }
-    .to-top { position: fixed; bottom: 26px; right: 26px; width: 46px; height: 46px; border-radius: 50%; background: var(--card); border: 1px solid var(--border); color: var(--text); cursor: pointer; display: grid; place-items: center; opacity: 0; pointer-events: none; transform: translateY(18px); transition: .3s; z-index: 400; box-shadow: var(--shadow); }
-    .to-top.show { opacity: 1; pointer-events: auto; transform: none; }
-    .to-top:hover { background: var(--grad-btn); color: var(--on-primary); }
-
-    /* ===== EXTRAS: 3D canvas, rails, marquee, cursor, tilt, carousel ===== */
-    #webgl-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
-    #webgl-canvas.on { opacity: 1; }
-
-    .marquee { overflow: hidden; border-block: 1px solid var(--border); background: var(--card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 14px 0; }
-    .marquee-track { display: flex; gap: 48px; width: max-content; animation: marq 42s linear infinite; }
-    .marquee:hover .marquee-track { animation-play-state: paused; }
-    .marquee-track span { display: inline-flex; align-items: center; gap: 12px; font: 700 1.05rem var(--f-head); letter-spacing: 1px; color: var(--muted); white-space: nowrap; }
-    .marquee-track i { color: var(--primary); }
-    .marquee-track span:nth-child(3n+2) i { color: var(--accent); }
-    .marquee-track span:nth-child(3n+3) i { color: var(--tert); }
-    @keyframes marq { to { transform: translateX(-50%); } }
-
-    .rail { position: fixed; top: 0; bottom: 0; width: 70px; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 120px 0 34px; pointer-events: none; }
-    .rail.left { left: 0; } .rail.right { right: 0; }
-    .rail-line { flex: 1; width: 2px; margin: 18px 0; border-radius: 2px; opacity: .75; background: linear-gradient(180deg, transparent, var(--primary), var(--accent), var(--tert), transparent); background-size: 100% 300%; animation: railFlow 6s linear infinite; }
-    @keyframes railFlow { to { background-position: 0 300%; } }
-    .rail-text { writing-mode: vertical-rl; font: .72rem var(--f-mono); letter-spacing: 5px; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
-    .rail-text b { color: var(--primary); }
-    .rail-social { display: flex; flex-direction: column; gap: 12px; pointer-events: auto; }
-    .rail-social a { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: .9rem; background: var(--card); border: 1px solid var(--border); color: var(--muted); transition: .25s; }
-    .rail-social a:nth-child(3n+1):hover { color: var(--primary); border-color: var(--primary); }
-    .rail-social a:nth-child(3n+2):hover { color: var(--accent); border-color: var(--accent); }
-    .rail-social a:nth-child(3n+3):hover { color: var(--tert); border-color: var(--tert); }
-    .rail-social a:hover { transform: scale(1.15); }
-    .cube-scene { width: 36px; height: 36px; perspective: 240px; }
-    .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: cubeSpin 10s linear infinite; }
-    .cube.rev { animation-direction: reverse; animation-duration: 13s; }
-    .cube span { position: absolute; inset: 0; border: 1.5px solid var(--primary); opacity: .9; box-shadow: inset 0 0 12px var(--glow); }
-    .cube span:nth-child(2n) { border-color: var(--accent); }
-    .cube span:nth-child(3n) { border-color: var(--tert); }
-    .cube span:nth-child(1) { transform: translateZ(18px); }
-    .cube span:nth-child(2) { transform: rotateY(180deg) translateZ(18px); }
-    .cube span:nth-child(3) { transform: rotateY(90deg) translateZ(18px); }
-    .cube span:nth-child(4) { transform: rotateY(-90deg) translateZ(18px); }
-    .cube span:nth-child(5) { transform: rotateX(90deg) translateZ(18px); }
-    .cube span:nth-child(6) { transform: rotateX(-90deg) translateZ(18px); }
-    @keyframes cubeSpin { from { transform: rotateX(-20deg) rotateY(0); } to { transform: rotateX(-20deg) rotateY(360deg); } }
-
-    .cur-dot, .cur-ring { position: fixed; left: 0; top: 0; pointer-events: none; border-radius: 50%; transition: opacity .25s; }
-    .cur-dot { width: 8px; height: 8px; background: var(--primary); box-shadow: 0 0 14px var(--primary); z-index: 10000; }
-    .cur-ring { width: 36px; height: 36px; border: 1.5px solid var(--accent); opacity: .65; z-index: 9999; transition: width .25s, height .25s, background .25s, opacity .25s; }
-    .cur-ring.active { width: 60px; height: 60px; opacity: 1; border-color: var(--tert); background: color-mix(in srgb, var(--tert) 16%, transparent); }
-
-    .tilt { position: relative; overflow: hidden; }
-    .tilt.ready { transition: transform .15s ease-out, border-color .3s, box-shadow .3s; }
-    .tilt::after { content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; background: radial-gradient(circle 260px at var(--gx, -400px) var(--gy, -400px), color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%); opacity: 0; transition: opacity .3s; }
-    .tilt:hover::after { opacity: 1; }
-
-    .showcase { margin-bottom: 44px; }
-    .stage { position: relative; height: 440px; perspective: 1500px; touch-action: pan-y; outline: none; }
-    .stage:focus-visible { outline: 2px solid var(--primary); outline-offset: 6px; border-radius: var(--r-lg); }
-    .stage-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .3s ease-out; }
-    .slide { --sc: var(--primary); position: absolute; left: 50%; top: 10px; bottom: 10px; padding: 28px; display: flex; flex-direction: column; gap: 12px; border-radius: var(--r-lg); background: var(--card); border: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: var(--shadow); backface-visibility: hidden; -webkit-backface-visibility: hidden; cursor: pointer; overflow: hidden; transition: border-color .4s, box-shadow .4s; }
-    .stage-inner .slide:nth-child(2) { --sc: var(--accent); }
-    .stage-inner .slide:nth-child(3) { --sc: var(--tert); }
-    .stage.ready .slide { transition: transform .9s cubic-bezier(.16,1,.3,1), opacity .6s ease, border-color .4s, box-shadow .4s; }
-    .slide::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--sc); }
-    .slide::after { content: ''; position: absolute; width: 240px; height: 240px; right: -80px; bottom: -80px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--sc) 40%, transparent), transparent 70%); pointer-events: none; }
-    .slide .soon-ico { --sc: inherit; color: var(--sc); background: color-mix(in srgb, var(--sc) 11%, transparent); border-color: color-mix(in srgb, var(--sc) 30%, transparent); }
-    .slide.is-active { border-color: var(--sc); box-shadow: 0 30px 70px -22px color-mix(in srgb, var(--sc) 55%, transparent); cursor: default; }
-    .slide .s-top { display: flex; justify-content: space-between; align-items: center; }
-    .slide h3 { font: 700 1.4rem/1.2 var(--f-head); }
-    .slide p { color: var(--muted); font-size: .93rem; flex-grow: 1; }
-    .slide .btn { align-self: flex-start; }
-    .show-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 20px; }
-    .show-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; transition: .25s; }
-    .show-arrow:hover { background: var(--grad-btn); border-color: transparent; color: var(--on-primary); transform: scale(1.08); box-shadow: 0 0 20px var(--glow); }
-    .show-dots { display: flex; gap: 9px; }
-    .show-dot { width: 10px; height: 10px; border-radius: 99px; border: 0; cursor: pointer; background: var(--dim); opacity: .4; transition: .3s; }
-    .show-dot.active { width: 32px; opacity: 1; background: var(--grad3); }
-
-    .dropdown-menu { max-height: 70vh; overflow-y: auto; }
-
-    @media (max-width: 1399px) { .rail { display: none; } }
-    @media (max-width: 1100px) { .chip.clock { display: none; } .nav-links a { padding: 7px 10px; font-size: .82rem; } }
-    @media (max-width: 640px) { .stage { height: 470px; } }
-    @media (pointer: coarse) { .cur-dot, .cur-ring { display: none; } }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1020px) {
-      .hero-grid, .flagship-grid, .contact, .skills-wrap { grid-template-columns: 1fr; }
-      .c7, .c5, .c6 { grid-column: span 12; }
-      .soon-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 860px) {
-      .nav-links, .chip.clock { display: none; }
-      .burger { display: grid; }
-      .hero { padding-top: 120px; }
-      .flagship, .contact { padding: 26px 20px; }
-      .profile { flex-direction: column; text-align: center; }
-    }
-    @media (max-width: 520px) {
-      .btn { width: 100%; }
-      .hero-facts { grid-template-columns: 1fr; }
-      .label-text { display: none; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
-      .reveal { opacity: 1; transform: none; }
-    }
-
-    /* ===== CONTACT DELIVERY ANIMATION ===== */
-    .contact-form-wrap { position: relative; }
-    .deliver-box {
-      display: none; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 36px 24px; border-radius: var(--r-md);
-      background: var(--surface); border: 1px solid var(--ok);
-      box-shadow: 0 20px 45px -18px rgba(16,185,129,.35);
-      animation: deliverPop .55s cubic-bezier(.16,1,.3,1) forwards;
-    }
-    .deliver-box.show { display: flex; }
-    @keyframes deliverPop {
-      0% { opacity: 0; transform: scale(.88) translateY(16px); }
-      100% { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    .deliver-svg { width: 76px; height: 76px; margin-bottom: 18px; }
-    .deliver-circle {
-      stroke: var(--ok); stroke-width: 3; fill: color-mix(in srgb, var(--ok) 12%, transparent);
-      stroke-dasharray: 220; stroke-dashoffset: 220;
-      animation: drawStroke .6s ease-out .1s forwards;
-    }
-    .deliver-check {
-      stroke: var(--ok); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; fill: none;
-      stroke-dasharray: 60; stroke-dashoffset: 60;
-      animation: drawStroke .45s ease-out .55s forwards;
-    }
-    @keyframes drawStroke { to { stroke-dashoffset: 0; } }
-    .deliver-box h3 { font: 700 1.45rem var(--f-head); margin-bottom: 8px; color: var(--text); }
-    .deliver-box p { color: var(--muted); font-size: .94rem; max-width: 340px; margin-bottom: 22px; }
-
-    /* ===== CERTIFICATIONS ===== */
-    .certifications-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
-    .certificate-card {
-      --cc: var(--primary);
-      padding: 32px;
-      position: relative;
-      overflow: hidden;
-    }
-    .certifications-grid .certificate-card:nth-child(2) { --cc: var(--accent); }
-    .certificate-card::before {
-      content: "";
-      position: absolute;
-      width: 190px;
-      height: 190px;
-      right: -85px;
-      top: -85px;
-      border-radius: 50%;
-      background: radial-gradient(circle, color-mix(in srgb, var(--cc) 45%, transparent), transparent 70%);
-      pointer-events: none;
-    }
-    .certificate-card::after {
-      content: "";
-      position: absolute;
-      left: 0; right: 0; bottom: 0; height: 3px;
-      background: linear-gradient(90deg, var(--cc), var(--tert));
-    }
-    .certificate-card:hover { border-color: var(--cc); }
-    .certificate-icon {
-      width: 62px;
-      height: 62px;
-      display: grid;
-      place-items: center;
-      border-radius: 18px;
-      background: color-mix(in srgb, var(--cc) 12%, transparent);
-      border: 1px solid color-mix(in srgb, var(--cc) 30%, transparent);
-      color: var(--cc);
-      font-size: 1.65rem;
-      margin-bottom: 20px;
-    }
-    .certificate-label {
-      display: inline-block;
-      color: var(--cc);
-      font: 700 .72rem var(--f-mono);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-    .certificate-card h3 {
-      font: 700 1.35rem var(--f-head);
-      margin-bottom: 10px;
-    }
-    .certificate-card p {
-      color: var(--muted);
-      margin-bottom: 22px;
-      max-width: 500px;
-    }
-    .certificate-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      position: relative;
-    }
-    @media (max-width: 760px) {
-      .certifications-grid { grid-template-columns: 1fr; }
-      .certificate-card { padding: 26px; }
-    }
-
-    /* =====================================================================
-       COLOURFUL BACKGROUNDS: no more plain white / plain black.
-       Every theme now paints its own 3 colours into the page background,
-       section bands, cards, marquee and footer.
-       ===================================================================== */
-    :root { --tint: 20%; --mesh: 28%; --card-tint: 10%; }
-    [data-theme="light"], [data-theme="sunset"], [data-theme="sunny"] { --tint: 15%; --mesh: 22%; --card-tint: 9%; }
-
-    /* 1. Full-page colour mesh behind everything */
-    body {
-      background-color: var(--bg);
-      background-image:
-        radial-gradient(1200px 760px at 6% -4%,  color-mix(in srgb, var(--primary) var(--mesh), transparent), transparent 62%),
-        radial-gradient(1000px 700px at 104% 18%, color-mix(in srgb, var(--accent) var(--mesh), transparent), transparent 60%),
-        radial-gradient(1100px 760px at 50% 108%, color-mix(in srgb, var(--tert) var(--mesh), transparent), transparent 62%);
-      background-attachment: fixed;
-    }
-
-    /* 2. Stronger glowing orbs */
-    .orb { opacity: .42; }
-    .orb.c { opacity: .3; }
-
-    /* 3. Hero gets its own colour wash */
-    #home {
-      background:
-        radial-gradient(820px 520px at 12% 30%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 70%),
-        radial-gradient(760px 520px at 92% 78%, color-mix(in srgb, var(--tert) 18%, transparent), transparent 70%);
-    }
-
-    /* 4. Each section is a different colour band (primary, accent, tertiary, ...) */
-    #projects, #about, #certifications, #skills, #contact { --band: var(--primary); }
-    #about { --band: var(--accent); }
-    #certifications { --band: var(--tert); }
-    #skills { --band: var(--primary); }
-    #contact { --band: var(--accent); }
-    #projects, #about, #certifications, #skills, #contact {
-      background: linear-gradient(180deg,
-        transparent 0%,
-        color-mix(in srgb, var(--band) var(--tint), transparent) 20%,
-        color-mix(in srgb, var(--band) calc(var(--tint) * .7), transparent) 80%,
-        transparent 100%);
-    }
-
-    /* 5. Big soft colour blobs inside sections (alternate sides + colours) */
-    section::before, section::after {
-      content: ''; position: absolute; z-index: -1; pointer-events: none;
-      width: 520px; height: 520px; border-radius: 50%; filter: blur(95px); opacity: .3;
-    }
-    #projects::before { top: 6%;  left: -9%;  background: var(--accent); }
-    #projects::after  { bottom: 4%; right: -9%; background: var(--tert); }
-    #about::before    { top: 8%;  right: -9%; background: var(--tert); }
-    #about::after     { bottom: 6%; left: -9%; background: var(--primary); }
-    #certifications::before { top: 10%; left: -8%; background: var(--primary); }
-    #certifications::after  { bottom: 8%; right: -8%; background: var(--accent); }
-    #skills::before   { top: 6%;  right: -9%; background: var(--accent); }
-    #skills::after    { bottom: 4%; left: -9%; background: var(--tert); }
-    #contact::before  { top: 4%;  left: -9%;  background: var(--tert); }
-    #contact::after   { bottom: 4%; right: -9%; background: var(--primary); }
-    #home::before { top: 8%; right: -6%; background: var(--accent); opacity: .22; }
-    #home::after  { bottom: 2%; left: -8%; background: var(--tert); opacity: .22; }
-
-    /* 6. Cards carry a colour tint instead of flat white / black */
-    .card {
-      background:
-        linear-gradient(145deg,
-          color-mix(in srgb, var(--primary) var(--card-tint), transparent),
-          color-mix(in srgb, var(--accent) calc(var(--card-tint) * .6), transparent) 55%,
-          color-mix(in srgb, var(--tert) calc(var(--card-tint) * .8), transparent)),
-        var(--card);
-    }
-    .about-grid .about-card:nth-child(3) {
-      background: linear-gradient(145deg, color-mix(in srgb, var(--accent) calc(var(--card-tint) * 1.6), transparent), color-mix(in srgb, var(--tert) var(--card-tint), transparent)), var(--card);
-    }
-    .about-grid .about-card:nth-child(4) {
-      background: linear-gradient(145deg, color-mix(in srgb, var(--tert) calc(var(--card-tint) * 1.6), transparent), color-mix(in srgb, var(--primary) var(--card-tint), transparent)), var(--card);
-    }
-    .skills-wrap .skill-group:nth-child(2), .certifications-grid .certificate-card:nth-child(2) {
-      background: linear-gradient(145deg, color-mix(in srgb, var(--accent) calc(var(--card-tint) * 1.5), transparent), color-mix(in srgb, var(--tert) var(--card-tint), transparent)), var(--card);
-    }
-    .soon-grid .soon:nth-child(2) {
-      background: linear-gradient(145deg, color-mix(in srgb, var(--tert) calc(var(--card-tint) * 1.5), transparent), color-mix(in srgb, var(--accent) var(--card-tint), transparent)), var(--card);
-    }
-    .skill { background: color-mix(in srgb, var(--tc) 8%, var(--surface)); }
-    .input { background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
-
-    /* 7. Marquee strip + footer in colour */
-    .marquee {
-      background: linear-gradient(90deg,
-        color-mix(in srgb, var(--primary) 20%, var(--card)),
-        color-mix(in srgb, var(--accent) 20%, var(--card)),
-        color-mix(in srgb, var(--tert) 20%, var(--card)));
-    }
-    footer {
-      background: linear-gradient(180deg, transparent,
-        color-mix(in srgb, var(--primary) 12%, transparent) 40%,
-        color-mix(in srgb, var(--tert) 16%, transparent));
-    }
-    .navbar { background: color-mix(in srgb, var(--primary) 7%, var(--nav)); }
-    .dropdown-menu, .mobile-menu { background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
-
-    /* =====================================================================
-       LIVE BACKGROUND: the 3 theme colours rotate every 2 seconds.
-       --m1/--m2/--m3 are animated colour slots; a tiny script swaps which
-       theme colour sits in which slot every 2s, and CSS fades between them.
-       ===================================================================== */
-    @property --m1 { syntax: '<color>'; inherits: true; initial-value: #2457f5; }
-    @property --m2 { syntax: '<color>'; inherits: true; initial-value: #0d9488; }
-    @property --m3 { syntax: '<color>'; inherits: true; initial-value: #f97316; }
-    :root {
-      --m1: var(--primary); --m2: var(--accent); --m3: var(--tert);
-      transition: --m1 1.9s ease-in-out, --m2 1.9s ease-in-out, --m3 1.9s ease-in-out;
-    }
-
-    body {
-      background-image:
-        radial-gradient(1200px 760px at 6% -4%,  color-mix(in srgb, var(--m1) var(--mesh), transparent), transparent 62%),
-        radial-gradient(1000px 700px at 104% 18%, color-mix(in srgb, var(--m2) var(--mesh), transparent), transparent 60%),
-        radial-gradient(1100px 760px at 50% 108%, color-mix(in srgb, var(--m3) var(--mesh), transparent), transparent 62%);
-    }
-    .orb { background: var(--m1); }
-    .orb.b { background: var(--m2); }
-    .orb.c { background: var(--m3); }
-    #home {
-      background:
-        radial-gradient(820px 520px at 12% 30%, color-mix(in srgb, var(--m1) 20%, transparent), transparent 70%),
-        radial-gradient(760px 520px at 92% 78%, color-mix(in srgb, var(--m3) 18%, transparent), transparent 70%);
-    }
-    #projects { --band: var(--m1); }
-    #about { --band: var(--m2); }
-    #certifications { --band: var(--m3); }
-    #skills { --band: var(--m1); }
-    #contact { --band: var(--m2); }
-    #projects::before { background: var(--m2); } #projects::after { background: var(--m3); }
-    #about::before { background: var(--m3); } #about::after { background: var(--m1); }
-    #certifications::before { background: var(--m1); } #certifications::after { background: var(--m2); }
-    #skills::before { background: var(--m2); } #skills::after { background: var(--m3); }
-    #contact::before { background: var(--m3); } #contact::after { background: var(--m1); }
-    #home::before { background: var(--m2); } #home::after { background: var(--m3); }
-    .marquee {
-      background: linear-gradient(90deg,
-        color-mix(in srgb, var(--m1) 20%, var(--card)),
-        color-mix(in srgb, var(--m2) 20%, var(--card)),
-        color-mix(in srgb, var(--m3) 20%, var(--card)));
-    }
-    footer {
-      background: linear-gradient(180deg, transparent,
-        color-mix(in srgb, var(--m1) 12%, transparent) 40%,
-        color-mix(in srgb, var(--m3) 16%, transparent));
-    }
-    @media (prefers-reduced-motion: reduce) { :root { transition: none; } }
-
-    /* =====================================================================
-       STEP 1: NAVBAR LOGO (no floating, theme-aware gradient badge)
-       ===================================================================== */
-    .brand .cube {
-      animation: none; transform: none; position: relative;
-      width: 36px; height: 36px; border-radius: 12px; font-size: 1.05rem;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color: var(--on-primary);
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--tert) 75%, transparent), 0 8px 22px -6px var(--glow), inset 0 1px 0 rgba(255,255,255,.4);
-      transition: box-shadow .3s ease;
-    }
-    .brand .cube::after {
-      content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-      background: linear-gradient(160deg, rgba(255,255,255,.34), transparent 52%);
-    }
-    .brand:hover .cube { box-shadow: 0 0 0 2px var(--tert), 0 10px 28px -4px var(--glow), inset 0 1px 0 rgba(255,255,255,.5); }
-
-    /* =====================================================================
-       STEP 2: NAVBAR BUTTONS (no tilting on hover)
-       ===================================================================== */
-    .icon-btn:hover, .icon-btn:focus-visible { transform: none; }
-    #themeBtn { white-space: nowrap; }
-
-    /* =====================================================================
-       STEP 5: wide skills card
-       ===================================================================== */
-    .skills-wrap .skill-group.wide {
-      grid-column: 1 / -1;
-      background: linear-gradient(145deg, color-mix(in srgb, var(--tert) calc(var(--card-tint) * 1.5), transparent), color-mix(in srgb, var(--primary) var(--card-tint), transparent)), var(--card);
-    }
-    .skills-wrap .skill-group.wide h3 i { color: var(--accent); }
-
-    /* =====================================================================
-       STEP 7: DEPLOY POLISH + FILL THE SIDE GAPS
-       ===================================================================== */
-    html, body { max-width: 100%; }
-    section { overflow-x: clip; }
-    .hero { min-height: 100vh; min-height: 100svh; }
-
-    /* wider layout so the content reaches closer to both edges */
-    .container { width: min(1440px, calc(100% - 48px)); }
-    .navbar { width: min(1440px, calc(100% - 32px)); }
-    @media (min-width: 1400px) {
-      .container { width: min(1440px, calc(100% - 190px)); }
-      .navbar { width: min(1440px, calc(100% - 190px)); }
-    }
-
-    /* dotted colour texture that lives in the side margins and fades toward the centre */
-    body::before {
-      content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none; opacity: .6;
-      background-image: radial-gradient(color-mix(in srgb, var(--m1) 55%, transparent) 1.3px, transparent 1.6px);
-      background-size: 26px 26px;
-      -webkit-mask-image: linear-gradient(90deg, #000 0, transparent 20%, transparent 80%, #000 100%);
-      mask-image: linear-gradient(90deg, #000 0, transparent 20%, transparent 80%, #000 100%);
-    }
-    /* soft colour columns on the far left and right */
-    body::after {
-      content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none;
-      background: linear-gradient(90deg,
-        color-mix(in srgb, var(--m2) 26%, transparent) 0,
-        transparent 16%, transparent 84%,
-        color-mix(in srgb, var(--m3) 26%, transparent) 100%);
-    }
-    /* the two side rails become glass columns instead of empty space */
-    .rail.left  { background: linear-gradient(90deg, color-mix(in srgb, var(--m1) 14%, transparent), transparent); border-right: 1px solid color-mix(in srgb, var(--primary) 18%, transparent); }
-    .rail.right { background: linear-gradient(270deg, color-mix(in srgb, var(--m3) 14%, transparent), transparent); border-left: 1px solid color-mix(in srgb, var(--primary) 18%, transparent); }
-    .rail { width: 76px; }
-
-    /* small screens: keep the navbar compact */
-    @media (max-width: 640px) {
-      section { padding: 72px 0; }
-      .navbar { padding: 8px 12px; }
-    }
-    @media (max-width: 520px) {
-      .navbar .btn { width: auto; }
-    }
-    @media (max-width: 440px) {
-      .navbar .resume-text { display: none; }
-      .navbar .btn-sm { padding: 8px 12px; }
-      .brand { font-size: 1.05rem; }
-    }
-  </style>
-  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+  <link rel="stylesheet" href="{% static 'css/portfolio-3d.css' %}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <noscript><span class="ns-note">JavaScript is off: the 3D scene, terminal, theme switcher and contact form need it. Everything else is readable as-is.</span></noscript>
 
-  <div id="progress" aria-hidden="true"></div>
-  <canvas id="bg-canvas" aria-hidden="true"></canvas>
-  <canvas id="webgl-canvas" aria-hidden="true"></canvas>
-  <div class="orb a" aria-hidden="true"></div>
-  <div class="orb b" aria-hidden="true"></div>
-  <div class="orb c" aria-hidden="true"></div>
-  <div class="weather-fx" id="weatherFx" aria-hidden="true">
-    <div class="sun-rays"></div><div class="sun-orb"></div><div class="flash"></div>
+  <!-- Intro: animates on its own with CSS (auto-hides after about 3 seconds), skip button added by JS -->
+  <div id="intro" class="intro" role="region" aria-label="Welcome">
+    <div class="intro-stage">
+      <div class="intro-particles" id="introParticles" aria-hidden="true"></div>
+      <div class="intro-logo" aria-hidden="true">
+        <span class="ring r1"></span><span class="ring r2"></span>
+        <span class="intro-p">P</span>
+      </div>
+      <p class="intro-hello"><span class="line">Hello, I'm <b>Paras Patadiya.</b></span></p>
+      <p class="intro-sub"><span class="line">Python Backend Developer</span></p>
+    </div>
+    <button type="button" class="intro-skip" id="introSkip">Skip intro</button>
   </div>
 
-  <aside class="rail left" aria-hidden="true">
-    <div class="cube-scene"><div class="cube"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
-    <div class="rail-line"></div>
-    <div class="rail-text"><b>Python</b> &bull; Django &bull; REST &bull; PostgreSQL</div>
-    <div class="rail-line"></div>
-    <div class="cube-scene"><div class="cube rev"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
-  </aside>
-  <aside class="rail right">
-    <div class="rail-social">
-      <a href="https://github.com/paraspatadiya1" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraspatadiya6@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-      <a href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer" aria-label="Aura SIS live"><i class="fa-solid fa-rocket"></i></a>
-      <a href="https://www.linkedin.com/in/patadiya-paras-5a6785305" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-      <a href="https://www.instagram.com/pythondeveloper25/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-    </div>
-    <div class="rail-line"></div>
-    <div class="rail-text">Rajkot &bull; Gujarat &bull; <b>Scroll</b></div>
-    <div class="rail-line"></div>
-    <div class="cube-scene"><div class="cube"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
-  </aside>
+  <div id="progress" aria-hidden="true"></div>
+  <div class="bg-fx" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div></div>
+  <div class="cursor-dot" id="cDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cRing" aria-hidden="true"></div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span></div>
-  <button class="to-top" id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
-
-  <!-- ================= NAV ================= -->
-  <header>
-    <nav class="navbar">
-      <a href="#home" class="brand" aria-label="Home">
-        <span class="cube"><i class="fa-brands fa-python"></i></span>
-        <span>paras<em>.dev</em></span>
-      </a>
-
-      <ul class="nav-links">
-        <li><a href="#home" class="active">Home</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#certifications">Certifications</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <div class="dropdown" id="themeDd">
-          <button class="icon-btn" id="themeBtn" aria-haspopup="true" aria-expanded="false" title="Change theme" style="width:auto;padding:0 14px;border-radius:999px;gap:8px;display:inline-flex;align-items:center;font:600 .82rem var(--f-body)">
-            <i class="fa-solid fa-palette" style="color:var(--primary)"></i><span class="label-text" id="themeLabel">Auto</span><i class="fa-solid fa-chevron-down" style="font-size:.65rem"></i>
-          </button>
-          <div class="dropdown-menu" role="menu">
-            <button class="opt" data-theme-set="auto"><i class="fa-solid fa-location-crosshairs"></i> Auto (Rajkot weather)</button>
-            <div class="divider"></div>
-            <button class="opt" data-theme-set="light"><i class="fa-solid fa-sun"></i> Light</button>
-            <button class="opt" data-theme-set="sunset"><i class="fa-solid fa-cloud-sun"></i> Sunset Pastel</button>
-            <button class="opt" data-theme-set="dark"><i class="fa-solid fa-moon"></i> Midnight Luxe</button>
-            <button class="opt" data-theme-set="gamer"><i class="fa-solid fa-gamepad"></i> Arcade Neon</button>
-            <button class="opt" data-theme-set="cyber"><i class="fa-solid fa-terminal"></i> Cyber Matrix</button>
-            <button class="opt" data-theme-set="rain"><i class="fa-solid fa-cloud-showers-heavy"></i> Rainy</button>
-            <button class="opt" data-theme-set="sunny"><i class="fa-solid fa-temperature-high"></i> Sunny</button>
-            <button class="opt" data-theme-set="streaming"><i class="fa-solid fa-wand-magic-sparkles"></i> Creator Nebula</button>
-          </div>
-        </div>
-
-        <!-- Put your PDF at static/resume/Paras_Patadiya_Resume.pdf -->
-        <a href="{% static 'resume/Paras_Patadiya_Resume.pdf' %}" class="btn btn-primary btn-sm" download>
-          <i class="fa-solid fa-download"></i> <span class="resume-text">Resume</span>
+  <div class="app">
+    <!-- ================= NAVIGATION ================= -->
+    <header>
+      <div class="nav-top">
+        <a href="#home" class="brand" aria-label="paras.dev, back to top">
+          <span class="brand-mark" aria-hidden="true">P</span><span class="word">paras<em>.dev</em></span>
         </a>
-        <button class="icon-btn burger" id="burger" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
-      </div>
-    </nav>
-
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="#home">Home</a><a href="#projects">Projects</a><a href="#about">About</a>
-      <a href="#certifications">Certifications</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
-    </div>
-  </header>
-
-  <main>
-  <!-- ================= HERO ================= -->
-  <section class="hero" id="home">
-    <div class="container hero-grid">
-      <div class="reveal">
-        <div class="hero-badges">
-          <span class="pill"><span class="dot"></span> Open to Python / Django roles</span>
-          <span class="pill"><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> Rajkot, Gujarat</span>
-        </div>
-
-        <h1>Hi, I'm Paras.<br>I build <span>Python &amp; Django</span> backends.</h1>
-        <div class="typing"><span>&gt; </span><span id="typeTarget"></span><span class="caret"></span></div>
-
-        <p class="lead">
-          Python developer focused on building Django REST APIs, PostgreSQL-backed apps and deploying working projects to the cloud.
-          Aura SIS is one of my live, tested projects, with more on the way. Take a look below.
-        </p>
-
-        <div class="hero-actions">
-          <a href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> Open Live Project</a>
-          <a href="{% static 'resume/Paras_Patadiya_Resume.pdf' %}" class="btn btn-ghost" download><i class="fa-solid fa-file-arrow-down"></i> Download Resume</a>
-          <a href="#contact" class="btn btn-ghost"><i class="fa-solid fa-envelope"></i> Contact</a>
-        </div>
-
-        <div class="hero-facts">
-          <div class="fact"><b>Django 6 + DRF</b><span>Main stack</span></div>
-          <div class="fact"><b>11 tests</b><span>Passing in Aura SIS</span></div>
-          <div class="fact"><b>Live</b><span>Deployed on Render</span></div>
-        </div>
-      </div>
-
-      <div class="reveal">
-        <div class="terminal" id="heroTerminal">
-          <div class="term-head">
-            <div class="dots"><i></i><i></i><i></i></div>
-            <div class="term-tabs">
-              <button class="term-tab active" data-tab="t-code">views.py</button>
-              <button class="term-tab" data-tab="t-spec">stack.json</button>
-              <button class="term-tab" data-tab="t-cli">terminal</button>
+        <div class="nav-top-actions">
+          <div class="theme-wrap" data-theme-wrap>
+            <button type="button" class="theme-btn" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu-top">
+              <span class="swatch" aria-hidden="true"></span><span class="label">Theme: <span data-theme-name>Midnight</span></span>
+            </button>
+            <div class="theme-menu" id="theme-menu-top" role="group" aria-label="Choose a colour theme">
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="dark"><span class="chip-sw" data-sw="dark"></span>Midnight (dark)<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="light"><span class="chip-sw" data-sw="light"></span>Paper (light)<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="cyber"><span class="chip-sw" data-sw="cyber"></span>Cyber<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="sunset"><span class="chip-sw" data-sw="sunset"></span>Sunset<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="aurora"><span class="chip-sw" data-sw="aurora"></span>Aurora<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
             </div>
           </div>
-          <div class="term-body">
-            <div class="term-panel active" id="t-code">
-<pre><code><span class="k">from</span> rest_framework.decorators <span class="k">import</span> api_view
-<span class="k">from</span> rest_framework.response <span class="k">import</span> Response
-<span class="k">from</span> .models <span class="k">import</span> Studinfo, Course
+          <button type="button" class="icon-btn" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="sidenav"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+        </div>
+      </div>
 
-<span class="f">@api_view</span>([<span class="s">"GET"</span>])
-<span class="k">def</span> <span class="f">stats</span>(request):
-    <span class="c"># one query per table, no N+1</span>
-    students = Studinfo.objects.count()
-    courses  = Course.objects.count()
-    <span class="k">return</span> Response({
-        <span class="s">"students"</span>: students,
-        <span class="s">"courses"</span>: courses,
-    })</code></pre>
+      <nav class="side" id="sidenav" aria-label="Primary">
+        <a href="#home" class="brand side-brand" aria-label="paras.dev, back to top">
+          <span class="brand-mark" aria-hidden="true">P</span><span>paras<em>.dev</em></span>
+        </a>
+        <ul class="nav-list">
+          <li><a href="#home" aria-current="true"><span class="num">01</span>Home</a></li>
+          <li><a href="#projects"><span class="num">02</span>Projects</a></li>
+          <li><a href="#skills"><span class="num">03</span>Skills</a></li>
+          <li><a href="#journey"><span class="num">04</span>Experience &amp; Education</a></li>
+          <li><a href="#certifications"><span class="num">05</span>Certifications</a></li>
+          <li><a href="#contact"><span class="num">06</span>Contact</a></li>
+        </ul>
+        <div class="side-foot">
+          <span class="avail"><span class="dot" aria-hidden="true"></span>Open to relevant opportunities</span>
+          <div class="quick-links">
+            <a href="https://github.com/paraspatadiya1" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in a new tab)"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/patadiya-paras-5a6785305" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in a new tab)"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+            <a href="mailto:paraspatadiya6@gmail.com" aria-label="Send an email"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
+          </div>
+          <div class="theme-wrap" data-theme-wrap>
+            <button type="button" class="theme-btn" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu-side">
+              <span class="swatch" aria-hidden="true"></span><span class="label">Theme: <span data-theme-name>Midnight</span></span>
+            </button>
+            <div class="theme-menu" id="theme-menu-side" role="group" aria-label="Choose a colour theme">
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="dark"><span class="chip-sw" data-sw="dark"></span>Midnight (dark)<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="light"><span class="chip-sw" data-sw="light"></span>Paper (light)<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="cyber"><span class="chip-sw" data-sw="cyber"></span>Cyber<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="sunset"><span class="chip-sw" data-sw="sunset"></span>Sunset<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
+              <button type="button" class="theme-opt" role="radio" aria-checked="false" data-theme-set="aurora"><span class="chip-sw" data-sw="aurora"></span>Aurora<i class="fa-solid fa-check tick" aria-hidden="true"></i></button>
             </div>
-            <div class="term-panel" id="t-spec">
-<pre><code>{
-  <span class="s">"project"</span>: <span class="s">"Aura SIS"</span>,
-  <span class="s">"backend"</span>: <span class="s">"Django 6 + Django REST Framework"</span>,
-  <span class="s">"database"</span>: <span class="s">"PostgreSQL / SQLite"</span>,
-  <span class="s">"static"</span>: <span class="s">"WhiteNoise"</span>,
-  <span class="s">"hosting"</span>: <span class="s">"Render"</span>,
-  <span class="s">"tests"</span>: <span class="s">"11 passing"</span>
-}</code></pre>
+          </div>
+          <a href="{% static 'resume/Paras_Patadiya_Resume.pdf' %}" class="btn btn-primary btn-sm" download><i class="fa-solid fa-download" aria-hidden="true"></i> Resume (PDF)</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- ================= HERO ================= -->
+      <section class="hero" id="home" aria-labelledby="hero-title">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <div class="hero-badges rise" style="--i:0">
+              <span class="chip live"><span class="dot" aria-hidden="true"></span>Open to relevant opportunities</span>
+              <span class="chip"><i class="fa-brands fa-python" aria-hidden="true"></i> Python Backend Developer</span>
+              <span class="chip"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Rajkot, Gujarat, India</span>
             </div>
-            <div class="term-panel" id="t-cli">
-              <div class="cli-out" id="cliOut">
-                <div>Type a command or tap a chip:</div>
-                <div style="color:#64748b">whoami · skills · project · clear</div>
+            <h1 id="hero-title" class="rise" style="--i:1">I Build Powerful Backend Experiences with <span class="grad">Python.</span></h1>
+            <p class="lead rise" style="--i:2">I'm <strong>Paras Patadiya</strong>, a Python Backend Developer focused on building scalable web applications, <span class="hl">REST APIs</span>, and practical backend solutions with <span class="hl">Django</span>.</p>
+            <div class="cta-row rise" style="--i:3">
+              <a href="#projects" class="btn btn-primary"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Explore Projects</a>
+              <a href="#contact" class="btn btn-ghost"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Contact Me</a>
+              <a href="{% static 'resume/Paras_Patadiya_Resume.pdf' %}" class="btn btn-ghost" download><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Download Resume</a>
+            </div>
+            <div class="facts rise" style="--i:4">
+              <div class="fact"><b>Django + DRF</b><span>Main stack</span></div>
+              <div class="fact"><b>1 live project</b><span>Aura SIS on Render</span></div>
+              <div class="fact"><b>1 in progress</b><span>Doctor–Patient system</span></div>
+            </div>
+          </div>
+
+          <div class="hero-stage rise" id="heroStage" style="--i:2">
+            <div class="scene-wrap">
+              <canvas id="heroCanvas" class="scene-canvas" aria-hidden="true"></canvas>
+              <div class="stage-fallback" aria-hidden="true">
+                <div class="fb-row">
+                  <span class="fb-node"><i class="fa-solid fa-globe"></i> Client</span><span class="fb-arrow">→</span>
+                  <span class="fb-node"><i class="fa-solid fa-code"></i> views.py</span><span class="fb-arrow">→</span>
+                  <span class="fb-node"><i class="fa-solid fa-database"></i> models → DB</span>
+                </div>
               </div>
-              <div class="cli-row"><span>paras@dev:~$</span><input id="cliIn" placeholder="try: whoami" aria-label="Terminal command" autocomplete="off"></div>
-              <div class="cli-chips">
-                <button data-cmd="whoami">whoami</button><button data-cmd="skills">skills</button><button data-cmd="project">project</button>
+              <div class="float-chip fc1"><span class="verb get">GET</span> /getall/</div>
+              <div class="float-chip fc2"><span class="verb post">POST</span> /addcourse/</div>
+              <div class="float-chip fc3"><i class="fa-solid fa-circle-check" aria-hidden="true" style="color:var(--ok)"></i> 11 test cases in repo</div>
+            </div>
+
+            <div class="console" id="console">
+              <div class="console-head">
+                <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+                <div class="tabs" role="tablist" aria-label="Developer panel">
+                  <button type="button" class="tab" role="tab" id="tab-term" aria-selected="true" aria-controls="panel-term">terminal</button>
+                  <button type="button" class="tab" role="tab" id="tab-flow" aria-selected="false" aria-controls="panel-flow" tabindex="-1">request flow</button>
+                </div>
+              </div>
+              <div class="console-body">
+                <div class="panel" id="panel-term" role="tabpanel" aria-labelledby="tab-term">
+                  <div class="term-out" id="termOut" role="log" aria-live="polite" aria-label="Terminal output"></div>
+                  <form class="term-row" id="termForm" autocomplete="off">
+                    <label for="termIn">paras@dev:~$</label>
+                    <input id="termIn" type="text" placeholder="type help" spellcheck="false" autocapitalize="off" autocomplete="off">
+                  </form>
+                  <div class="term-chips" aria-label="Quick commands">
+                    <button type="button" data-cmd="help">help</button>
+                    <button type="button" data-cmd="whoami">whoami</button>
+                    <button type="button" data-cmd="skills">skills</button>
+                    <button type="button" data-cmd="projects">projects</button>
+                    <button type="button" data-cmd="aura endpoints">aura endpoints</button>
+                    <button type="button" data-cmd="aura getall">aura getall</button>
+                  </div>
+                </div>
+                <div class="panel" id="panel-flow" role="tabpanel" aria-labelledby="tab-flow" hidden>
+                  <p class="flow-note"># How one request moves through Aura SIS (apiapp/ in my repo)</p>
+                  <ol class="flow" aria-label="Request flow layers">
+                    <li class="flow-layer" style="--i:0"><span class="fi"><i class="fa-solid fa-globe" aria-hidden="true"></i></span><div><b>Client</b><small>browser or API client sends GET /getall/</small></div></li>
+                    <li class="flow-layer" style="--i:1"><span class="fi"><i class="fa-solid fa-route" aria-hidden="true"></i></span><div><b>urls.py</b><small>route matched to a view</small></div></li>
+                    <li class="flow-layer" style="--i:2"><span class="fi"><i class="fa-solid fa-code" aria-hidden="true"></i></span><div><b>views.py · @api_view</b><small>search / filter, JSON or HTML by Accept header</small></div></li>
+                    <li class="flow-layer" style="--i:3"><span class="fi"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><div><b>serializer.py</b><small>validates and shapes the data</small></div></li>
+                    <li class="flow-layer" style="--i:4"><span class="fi"><i class="fa-solid fa-database" aria-hidden="true"></i></span><div><b>models.py → database</b><small>Django ORM; SQLite in the repo config</small></div></li>
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <div class="marquee" aria-hidden="true"><div class="marquee-track"><span><i class="fa-brands fa-python"></i> Python</span><span><i class="fa-solid fa-cubes"></i> Django</span><span><i class="fa-solid fa-network-wired"></i> REST APIs</span><span><i class="fa-solid fa-database"></i> PostgreSQL</span><span><i class="fa-solid fa-cloud"></i> Render Cloud</span><span><i class="fa-solid fa-shield-halved"></i> JWT Auth</span><span><i class="fa-brands fa-js"></i> JavaScript</span><span><i class="fa-brands fa-git-alt"></i> Git &amp; GitHub</span><span><i class="fa-solid fa-bolt-lightning"></i> Redis</span><span><i class="fa-brands fa-docker"></i> Docker</span><span><i class="fa-brands fa-css3-alt"></i> Tailwind CSS</span><span><i class="fa-brands fa-python"></i> Python</span><span><i class="fa-solid fa-cubes"></i> Django</span><span><i class="fa-solid fa-network-wired"></i> REST APIs</span><span><i class="fa-solid fa-database"></i> PostgreSQL</span><span><i class="fa-solid fa-cloud"></i> Render Cloud</span><span><i class="fa-solid fa-shield-halved"></i> JWT Auth</span><span><i class="fa-brands fa-js"></i> JavaScript</span><span><i class="fa-brands fa-git-alt"></i> Git &amp; GitHub</span><span><i class="fa-solid fa-bolt-lightning"></i> Redis</span><span><i class="fa-brands fa-docker"></i> Docker</span><span><i class="fa-brands fa-css3-alt"></i> Tailwind CSS</span></div></div>
+      <!-- ================= PROJECTS ================= -->
+      <section id="projects" aria-labelledby="projects-title">
+        <span class="deco d1" data-speed="0.12" aria-hidden="true"></span>
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="eyebrow">02 · Projects</span>
+            <h2 class="sec-title" id="projects-title">What I've built</h2>
+            <p class="sec-lead">One deployed project, one in progress, and the code behind this site. Every project has a case study that only lists what exists in the repository.</p>
+          </div>
 
-  <!-- ================= PROJECTS ================= -->
-  <section id="projects">
-    <div class="container">
-      <div class="sec-head reveal">
-        <span class="sec-tag">// Work</span>
-        <h2 class="sec-title">Projects</h2>
-        <p class="sec-sub">One live, tested project today and two more in development.</p>
-      </div>
+          <!-- Flagship: Aura SIS -->
+          <article class="card flagship" id="aura" aria-labelledby="aura-title">
+            <div class="flag-copy">
+              <div class="flag-kicker">
+                <span class="chip live"><span class="dot" aria-hidden="true"></span>Live</span>
+                <span class="chip">Flagship backend project</span>
+              </div>
+              <h3 id="aura-title">Aura SIS: Student Information System &amp; REST API</h3>
+              <p class="desc">A Django and Django REST Framework app that stores students and course programs, lets you search and filter them, and serves the same endpoints as JSON to API clients or as an HTML dashboard to browsers.</p>
+              <ul class="check-list">
+                <li><span><strong>REST endpoints</strong> for create, read, update and delete on students and courses</span></li>
+                <li><span><strong>One URL, two responses:</strong> JSON for API clients, HTML for browsers, chosen from the Accept header</span></li>
+                <li><span><strong>Validated serializers</strong> (course fees can't be negative, age must be 1–120)</span></li>
+                <li><span><strong>Dashboard metrics</strong> computed on the server and drawn with Chart.js</span></li>
+                <li><span><strong>11 automated test cases</strong> in the repository</span></li>
+              </ul>
+              <div class="tags">
+                <span class="tag">Python</span><span class="tag">Django 6</span><span class="tag">Django REST Framework</span>
+                <span class="tag">SQLite</span><span class="tag">Chart.js</span><span class="tag">Gunicorn</span><span class="tag">WhiteNoise</span><span class="tag">Render</span>
+              </div>
+              <div class="btn-row btn-row-xl">
+                <a class="btn btn-primary btn-xl" href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-rocket" aria-hidden="true"></i> Live Demo<span class="sr-only"> (opens in a new tab)</span></a>
+                <a class="btn btn-ghost btn-xl" href="https://github.com/paraspatadiya1/projects/tree/main/apiproject" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> Source Code<span class="sr-only"> (opens in a new tab)</span></a>
+                <button type="button" class="btn btn-ghost" data-case="case-aura"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Case Study</button>
+              </div>
+              <p class="form-note" style="text-align:left">The demo runs on a free Render instance, so the first visit can take a moment to wake up.</p>
+            </div>
 
-      <!-- 3D SHOWCASE: Aura SIS (live) + 2 coming soon -->
-      <div class="showcase reveal">
-        <div class="stage" id="stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Projects showcase. Use the left and right arrow keys.">
-          <div class="stage-inner" id="stageInner">
-            <article class="slide">
-              <div class="s-top"><span class="soon-ico"><i class="fa-solid fa-graduation-cap"></i></span><span class="pill"><span class="dot"></span> Live</span></div>
-              <h3>Aura SIS</h3>
-              <p>Student Information System and REST API built with Django and DRF. Deployed on Render with 11 passing tests.</p>
-              <div class="tags"><span class="tag">Django 6</span><span class="tag">DRF</span><span class="tag">Chart.js</span></div>
-              <a class="btn btn-primary btn-sm" href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-rocket"></i> Live Demo</a>
+            <div class="flag-visual" aria-hidden="true">
+              <div class="browser">
+                <div class="browser-bar"><i></i><i></i><i></i><span>apiproject-zx4q.onrender.com</span></div>
+                <div class="browser-body">
+                  <div class="ep-list">
+                    <div class="ep"><span class="verb get">GET</span>/getall/<span class="d">?search= &amp; ?course=</span></div>
+                    <div class="ep"><span class="verb get">GET</span>/getid/&lt;id&gt;/</div>
+                    <div class="ep"><span class="verb post">POST</span>/addstudent/</div>
+                    <div class="ep"><span class="verb put">PUT</span>/updateid/&lt;id&gt;/</div>
+                    <div class="ep"><span class="verb del">DELETE</span>/deleteid/&lt;id&gt;/</div>
+                    <div class="ep"><span class="verb get">GET</span>/getcourse/</div>
+                    <div class="ep"><span class="verb post">POST</span>/addcourse/</div>
+                    <div class="ep"><span class="verb get">GET</span>/api/stats/<span class="d">dashboard data</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="float-card fr"><span class="verb post">POST</span> /addstudent/</div>
+              <div class="float-card fj">
+                <div class="fj-head">JSON response · sample shape</div>
+                <pre>{
+  "id": 1,
+  "full_name": "Sample Student",
+  "course": 1,
+  "course_details": { "course_name": "…" }
+}</pre>
+              </div>
+            </div>
+          </article>
+
+          <!-- Carousel: other projects -->
+          <div class="carousel-head reveal">
+            <h3>More projects</h3>
+            <div class="car-ctrl">
+              <button type="button" class="icon-btn" id="carPrev" aria-label="Scroll projects left"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+              <button type="button" class="icon-btn" id="carNext" aria-label="Scroll projects right"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+            </div>
+          </div>
+          <div class="track reveal" id="track" tabindex="0" role="region" aria-label="More projects, scrollable">
+            <article class="card proj tilt" aria-labelledby="doc-title">
+              <div class="proj-top"><span class="proj-ico"><i class="fa-solid fa-stethoscope" aria-hidden="true"></i></span><span class="chip wip"><span class="dot" aria-hidden="true"></span>In progress</span></div>
+              <h3 id="doc-title">Doctor–Patient Management System</h3>
+              <p>A Django app where patients can sign up, manage a profile and browse doctors. Patient accounts, profiles, password reset and the doctor directory are built; appointment saving and the admin tooling are still to do.</p>
+              <div class="tags"><span class="tag">Django</span><span class="tag">PostgreSQL</span><span class="tag">Sessions auth</span></div>
+              <div class="btn-row">
+                <button type="button" class="btn btn-primary btn-sm" data-case="case-doctor">Case study</button>
+                <a class="btn btn-ghost btn-sm" href="https://github.com/paraspatadiya1/projects/tree/main/doctorproject" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+              </div>
             </article>
-            <article class="slide">
-              <div class="s-top"><span class="soon-ico"><i class="fa-solid fa-stethoscope"></i></span><span class="pill"><span class="dot"></span> Coming Soon</span></div>
-              <h3>Doctor–Patient Platform</h3>
-              <p>A unified healthcare platform where doctors and patients can connect, manage profiles, and book appointments online.</p>
-              <div class="bar"><i></i></div>
-              <div class="tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">PostgreSQL</span></div>
+
+            <article class="card proj tilt" aria-labelledby="site-title">
+              <div class="proj-top"><span class="proj-ico"><i class="fa-solid fa-id-card-clip" aria-hidden="true"></i></span><span class="chip done">This website</span></div>
+              <h3 id="site-title">paras.dev Portfolio</h3>
+              <p>The site you're on. A Django project with a working contact endpoint that validates input, stores each message in the database and sends email notifications.</p>
+              <div class="tags"><span class="tag">Django</span><span class="tag">PostgreSQL</span><span class="tag">SMTP email</span><span class="tag">Vanilla JS</span></div>
+              <div class="btn-row">
+                <button type="button" class="btn btn-primary btn-sm" data-case="case-site">Case study</button>
+                <a class="btn btn-ghost btn-sm" href="https://github.com/paraspatadiya1/projects/tree/main/paraspatadiya" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+              </div>
             </article>
-            <article class="slide">
-              <div class="s-top"><span class="soon-ico"><i class="fa-solid fa-flask"></i></span><span class="pill"><span class="dot"></span> Coming Soon</span></div>
-              <h3>Project Three</h3>
-              <p>Another full-stack Python &amp; Django build is in the pipeline. Details, live demo, and repository link will be added soon.</p>
-              <div class="bar"><i style="animation-delay:-1.2s"></i></div>
-              <div class="tags"><span class="tag">REST API</span><span class="tag">PostgreSQL</span></div>
+
+            <article class="card proj upcoming tilt" aria-labelledby="next-title">
+              <div class="proj-top"><span class="proj-ico"><i class="fa-solid fa-flask" aria-hidden="true"></i></span><span class="chip soon">Upcoming</span></div>
+              <h3 id="next-title">Upcoming Project</h3>
+              <p>The next backend build is still in planning. I'll add it here with a repository link once there is working code to show.</p>
+              <div class="tags"><span class="tag">Python</span><span class="tag">REST API</span></div>
+              <div class="btn-row">
+                <button type="button" class="btn btn-ghost btn-sm" data-case="case-next">What to expect</button>
+              </div>
             </article>
           </div>
         </div>
-        <div class="show-controls">
-          <button class="show-arrow" id="showPrev" aria-label="Previous project"><i class="fa-solid fa-chevron-left"></i></button>
-          <div class="show-dots" id="showDots"></div>
-          <button class="show-arrow" id="showPlay" aria-label="Pause slideshow"><i class="fa-solid fa-pause"></i></button>
-          <button class="show-arrow" id="showNext" aria-label="Next project"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-      </div>
+      </section>
 
-      <!-- FLAGSHIP: AURA SIS -->
-      <article class="card flagship reveal">
-        <div class="flagship-grid">
-          <div class="browser">
-            <div class="browser-bar">
-              <div class="dots"><i></i><i></i><i></i></div>
-              <a class="url" href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-lock"></i>apiproject-zx4q.onrender.com</a>
-            </div>
-            <div class="shot">
-              <img src="{% static 'images/aura_sis.jpg' %}" alt="Screenshot of the Aura SIS student information system dashboard" loading="lazy" width="1280" height="760">
-              <div class="status"><span class="dot"></span> Live on Render</div>
-            </div>
+      <!-- ================= SKILLS ================= -->
+      <section id="skills" aria-labelledby="skills-title">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="eyebrow">03 · Skills</span>
+            <h2 class="sec-title" id="skills-title">Technical skills</h2>
+            <p class="sec-lead">Grouped by what I use in my projects, with where each one shows up. No percentages: either I've used it in code you can read, or it's listed as something I'm still exploring.</p>
           </div>
-
-          <div>
-            <span class="badge-solid">Live Project</span>
-            <h3>Aura SIS: Student Information System &amp; REST API</h3>
-            <p>
-              A Student Information System built with Django and Django REST Framework. The same endpoints serve JSON to API clients
-              and a dashboard to browsers.
-            </p>
-            <ul class="feature-list">
-              <li><i class="fa-solid fa-check"></i> CRUD for students and courses, with search</li>
-              <li><i class="fa-solid fa-check"></i> Dual-mode responses: JSON for API clients, HTML dashboard for browsers</li>
-              <li><i class="fa-solid fa-check"></i> Dashboard KPIs rendered with Chart.js</li>
-              <li><i class="fa-solid fa-check"></i> 11 automated Django tests, all passing</li>
-              <li><i class="fa-solid fa-check"></i> Deployed on Render with Gunicorn and WhiteNoise</li>
-            </ul>
-            <div class="tags" style="margin-bottom:18px">
-              <span class="tag">Python</span><span class="tag">Django 6</span><span class="tag">DRF</span>
-              <span class="tag">PostgreSQL / SQLite</span><span class="tag">Chart.js</span><span class="tag">Render</span>
-            </div>
-            <div class="actions">
-              <a href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> Open Live Project</a>
-            </div>
+          <div class="skills-grid">
+            <article class="card skill-panel tilt reveal">
+              <h3><i class="fa-solid fa-server" aria-hidden="true"></i> Backend Development</h3>
+              <p class="sub">The core of my projects.</p>
+              <ul>
+                <li><b>Python</b><span>All three projects</span></li>
+                <li><b>Django</b><span>Models, views, templates, forms, sessions, admin</span></li>
+                <li><b>Django REST Framework</b><span>Serializers, validation and @api_view endpoints in Aura SIS</span></li>
+                <li><b>REST APIs</b><span>CRUD endpoints with JSON responses</span></li>
+              </ul>
+            </article>
+            <article class="card skill-panel tilt reveal">
+              <h3><i class="fa-solid fa-database" aria-hidden="true"></i> Database</h3>
+              <p class="sub">Relational data through the Django ORM.</p>
+              <ul>
+                <li><b>PostgreSQL</b><span>Configured as the database for this site and the Doctor–Patient project (local setup)</span></li>
+                <li><b>Database fundamentals</b><span>Models, foreign keys, migrations; SQLite in Aura SIS</span></li>
+              </ul>
+            </article>
+            <article class="card skill-panel tilt reveal">
+              <h3><i class="fa-solid fa-window-maximize" aria-hidden="true"></i> Frontend</h3>
+              <p class="sub">Enough to ship a usable interface.</p>
+              <ul>
+                <li><b>HTML</b><span>Semantic templates for every project</span></li>
+                <li><b>CSS</b><span>Responsive layouts and theming (this site)</span></li>
+                <li><b>JavaScript</b><span>Fetch requests, forms and UI behaviour</span></li>
+              </ul>
+            </article>
+            <article class="card skill-panel tilt reveal">
+              <h3><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i> Tools &amp; Workflow</h3>
+              <p class="sub">How I work day to day.</p>
+              <ul>
+                <li><b>Git &amp; GitHub</b><span>Version control; code is in my public projects repository</span></li>
+                <li><b>VS Code</b><span>Main editor</span></li>
+                <li><b>API testing tools</b><span>Checking endpoints and responses</span></li>
+              </ul>
+            </article>
+            <article class="card skill-panel exploring tilt reveal">
+              <h3><i class="fa-solid fa-seedling" aria-hidden="true"></i> Currently Exploring</h3>
+              <p class="sub">Learning stage: not claiming production experience.</p>
+              <ul>
+                <li><b>Docker</b><span>Learning containerisation basics</span></li>
+                <li><b>Redis</b><span>Learning caching concepts</span></li>
+                <li><b>JWT authentication</b><span>Learning token-based auth for APIs</span></li>
+                <li><b>Cloud deployment</b><span>Fundamentals; Aura SIS is deployed on Render</span></li>
+              </ul>
+            </article>
           </div>
-        </div>
-      </article>
-
-      <!-- UPCOMING PROJECTS -->
-      <div class="soon-grid">
-        <article class="card soon reveal">
-          <div class="soon-top">
-            <span class="soon-ico"><i class="fa-solid fa-stethoscope"></i></span>
-            <span class="pill"><span class="dot"></span> Coming Soon</span>
-          </div>
-          <h3>Doctor–Patient Platform</h3>
-          <p>A platform where doctors and patients can meet, connect, and book appointments seamlessly in one place.</p>
-          <div class="bar"><i></i></div>
-          <div class="tags">
-            <span class="tag">Python</span><span class="tag">Django</span><span class="tag">DRF</span><span class="tag">PostgreSQL</span>
-          </div>
-        </article>
-
-        <article class="card soon reveal">
-          <div class="soon-top">
-            <span class="soon-ico"><i class="fa-solid fa-flask"></i></span>
-            <span class="pill"><span class="dot"></span> Coming Soon</span>
-          </div>
-          <h3>Project Three</h3>
-          <p>Next Python and Django build is in planning. Architecture details, live demo, and GitHub link will be added once ready.</p>
-          <div class="bar"><i style="animation-delay:-1.2s"></i></div>
-          <div class="tags">
-            <span class="tag">Python</span><span class="tag">REST API</span><span class="tag">PostgreSQL</span>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= ABOUT + EXPERIENCE ================= -->
-  <section id="about">
-    <div class="container">
-      <div class="sec-head reveal">
-        <span class="sec-tag">// About</span>
-        <h2 class="sec-title">How I work</h2>
-        <p class="sec-sub">Backend first, with enough frontend to ship something people can use.</p>
-      </div>
-
-      <div class="about-grid">
-        <div class="card about-card c7 reveal">
-          <div class="profile">
-            <div class="emblem" aria-hidden="true">
-              <div class="ring"></div><div class="ring r2"></div>
-              <div class="core"><i class="fa-brands fa-python"></i></div>
-            </div>
-            <div>
-              <span class="pill" style="margin-bottom:10px">Python &amp; Django Developer</span>
-              <h3>Paras Patadiya</h3>
-              <p>
-                Based in Rajkot, Gujarat. I build REST APIs with Django REST Framework, design relational schemas in PostgreSQL,
-                and deploy projects to the cloud. I like readable code, tests that catch regressions, and APIs that are easy for
-                other developers to use.
-              </p>
-            </div>
+          <div class="tech-cloud" aria-label="All technologies at a glance">
+            <span class="tc">Python</span><span class="tc">Django</span><span class="tc">Django REST Framework</span><span class="tc">REST APIs</span>
+            <span class="tc">PostgreSQL</span><span class="tc">SQLite</span><span class="tc">HTML</span><span class="tc">CSS</span><span class="tc">JavaScript</span>
+            <span class="tc">Git</span><span class="tc">GitHub</span><span class="tc">VS Code</span><span class="tc">API testing tools</span>
+            <span class="tc exp">Docker</span><span class="tc exp">Redis</span><span class="tc exp">JWT auth</span><span class="tc exp">Cloud deployment</span>
           </div>
         </div>
+      </section>
 
-        <div class="card about-card c5 reveal">
-          <i class="fa-solid fa-server big"></i>
-          <h3>Building real APIs</h3>
-          <p>I build REST endpoints with Django REST Framework: validated serializers, search, JSON for API clients and pages for browsers, all backed by PostgreSQL models and migrations. Every feature gets automated tests so changes don't break what already works.</p>
-        </div>
-
-        <div class="card about-card c6 reveal">
-          <i class="fa-solid fa-cloud-arrow-up big"></i>
-          <h3>Shipping to production</h3>
-          <p>I configure Gunicorn, WhiteNoise, environment variables and migrations so a project runs outside my laptop. Aura SIS is deployed this way on Render.</p>
-        </div>
-
-        <div class="card about-card c6 reveal">
-          <i class="fa-solid fa-graduation-cap big"></i>
-          <h3>Experience &amp; Education</h3>
+      <!-- ================= EXPERIENCE & EDUCATION ================= -->
+      <section id="journey" aria-labelledby="journey-title">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="eyebrow">04 · Experience &amp; Education</span>
+            <h2 class="sec-title" id="journey-title">Where I'm coming from</h2>
+            <p class="sec-lead">My professional experience so far is in data operations. I'm now moving into Python backend development.</p>
+          </div>
           <div class="timeline">
-            <div class="tl-item">
-              <b>Data Entry Operator</b>
-              <span>TSS Consultancy · June 2024 to April 2026</span>
-            </div>
-            <div class="tl-item">
-              <b>Python Developer Certification</b>
-              <span>TOPS Technologies · 2025</span>
-            </div>
-            <div class="tl-item">
-              <b>B.Com (Bachelor of Commerce)</b>
-              <span>2022 to Present (Running)</span>
-            </div>
+            <span class="tl-rail" aria-hidden="true"></span>
+            <article class="card tl reveal">
+              <div class="tl-meta"><span class="tl-date">Jun 2024 – Apr 2026</span><span class="chip">Data operations role</span></div>
+              <h3>Data Entry Operator</h3>
+              <p class="org">TSS Consultancy</p>
+              <ul>
+                <li>Created CKYC IDs</li>
+                <li>Managed and processed large volumes of data</li>
+                <li>Maintained data accuracy and handled records</li>
+              </ul>
+              <p class="note"><strong>Transferable strengths:</strong> accuracy, consistency and careful handling of large amounts of data. This was not a software development role.</p>
+            </article>
+
+            <article class="card tl reveal">
+              <div class="tl-meta"><span class="tl-date">Certificates issued Nov 2025</span><span class="chip">Training</span></div>
+              <h3>Python Backend Developer training</h3>
+              <p class="org">TOPS Technologies</p>
+              <ul>
+                <li>Training certificate in Python Backend Developer</li>
+                <li>Course certificate in Software Developer – Product Development (see Certifications)</li>
+              </ul>
+            </article>
+
+            <article class="card tl edu reveal">
+              <div class="tl-meta"><span class="tl-date">2022 – 2027 (expected)</span><span class="chip wip">In progress</span></div>
+              <h3>B.Com (Bachelor of Commerce)</h3>
+              <p class="org">Saurashtra University</p>
+              <p class="note">Degree not yet completed. Expected completion: 2027.</p>
+            </article>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-
-  <!-- ================= CERTIFICATIONS ================= -->
-  <section id="certifications">
-    <div class="container">
-      <div class="sec-head reveal">
-        <span class="sec-tag">// Achievements</span>
-        <h2 class="sec-title">My Certifications</h2>
-        <p class="sec-sub">Certificates that represent my learning and professional development.</p>
-      </div>
-
-      <div class="certifications-grid">
-        <article class="card certificate-card reveal">
-          <div class="certificate-icon" aria-hidden="true">
-            <i class="fa-solid fa-award"></i>
+      <!-- ================= CERTIFICATIONS ================= -->
+      <section id="certifications" aria-labelledby="cert-title">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="eyebrow">05 · Certifications</span>
+            <h2 class="sec-title" id="cert-title">Certificates</h2>
+            <p class="sec-lead">Both certificates are available to view or download as PDFs.</p>
           </div>
-          <span class="certificate-label">Skill Development</span>
-          <h3>NSDC Certificate</h3>
-          <p>National Skill Development Corporation (NSDC) certificate.</p>
-          <div class="certificate-actions">
-            <a class="btn btn-primary btn-sm"
-               href="{% static 'resume/NSDC_Certificate_Paras_Patadiya.pdf' %}"
-               target="_blank" rel="noopener noreferrer">
-              <i class="fa-solid fa-eye"></i> View Certificate
-            </a>
-            <a class="btn btn-ghost btn-sm"
-               href="{% static 'resume/NSDC_Certificate_Paras_Patadiya.pdf' %}"
-               download>
-              <i class="fa-solid fa-download"></i> Download
-            </a>
+          <div class="cert-grid">
+            <article class="card cert tilt reveal">
+              <div class="cert-ico" aria-hidden="true"><i class="fa-solid fa-graduation-cap"></i></div>
+              <h3>Certificate of Training: Python Backend Developer</h3>
+              <p class="issuer">TOPS Technologies</p>
+              <p class="detail">Issued 7 November 2025.</p>
+              <div class="btn-row" style="margin-top:0">
+                <a class="btn btn-primary btn-sm" href="{% static 'resume/TOPS_Certificate_Paras_Patadiya.pdf' %}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-eye" aria-hidden="true"></i> View Certificate<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+                <a class="btn btn-ghost btn-sm" href="{% static 'resume/TOPS_Certificate_Paras_Patadiya.pdf' %}" download><i class="fa-solid fa-download" aria-hidden="true"></i> Download<span class="sr-only"> TOPS certificate</span></a>
+              </div>
+            </article>
+            <article class="card cert tilt reveal">
+              <div class="cert-ico" aria-hidden="true"><i class="fa-solid fa-award"></i></div>
+              <h3>Software Developer – Product Development</h3>
+              <p class="issuer">Skill India / NSDC programme, issued by TOPS Technologies Private Limited</p>
+              <p class="detail">Course certificate, Grade A. Issued 9 November 2025.</p>
+              <div class="btn-row" style="margin-top:0">
+                <a class="btn btn-primary btn-sm" href="{% static 'resume/NSDC_Certificate_Paras_Patadiya.pdf' %}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-eye" aria-hidden="true"></i> View Certificate<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+                <a class="btn btn-ghost btn-sm" href="{% static 'resume/NSDC_Certificate_Paras_Patadiya.pdf' %}" download><i class="fa-solid fa-download" aria-hidden="true"></i> Download<span class="sr-only"> NSDC certificate</span></a>
+              </div>
+            </article>
           </div>
-        </article>
-
-        <article class="card certificate-card reveal">
-          <div class="certificate-icon" aria-hidden="true">
-            <i class="fa-solid fa-graduation-cap"></i>
-          </div>
-          <span class="certificate-label">Technical Certification</span>
-          <h3>TOPS Technologies Certificate</h3>
-          <p>Python Developer certification from TOPS Technologies.</p>
-          <div class="certificate-actions">
-            <a class="btn btn-primary btn-sm"
-               href="{% static 'resume/TOPS_Certificate_Paras_Patadiya.pdf' %}"
-               target="_blank" rel="noopener noreferrer">
-              <i class="fa-solid fa-eye"></i> View Certificate
-            </a>
-            <a class="btn btn-ghost btn-sm"
-               href="{% static 'resume/TOPS_Certificate_Paras_Patadiya.pdf' %}"
-               download>
-              <i class="fa-solid fa-download"></i> Download
-            </a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= SKILLS ================= -->
-  <section id="skills">
-    <div class="container">
-      <div class="sec-head reveal">
-        <span class="sec-tag">// Skills</span>
-        <h2 class="sec-title">Tools I use</h2>
-        <p class="sec-sub">Grouped by how often I use them.</p>
-      </div>
-
-      <div class="skills-wrap">
-        <div class="card skill-group reveal">
-          <h3><i class="fa-solid fa-bolt"></i> Daily use</h3>
-          <p>What my projects are built with.</p>
-          <div class="skill-list">
-            <span class="skill"><i class="fa-brands fa-python"></i> Python</span>
-            <span class="skill"><i class="fa-solid fa-cubes"></i> Django</span>
-            <span class="skill"><i class="fa-solid fa-code"></i> Django REST Framework</span>
-            <span class="skill"><i class="fa-solid fa-database"></i> PostgreSQL</span>
-            <span class="skill"><i class="fa-brands fa-git-alt"></i> Git &amp; GitHub</span>
-            <span class="skill"><i class="fa-brands fa-js"></i> JavaScript</span>
-            <span class="skill"><i class="fa-brands fa-html5"></i> HTML &amp; CSS</span>
-          </div>
+          <p class="form-note reveal" style="margin-top:22px;text-align:left"><a href="{% static 'resume/Paras_Patadiya_Resume.pdf' %}" download>Download my resume (PDF)</a></p>
         </div>
+      </section>
 
-        <div class="card skill-group reveal">
-          <h3><i class="fa-solid fa-seedling"></i> Familiar / learning</h3>
-          <p>Used in smaller projects or still growing.</p>
-          <div class="skill-list">
-            <span class="skill"><i class="fa-solid fa-bolt-lightning"></i> Redis</span>
-            <span class="skill"><i class="fa-brands fa-docker"></i> Docker</span>
-            <span class="skill"><i class="fa-brands fa-aws"></i> AWS basics</span>
-            <span class="skill"><i class="fa-solid fa-shield-halved"></i> JWT auth</span>
-            <span class="skill"><i class="fa-brands fa-css3-alt"></i> Tailwind CSS</span>
+      <!-- ================= CONTACT ================= -->
+      <section id="contact" aria-labelledby="contact-title">
+        <span class="deco d2" data-speed="0.2" aria-hidden="true"></span>
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="eyebrow">06 · Contact</span>
+            <h2 class="sec-title" id="contact-title">Let's talk</h2>
           </div>
-        </div>
-
-        <div class="card skill-group wide reveal">
-          <h3><i class="fa-solid fa-cloud-arrow-up"></i> Deployment platforms</h3>
-          <p>Where I host and ship Python and web projects.</p>
-          <div class="skill-list">
-            <span class="skill"><i class="fa-solid fa-cloud"></i> Render</span>
-            <span class="skill"><i class="fa-brands fa-python"></i> PythonAnywhere</span>
-            <span class="skill"><i class="fa-solid fa-train"></i> Railway</span>
-            <span class="skill"><i class="fa-brands fa-heroku"></i> Heroku</span>
-            <span class="skill"><i class="fa-solid fa-bolt"></i> Vercel</span>
-            <span class="skill"><i class="fa-solid fa-globe"></i> Netlify</span>
-            <span class="skill"><i class="fa-brands fa-github"></i> GitHub Pages</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CONTACT ================= -->
-  <section id="contact">
-    <div class="container">
-      <div class="card contact reveal">
-        <div>
-          <span class="sec-tag">// Contact</span>
-          <h2>Let's talk about a role or project.</h2>
-          <p>I'm looking for Python / Django opportunities. The fastest way to reach me is email.</p>
-
-          <div class="meta">
-            <span class="ico"><i class="fa-solid fa-envelope"></i></span>
+          <div class="card contact glass tilt reveal">
             <div>
-              <small>Email</small>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraspatadiya6@gmail.com" target="_blank" rel="noopener noreferrer">paraspatadiya6@gmail.com</a>            </div>
-          </div>
-          <div class="meta">
-            <span class="ico"><i class="fa-brands fa-github"></i></span>
-            <div><small>GitHub</small><a href="https://github.com/paraspatadiya1" target="_blank" rel="noopener noreferrer">github.com/paraspatadiya1</a></div>
-          </div>
-          <div class="meta">
-            <span class="ico"><i class="fa-brands fa-linkedin-in"></i></span>
-            <div><small>LinkedIn</small><a href="https://www.linkedin.com/in/patadiya-paras-5a6785305" target="_blank" rel="noopener noreferrer">linkedin.com/in/patadiya-paras-5a6785305</a></div>
-          </div>
-          <div class="meta">
-            <span class="ico"><i class="fa-brands fa-instagram"></i></span>
-            <div><small>Instagram</small><a href="https://www.instagram.com/pythondeveloper25/" target="_blank" rel="noopener noreferrer">@pythondeveloper25</a></div>
-          </div>
-          <div class="meta">
-            <span class="ico"><i class="fa-solid fa-location-dot"></i></span>
-            <div><small>Location</small><b>Rajkot, Gujarat, India (IST)</b></div>
+              <h3>Hiring for a Python backend role?</h3>
+              <p class="intro">I'm looking for Python / Django opportunities. Email is the fastest way to reach me, or use the form and I'll get it in my inbox.</p>
+              <div class="meta">
+                <span class="ico" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span>
+                <div><small>Email</small><a href="mailto:paraspatadiya6@gmail.com" id="emailLink">paraspatadiya6@gmail.com</a><button type="button" class="copy-btn" id="copyEmail">Copy</button></div>
+              </div>
+              <div class="meta">
+                <span class="ico" aria-hidden="true"><i class="fa-brands fa-github"></i></span>
+                <div><small>GitHub</small><a href="https://github.com/paraspatadiya1" target="_blank" rel="noopener noreferrer">github.com/paraspatadiya1<span class="sr-only"> (opens in a new tab)</span></a></div>
+              </div>
+              <div class="meta">
+                <span class="ico" aria-hidden="true"><i class="fa-brands fa-linkedin-in"></i></span>
+                <div><small>LinkedIn</small><a href="https://www.linkedin.com/in/patadiya-paras-5a6785305" target="_blank" rel="noopener noreferrer">linkedin.com/in/patadiya-paras-5a6785305<span class="sr-only"> (opens in a new tab)</span></a></div>
+              </div>
+              <div class="meta">
+                <span class="ico" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
+                <div><small>Location</small><b>Rajkot, Gujarat, India (IST)</b></div>
+              </div>
+            </div>
+
+            <div>
+              <form id="contactForm" action="{% url 'contact_submit' %}" method="post" novalidate>
+                {% csrf_token %}
+                <div class="field">
+                  <label for="fName">Your name</label>
+                  <input class="input" id="fName" name="name" maxlength="100" required autocomplete="name" aria-describedby="eName">
+                  <p class="err" id="eName"></p>
+                </div>
+                <div class="field">
+                  <label for="fEmail">Your email</label>
+                  <input class="input" id="fEmail" name="email" type="email" maxlength="150" required autocomplete="email" aria-describedby="eEmail">
+                  <p class="err" id="eEmail"></p>
+                </div>
+                <div class="field">
+                  <label for="fSubject">Subject</label>
+                  <input class="input" id="fSubject" name="subject" maxlength="150" required aria-describedby="eSubject">
+                  <p class="err" id="eSubject"></p>
+                </div>
+                <div class="field">
+                  <label for="fMsg">Message</label>
+                  <textarea class="input" id="fMsg" name="message" maxlength="3000" required placeholder="Tell me about the role or project…" aria-describedby="eMsg"></textarea>
+                  <p class="err" id="eMsg"></p>
+                </div>
+                <button class="btn btn-primary" id="fSubmit" type="submit" style="width:100%"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> <span>Send Message</span></button>
+                <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
+                <p class="form-note">Your message is saved and emailed to me. You'll also get a confirmation email.</p>
+              </form>
+
+              <div class="deliver" id="deliverBox" role="status" aria-live="polite">
+                <svg viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="34"/><path d="M23 39 L33 49 L53 28"/></svg>
+                <h4>Message sent</h4>
+                <p id="deliverText">Thanks for reaching out. I'll get back to you soon.</p>
+                <button type="button" class="btn btn-ghost btn-sm" id="sendAnother"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Send another message</button>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
+    </main>
 
-        <div class="contact-form-wrap">
-          <form id="contactForm" action="/contact/" method="POST" novalidate>
-            {% csrf_token %}
-            <input class="input" id="fName" name="name" placeholder="Your name" aria-label="Your name" maxlength="100" required autocomplete="name">
-            <input class="input" id="fEmail" name="email" type="email" placeholder="Your email" aria-label="Your email" maxlength="150" required autocomplete="email">
-            <input class="input" id="fSubject" name="subject" placeholder="Subject" aria-label="Subject" maxlength="150" required>
-            <textarea class="input" id="fMsg" name="message" placeholder="Tell me about the role or project..." aria-label="Your message" maxlength="3000" required></textarea>
-            <button class="btn btn-primary" id="fSubmit" type="submit" style="width:100%"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
-            <p class="form-note">Your message is saved securely and delivered directly to my inbox.</p>
-          </form>
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-foot">
+      <div class="wrap foot-grid">
+        <a href="#home" class="brand" aria-label="paras.dev, back to top"><span class="brand-mark" aria-hidden="true">P</span><span>paras<em>.dev</em></span></a>
+        <nav class="foot-links" aria-label="Footer">
+          <a href="https://github.com/paraspatadiya1" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/patadiya-paras-5a6785305" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://www.instagram.com/pythondeveloper25/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer">Aura SIS (live)</a>
+          <a href="{% static 'resume/Paras_Patadiya_Resume.pdf' %}" download>Resume</a>
+        </nav>
+        <p class="foot-note">&copy; <span id="year">2026</span> Paras Patadiya · Rajkot, Gujarat, India · Built with Django templates, plain CSS and JavaScript.</p>
+      </div>
+    </footer>
+  </div>
 
-          <div class="deliver-box" id="deliverBox" aria-live="polite">
-            <svg class="deliver-svg" viewBox="0 0 76 76" aria-hidden="true">
-              <circle class="deliver-circle" cx="38" cy="38" r="34"/>
-              <path class="deliver-check" d="M23 39 L33 49 L53 28"/>
-            </svg>
-            <h3>Message Delivered!</h3>
-            <p id="deliverText">Thanks for reaching out. Your message has been saved and sent to Paras.</p>
-            <button type="button" class="btn btn-ghost btn-sm" id="sendAnother"><i class="fa-solid fa-rotate-left"></i> Send another message</button>
-          </div>
+  <button type="button" class="to-top" id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+
+  <!-- ================= CASE STUDIES ================= -->
+  <dialog class="case" id="case-aura" aria-labelledby="case-aura-title">
+    <div class="case-head">
+      <div><span class="chip live"><span class="dot" aria-hidden="true"></span>Live</span><h3 id="case-aura-title">Case study: Aura SIS</h3></div>
+      <button type="button" class="icon-btn" data-close aria-label="Close case study"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div class="case-body">
+      <section>
+        <h4>Purpose</h4>
+        <p>A Student Information System with a REST API. It stores students and course programs, supports search and filtering, and exposes the same endpoints to browsers (as an HTML dashboard) and to API clients (as JSON). It's a personal portfolio project.</p>
+      </section>
+      <section>
+        <h4>What it solves</h4>
+        <p>Keeps student and course records in one structured database instead of loose files, and makes the data reachable from a browser UI or any HTTP client.</p>
+      </section>
+      <section>
+        <h4>Backend architecture</h4>
+        <div class="arch" aria-label="Request flow"><span>Client</span><i>→</i><span>urls.py</span><i>→</i><span>views.py (@api_view)</span><i>→</i><span>serializer.py</span><i>→</i><span>models.py (ORM)</span><i>→</i><span>SQLite</span></div>
+        <p style="margin-top:12px">A small helper inspects the <code>Accept</code> header (or <code>?format=json</code>) and decides whether to return DRF JSON or render an HTML template, so one view serves both audiences.</p>
+      </section>
+      <section>
+        <h4>API functionality</h4>
+        <div class="table-scroll">
+          <table class="ep-table">
+            <tbody>
+              <tr><td><span class="verb get">GET</span> /getall/</td><td>List students. Search by name, email, city or phone; filter with <code>?course=</code></td></tr>
+              <tr><td><span class="verb get">GET</span> /getid/&lt;id&gt;/</td><td>One student</td></tr>
+              <tr><td><span class="verb post">POST</span> /addstudent/</td><td>Create a student</td></tr>
+              <tr><td><span class="verb put">PUT</span> /updateid/&lt;id&gt;/</td><td>Update a student</td></tr>
+              <tr><td><span class="verb del">DELETE</span> /deleteid/&lt;id&gt;/</td><td>Delete a student</td></tr>
+              <tr><td><span class="verb get">GET</span> /getcourse/</td><td>List courses with student counts</td></tr>
+              <tr><td><span class="verb post">POST</span> /addcourse/</td><td>Create a course (also <code>/getcourseid/</code>, <code>/updatecourse/</code>, <code>/deletecourse/</code>)</td></tr>
+              <tr><td><span class="verb get">GET</span> /api/stats/</td><td>Aggregated numbers for the dashboard charts</td></tr>
+            </tbody>
+          </table>
         </div>
-      </div>
+      </section>
+      <section>
+        <h4>Authentication &amp; authorization</h4>
+        <p>Not implemented in this version: the endpoints are open. Adding authentication is the most obvious next step.</p>
+      </section>
+      <section>
+        <h4>Database structure</h4>
+        <ul class="bul">
+          <li><strong>Course:</strong> course_name, course_fees, course_duration</li>
+          <li><strong>Studinfo:</strong> full_name, email (unique), phone, age, gender, city, address, and a foreign key to Course (students are reachable from a course via <code>related_name="students"</code>)</li>
+          <li>SQLite in the repository configuration, with Django migrations</li>
+        </ul>
+      </section>
+      <section>
+        <h4>Engineering decisions</h4>
+        <ul class="bul">
+          <li>Serializer-level validation: negative course fees and ages outside 1–120 are rejected</li>
+          <li>Dashboard numbers (totals, average age, enrollment per course, gender split) are calculated in Django and passed to Chart.js</li>
+          <li>Routes are registered with and without a trailing slash so API clients work either way</li>
+          <li>A <code>seed_data</code> management command loads sample records</li>
+          <li>11 test cases cover CRUD, search, course filtering, validation and the stats endpoint</li>
+        </ul>
+      </section>
+      <section>
+        <h4>Deployment</h4>
+        <p>Runs on Render with Gunicorn and WhiteNoise for static files. The repository includes a build script (install, collectstatic, migrate) and a PythonAnywhere deployment guide.</p>
+      </section>
     </div>
-  </section>
-  </main>
-
-  <footer>
-    <div class="container foot">
-      <span><a href="#home" class="brand" style="display:inline-flex;font-size:1rem">paras<em>.dev</em></a> &nbsp;&copy; <span id="year"></span> Paras Patadiya</span>
-      <div class="socials">
-        <a href="https://github.com/paraspatadiya1" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/patadiya-paras-5a6785305" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraspatadiya6@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-        <a href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer" aria-label="Aura SIS live"><i class="fa-solid fa-rocket"></i></a>
-        <a href="https://www.instagram.com/pythondeveloper25/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-      </div>
+    <div class="case-foot">
+      <a class="btn btn-primary btn-sm" href="https://apiproject-zx4q.onrender.com/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-rocket" aria-hidden="true"></i> Live Demo<span class="sr-only"> (opens in a new tab)</span></a>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/paraspatadiya1/projects/tree/main/apiproject" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> Source Code<span class="sr-only"> (opens in a new tab)</span></a>
     </div>
-  </footer>
+  </dialog>
 
-  <script>
-  (function () {
-    const $ = s => document.querySelector(s);
-    const $$ = s => [...document.querySelectorAll(s)];
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const root = document.documentElement;
+  <dialog class="case" id="case-doctor" aria-labelledby="case-doctor-title">
+    <div class="case-head">
+      <div><span class="chip wip"><span class="dot" aria-hidden="true"></span>In progress</span><h3 id="case-doctor-title">Case study: Doctor–Patient Management System</h3></div>
+      <button type="button" class="icon-btn" data-close aria-label="Close case study"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div class="case-body">
+      <section>
+        <h4>Purpose</h4>
+        <p>A Django web app where patients can create an account, manage their profile and browse a directory of doctors with fees and details. It's still under development, so each feature below is marked with its real status.</p>
+      </section>
+      <section>
+        <h4>Feature status</h4>
+        <div class="status-grid">
+          <div class="status-row"><span class="chip live">Built</span><span>Patient signup with validation (unique email and username, 10-digit mobile number, hashed password, optional profile picture)</span></div>
+          <div class="status-row"><span class="chip live">Built</span><span>Login and logout using sessions</span></div>
+          <div class="status-row"><span class="chip live">Built</span><span>Patient profile page and profile editing, including picture upload</span></div>
+          <div class="status-row"><span class="chip live">Built</span><span>Password reset through a signed link that expires after one hour</span></div>
+          <div class="status-row"><span class="chip live">Built</span><span>Doctor listing with search and specialization filter, plus a doctor detail page (qualification, experience, hospital, fee, available days)</span></div>
+          <div class="status-row"><span class="chip wip">Prototype</span><span>Appointment booking form: it shows a confirmation, but appointments are not saved yet</span></div>
+          <div class="status-row"><span class="chip soon">Planned</span><span>Custom admin panel. For now, doctors and patients are managed through Django's built-in admin</span></div>
+        </div>
+      </section>
+      <section>
+        <h4>Backend architecture</h4>
+        <div class="arch" aria-label="Structure"><span>urls.py</span><i>→</i><span>views.py</span><i>→</i><span>forms.py (validation)</span><i>→</i><span>models.py</span><i>→</i><span>PostgreSQL</span></div>
+      </section>
+      <section>
+        <h4>Database structure</h4>
+        <ul class="bul">
+          <li><strong>patientsignup:</strong> username, email, mobile, date of birth, gender, city, state, hashed password, profile picture</li>
+          <li><strong>Doctor:</strong> name, specialization, qualification, experience, hospital, fee, image, email, phone, about, available days</li>
+          <li>PostgreSQL configured for local development; uploaded images use Django media storage</li>
+        </ul>
+      </section>
+      <section>
+        <h4>Not deployed yet</h4>
+        <p>This project has no live demo. The source is on GitHub, with a test file in the repository.</p>
+      </section>
+    </div>
+    <div class="case-foot">
+      <a class="btn btn-ghost btn-sm" href="https://github.com/paraspatadiya1/projects/tree/main/doctorproject" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> Source Code<span class="sr-only"> (opens in a new tab)</span></a>
+    </div>
+  </dialog>
 
-    /* ---------- toast ---------- */
-    let tt;
-    function toast(msg) {
-      $('#toastMsg').textContent = msg;
-      $('#toast').classList.add('show');
-      clearTimeout(tt); tt = setTimeout(() => $('#toast').classList.remove('show'), 3000);
-    }
+  <dialog class="case" id="case-site" aria-labelledby="case-site-title">
+    <div class="case-head">
+      <div><span class="chip done">This website</span><h3 id="case-site-title">Case study: paras.dev Portfolio</h3></div>
+      <button type="button" class="icon-btn" data-close aria-label="Close case study"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div class="case-body">
+      <section>
+        <h4>Purpose</h4>
+        <p>A Django-served portfolio with a real backend behind the contact form, rather than a static page.</p>
+      </section>
+      <section>
+        <h4>How the contact form works</h4>
+        <div class="arch" aria-label="Contact flow"><span>Form (fetch + CSRF token)</span><i>→</i><span>POST /contact/</span><i>→</i><span>validate</span><i>→</i><span>save ContactMessage</span><i>→</i><span>send emails</span></div>
+        <ul class="bul" style="margin-top:12px">
+          <li>The view accepts a JSON body, checks that all fields are present and the email is valid, and returns clear JSON errors</li>
+          <li>Each message is stored in the database before any email is sent, so nothing is lost if email delivery fails</li>
+          <li>One email notifies me (with a reply-to of the sender); a second is a confirmation to the visitor</li>
+          <li>Messages can be browsed and searched in Django admin</li>
+        </ul>
+      </section>
+      <section>
+        <h4>Front end</h4>
+        <p>Plain HTML, CSS and JavaScript. A Three.js hero scene and GSAP scroll motion are layered on top, and both have static fallbacks. Five themes persist across visits, the interface is keyboard-accessible, and it respects reduced-motion settings.</p>
+      </section>
+      <section>
+        <h4>Stack</h4>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">PostgreSQL (configured)</span><span class="tag">SMTP</span><span class="tag">HTML / CSS / JS</span><span class="tag">Three.js</span><span class="tag">GSAP</span></div>
+      </section>
+    </div>
+    <div class="case-foot">
+      <a class="btn btn-ghost btn-sm" href="https://github.com/paraspatadiya1/projects/tree/main/paraspatadiya" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" aria-hidden="true"></i> Source Code<span class="sr-only"> (opens in a new tab)</span></a>
+    </div>
+  </dialog>
 
-    /* ---------- clock + year ---------- */
-    $('#year').textContent = new Date().getFullYear();
+  <dialog class="case" id="case-next" aria-labelledby="case-next-title">
+    <div class="case-head">
+      <div><span class="chip soon">Upcoming</span><h3 id="case-next-title">Upcoming Project</h3></div>
+      <button type="button" class="icon-btn" data-close aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div class="case-body">
+      <section>
+        <h4>Status</h4>
+        <p>Nothing to show yet. I'd rather leave this slot honest than fill it with a made-up project. When there's working code, it'll appear here with a case study and a repository link.</p>
+      </section>
+    </div>
+  </dialog>
 
-    /* ---------- lightweight particle canvas (3 theme colours) ---------- */
-    const cv = $('#bg-canvas'), ctx = cv.getContext('2d');
-    let W, H, parts = [], mx = 0, my = 0;
-    function size() { W = cv.width = innerWidth; H = cv.height = innerHeight; parts = Array.from({ length: Math.min(70, Math.floor(W / 22)) }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: Math.random() * 1.8 + .6 })); }
-    size(); addEventListener('resize', size);
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-      if (window.__glOn) return;
-      const cs = getComputedStyle(root);
-      const cols = ['--primary', '--accent', '--tert'].map(n => cs.getPropertyValue(n).trim() || '#2457f5');
-      parts.forEach((p, i) => {
-        const col = cols[i % 3];
-        ctx.fillStyle = col; ctx.strokeStyle = col;
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > W) p.vx *= -1;
-        if (p.y < 0 || p.y > H) p.vy *= -1;
-        ctx.globalAlpha = .55; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
-        for (let j = i + 1; j < parts.length; j++) {
-          const q = parts[j], d = Math.hypot(p.x - q.x, p.y - q.y);
-          if (d < 120) { ctx.globalAlpha = (1 - d / 120) * .18; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke(); }
-        }
-        const dm = Math.hypot(p.x - mx, p.y - my);
-        if (dm < 150) { ctx.globalAlpha = (1 - dm / 150) * .35; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mx, my); ctx.stroke(); }
-      });
-      requestAnimationFrame(draw);
-    }
-    if (!reduce) draw();
-
-    /* ---------- rain drops ---------- */
-    const fx = $('#weatherFx');
-    for (let i = 0; i < 80; i++) {
-      const d = document.createElement('div'); d.className = 'drop';
-      d.style.left = Math.random() * 100 + '%';
-      d.style.animationDuration = (.7 + Math.random() * .8) + 's';
-      d.style.animationDelay = (-Math.random() * 2) + 's';
-      d.style.opacity = (.35 + Math.random() * .6).toFixed(2);
-      fx.appendChild(d);
-    }
-
-    /* ---------- THEMES + RAJKOT WEATHER ---------- */
-    const LABELS = { auto: 'Auto', light: 'Light', sunset: 'Sunset', dark: 'Midnight', gamer: 'Arcade', cyber: 'Cyber', rain: 'Rainy', sunny: 'Sunny', streaming: 'Nebula' };
-    const MODE_KEY = 'pp-theme-mode';
-    let weatherTheme = 'light';
-
-    function paint(t) {
-      root.setAttribute('data-theme', t);
-      const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', getComputedStyle(root).getPropertyValue('--bg').trim());
-      const mi = document.getElementById('modeIcon');
-      if (mi) mi.className = ['light', 'sunset', 'sunny'].includes(t) ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-      window.dispatchEvent(new Event('themechange'));
-    }
-    function setMode(mode, silent) {
-      try { localStorage.setItem(MODE_KEY, mode); } catch (e) {}
-      $('#themeLabel').textContent = LABELS[mode];
-      $$('[data-theme-set]').forEach(b => b.classList.toggle('active', b.dataset.themeSet === mode));
-      paint(mode === 'auto' ? weatherTheme : mode);
-      if (!silent) toast(mode === 'auto' ? 'Theme follows Rajkot weather' : LABELS[mode] + ' theme');
-    }
-    function themeFromWeather(code, isDay) {
-      if ((code >= 51 && code <= 67) || (code >= 80 && code <= 99)) return 'rain';
-      if (!isDay) return 'dark';
-      if (code <= 2) return 'sunny';
-      return 'light';
-    }
-    function iconFor(code, isDay) {
-      if ((code >= 51 && code <= 67) || (code >= 80 && code <= 99)) return 'fa-cloud-showers-heavy';
-      if (!isDay) return 'fa-moon';
-      if (code <= 1) return 'fa-sun';
-      if (code <= 3) return 'fa-cloud-sun';
-      return 'fa-cloud';
-    }
-    async function syncWeather() {
-      try {
-        const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.3039&longitude=70.8022&current=temperature_2m,weather_code,is_day&timezone=Asia%2FKolkata');
-        const c = (await r.json()).current;
-        weatherTheme = themeFromWeather(c.weather_code, c.is_day);
-        let mode = 'auto'; try { mode = localStorage.getItem(MODE_KEY) || 'auto'; } catch (e) {}
-        if (mode === 'auto') paint(weatherTheme);
-      } catch (e) { /* keep default theme if weather API is unreachable */ }
-    }
-    let saved = 'auto'; try { saved = localStorage.getItem(MODE_KEY) || 'auto'; } catch (e) {}
-    setMode(saved, true);
-    syncWeather(); setInterval(syncWeather, 15 * 60 * 1000);
-
-    const dd = $('#themeDd');
-    $('#themeBtn').addEventListener('click', e => { e.stopPropagation(); const o = dd.classList.toggle('open'); $('#themeBtn').setAttribute('aria-expanded', o); });
-    document.addEventListener('click', e => { if (!dd.contains(e.target)) dd.classList.remove('open'); });
-    addEventListener('keydown', e => { if (e.key === 'Escape') dd.classList.remove('open'); });
-    $$('[data-theme-set]').forEach(b => b.addEventListener('click', () => { setMode(b.dataset.themeSet); dd.classList.remove('open'); }));
-
-    /* ---------- mobile menu ---------- */
-    $('#burger').addEventListener('click', () => $('#mobileMenu').classList.toggle('open'));
-    $$('#mobileMenu a').forEach(a => a.addEventListener('click', () => $('#mobileMenu').classList.remove('open')));
-
-    /* ---------- typing effect ---------- */
-    const words = ['Python & Django Developer', 'REST APIs with DRF', 'PostgreSQL & clean schemas', 'Cloud deployments on Render'];
-    let wi = 0, ci = 0, del = false;
-    const tgt = $('#typeTarget');
-    (function type() {
-      const w = words[wi];
-      tgt.textContent = w.slice(0, ci);
-      if (!del && ci === w.length) { del = true; return setTimeout(type, 1500); }
-      if (del && ci === 0) { del = false; wi = (wi + 1) % words.length; }
-      ci += del ? -1 : 1;
-      setTimeout(type, del ? 30 : 70);
-    })();
-
-    /* ---------- terminal tabs + CLI ---------- */
-    $$('.term-tab').forEach(t => t.addEventListener('click', () => {
-      $$('.term-tab').forEach(x => x.classList.remove('active'));
-      $$('.term-panel').forEach(x => x.classList.remove('active'));
-      t.classList.add('active'); $('#' + t.dataset.tab).classList.add('active');
-    }));
-    const out = $('#cliOut');
-    const CMDS = {
-      whoami: 'Paras Patadiya · Python & Django developer · Rajkot, Gujarat',
-      skills: 'Python, Django, DRF, PostgreSQL, Git, JavaScript',
-      project: 'Aura SIS · Django + DRF · 11 tests passing · live on Render'
-    };
-    function run(cmd) {
-      cmd = cmd.trim().toLowerCase(); if (!cmd) return;
-      if (cmd === 'clear') { out.innerHTML = ''; return; }
-      const a = document.createElement('div'); a.innerHTML = '<span style="color:var(--primary)">paras@dev:~$</span> '; a.append(cmd);
-      const b = document.createElement('div'); b.style.marginBottom = '6px'; b.textContent = CMDS[cmd] || "Command not found. Try: whoami, skills, project, clear";
-      out.append(a, b); out.scrollTop = out.scrollHeight;
-    }
-    $('#cliIn').addEventListener('keydown', e => { if (e.key === 'Enter') { run(e.target.value); e.target.value = ''; } });
-    $$('.cli-chips button').forEach(b => b.addEventListener('click', () => run(b.dataset.cmd)));
-
-    /* ---------- tilt on terminal & browser (desktop only) ---------- */
-    if (!reduce && matchMedia('(pointer: fine)').matches) {
-      $$('.terminal').forEach(el => {
-        el.addEventListener('mousemove', e => {
-          const r = el.getBoundingClientRect();
-          const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-          el.style.transform = `perspective(1000px) rotateX(${-y * 7}deg) rotateY(${x * 7}deg)`;
-        });
-        el.addEventListener('mouseleave', () => el.style.transform = '');
-      });
-    }
-
-    /* ---------- reveal, progress, nav spy, back-to-top ---------- */
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); setTimeout(() => e.target.classList.add('ready'), 950); io.unobserve(e.target); } }), { threshold: .12 });
-    $$('.reveal').forEach(el => io.observe(el));
-
-    const links = $$('.nav-links a');
-    const secs = links.map(a => $(a.getAttribute('href')));
-    addEventListener('scroll', () => {
-      const st = document.documentElement.scrollTop, h = document.documentElement.scrollHeight - innerHeight;
-      $('#progress').style.width = (h > 0 ? st / h * 100 : 0) + '%';
-      $('#toTop').classList.toggle('show', st > 400);
-      let cur = 0; secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= innerHeight * .4) cur = i; });
-      links.forEach((l, i) => l.classList.toggle('active', i === cur));
-    }, { passive: true });
-    $('#toTop').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
-
-    /* ---------- contact ---------- */
-    const cForm = $('#contactForm'), dBox = $('#deliverBox'), fBtn = $('#fSubmit');
-    cForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      const n = $('#fName').value.trim(), m = $('#fEmail').value.trim(), s = $('#fSubject').value.trim(), msg = $('#fMsg').value.trim();
-      if (!n || !m || !s || !msg || !$('#fEmail').checkValidity()) return toast('Please fill all fields with a valid email');
-
-      const orig = fBtn.innerHTML;
-      fBtn.disabled = true;
-      fBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
-
-      try {
-        const csrf = cForm.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
-        const res = await fetch(cForm.getAttribute('action') || '/contact/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
-          body: JSON.stringify({ name: n, email: m, subject: s, message: msg })
-        });
-        if (!res.ok) throw new Error('Request failed');
-        $('#deliverText').textContent = `Thanks, ${n}! Your message has been saved and delivered to Paras.`;
-        cForm.style.display = 'none';
-        dBox.classList.add('show');
-        cForm.reset();
-        toast('Message delivered!');
-      } catch (err) {
-        toast('Could not send right now. Please try emailing directly.');
-      } finally {
-        fBtn.disabled = false;
-        fBtn.innerHTML = orig;
-      }
-    });
-    $('#sendAnother').addEventListener('click', () => {
-      dBox.classList.remove('show');
-      cForm.style.display = '';
-    });
-  })();
-  </script>
-<script>
-  /* ===== EXTRA UI: 3D carousel, cursor, tilt, magnetic buttons ===== */
-  (function () {
-    const $ = s => document.querySelector(s);
-    const $$ = s => [...document.querySelectorAll(s)];
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const fine = matchMedia('(pointer: fine)').matches;
-
-    (function () {
-      const stage = $('#stage'); if (!stage) return;
-      const inner = $('#stageInner');
-      const slides = $$('#stage .slide'), n = slides.length;
-      const dotsWrap = $('#showDots');
-      let idx = 0, playing = !reduce, hover = false, visible = true, timer = null, startX = null;
-
-      slides.forEach((s, i) => {
-        const d = document.createElement('button');
-        d.className = 'show-dot'; d.setAttribute('aria-label', 'Show project ' + (i + 1));
-        d.addEventListener('click', () => go(i));
-        dotsWrap.appendChild(d);
-        s.addEventListener('click', e => { if (i !== idx && !e.target.closest('a,button')) go(i); });
-      });
-      const dots = $$('.show-dot');
-
-      function layout() {
-        const w = stage.clientWidth, narrow = w < 700;
-        const cw = Math.min(380, w * (narrow ? .84 : .4));
-        slides.forEach((s, i) => {
-          let off = ((i - idx) % n + n) % n; if (off > n / 2) off -= n;
-          const abs = Math.abs(off);
-          const x = off * (narrow ? cw * .5 : cw * .9) - cw / 2;
-          s.style.width = cw + 'px';
-          s.style.transform = `translate3d(${x}px,0,${-abs * 160}px) rotateY(${-off * 32}deg) scale(${1 - abs * .07})`;
-          s.style.opacity = abs === 0 ? 1 : (narrow ? 0 : .55);
-          s.style.zIndex = 10 - abs;
-          s.style.pointerEvents = (abs === 0 || !narrow) ? 'auto' : 'none';
-          s.classList.toggle('is-active', abs === 0);
-          s.setAttribute('aria-hidden', abs === 0 ? 'false' : 'true');
-          s.querySelectorAll('a,button').forEach(b => b.tabIndex = abs === 0 ? 0 : -1);
-        });
-        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      }
-      function sync() {
-        clearInterval(timer); timer = null;
-        if (playing && !hover && visible && !document.hidden) timer = setInterval(() => go(idx + 1), 4500);
-      }
-      function go(i) { idx = ((i % n) + n) % n; layout(); sync(); }
-
-      $('#showNext').addEventListener('click', () => go(idx + 1));
-      $('#showPrev').addEventListener('click', () => go(idx - 1));
-      $('#showPlay').addEventListener('click', e => {
-        playing = !playing;
-        e.currentTarget.innerHTML = playing ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
-        e.currentTarget.setAttribute('aria-label', playing ? 'Pause slideshow' : 'Play slideshow');
-        sync();
-      });
-      stage.addEventListener('mouseenter', () => { hover = true; sync(); });
-      stage.addEventListener('mouseleave', () => { hover = false; sync(); if (inner) inner.style.transform = ''; });
-      stage.addEventListener('focusin', () => { hover = true; sync(); });
-      stage.addEventListener('focusout', () => { hover = false; sync(); });
-      stage.addEventListener('keydown', e => {
-        if (e.key === 'ArrowRight') { e.preventDefault(); go(idx + 1); }
-        if (e.key === 'ArrowLeft') { e.preventDefault(); go(idx - 1); }
-      });
-      stage.addEventListener('pointerdown', e => { startX = e.clientX; });
-      addEventListener('pointerup', e => {
-        if (startX === null) return;
-        const dx = e.clientX - startX; startX = null;
-        if (Math.abs(dx) > 50) go(dx < 0 ? idx + 1 : idx - 1);
-      });
-      if (fine && !reduce) {
-        stage.addEventListener('mousemove', e => {
-          const r = stage.getBoundingClientRect();
-          const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-          inner.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 5}deg)`;
-        });
-      }
-      new IntersectionObserver(es => { visible = es[0].isIntersecting; sync(); }, { threshold: .2 }).observe(stage);
-      document.addEventListener('visibilitychange', sync);
-      addEventListener('resize', layout);
-      layout();
-      requestAnimationFrame(() => requestAnimationFrame(() => stage.classList.add('ready')));
-      sync();
-    })();
-
-    if (fine && !reduce) {
-      const dot = document.createElement('div'), ring = document.createElement('div');
-      dot.className = 'cur-dot'; ring.className = 'cur-ring';
-      dot.setAttribute('aria-hidden', 'true'); ring.setAttribute('aria-hidden', 'true');
-      document.body.append(dot, ring);
-      let tx = -100, ty = -100, rx = -100, ry = -100, run = false;
-      function loop() {
-        rx += (tx - rx) * .18; ry += (ty - ry) * .18;
-        ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
-        if (Math.abs(tx - rx) > .3 || Math.abs(ty - ry) > .3) requestAnimationFrame(loop); else run = false;
-      }
-      addEventListener('mousemove', e => {
-        tx = e.clientX; ty = e.clientY;
-        dot.style.transform = `translate(${tx}px,${ty}px) translate(-50%,-50%)`;
-        if (!run) { run = true; requestAnimationFrame(loop); }
-      }, { passive: true });
-      document.addEventListener('mouseover', e => ring.classList.toggle('active', !!e.target.closest('a,button,input,textarea,.slide')));
-      document.documentElement.addEventListener('mouseleave', () => { dot.style.opacity = 0; ring.style.opacity = 0; });
-      document.documentElement.addEventListener('mouseenter', () => { dot.style.opacity = ''; ring.style.opacity = ''; });
-    }
-
-    if (fine && !reduce) {
-      $$('.about-card, .skill-group').forEach(el => {
-        el.classList.add('tilt');
-        el.addEventListener('mousemove', e => {
-          if (!el.classList.contains('ready')) return;
-          const r = el.getBoundingClientRect();
-          const x = e.clientX - r.left, y = e.clientY - r.top;
-          el.style.transform = `perspective(1000px) rotateX(${((y / r.height) - .5) * -6}deg) rotateY(${((x / r.width) - .5) * 6}deg) translateY(-3px)`;
-          el.style.setProperty('--gx', x + 'px'); el.style.setProperty('--gy', y + 'px');
-        });
-        el.addEventListener('mouseleave', () => { el.style.transform = ''; });
-      });
-      $$('.hero-actions .btn, .actions .btn').forEach(b => {
-        b.addEventListener('mousemove', e => {
-          const r = b.getBoundingClientRect();
-          const x = (e.clientX - r.left - r.width / 2) * .18, y = (e.clientY - r.top - r.height / 2) * .28;
-          b.style.transform = `translate(${x}px,${y - 3}px)`;
-        });
-        b.addEventListener('mouseleave', () => { b.style.transform = ''; });
-      });
-    }
-  })();
-  </script>
-
-  <script>
-  /* ===== THREE.JS BACKGROUND (adaptive: skipped for reduced-motion / data-saver, lighter on phones and weak devices) ===== */
-  (function () {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (navigator.connection && navigator.connection.saveData) return;
-
-    function boot() {
-      if (!window.THREE) return;
-      const canvas = document.getElementById('webgl-canvas'); if (!canvas) return;
-      const small = innerWidth < 820;
-      const weak = (navigator.hardwareConcurrency || 4) <= 4 || (navigator.deviceMemory && navigator.deviceMemory <= 4);
-      const low = small || weak;
-
-      let renderer;
-      try { renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !low, powerPreference: 'low-power' }); }
-      catch (e) { return; }
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, low ? 1 : 1.5));
-      renderer.setSize(innerWidth, innerHeight, false);
-
-      const root = document.documentElement;
-      const css = n => getComputedStyle(root).getPropertyValue(n).trim();
-      const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0xffffff, 0.012);
-      const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, .1, 200);
-      camera.position.z = 24;
-      const amb = new THREE.AmbientLight(0xffffff, .7);
-      const l1 = new THREE.PointLight(0xffffff, 3, 70); l1.position.set(12, 12, 10);
-      const l2 = new THREE.PointLight(0xffffff, 2.4, 70); l2.position.set(-12, -10, 10);
-      scene.add(amb, l1, l2);
-      const group = new THREE.Group(); scene.add(group);
-
-      const icoMat = new THREE.MeshStandardMaterial({ roughness: .25, metalness: .6, transparent: true, opacity: .85, emissiveIntensity: .2 });
-      const ico = new THREE.Mesh(new THREE.IcosahedronGeometry(4.2, low ? 0 : 1), icoMat);
-      ico.position.set(7, 1, -2); ico.userData.bx = 7; group.add(ico);
-      const wire = new THREE.Mesh(new THREE.IcosahedronGeometry(4.28, low ? 0 : 1), new THREE.MeshBasicMaterial({ wireframe: true, transparent: true, opacity: .3 }));
-      ico.add(wire);
-      const core = new THREE.Mesh(new THREE.OctahedronGeometry(1.8, 0), new THREE.MeshStandardMaterial({ roughness: .2, metalness: .9 }));
-      ico.add(core);
-
-      const gyro = new THREE.Group(); gyro.position.set(9, -6, -4); gyro.userData.bx = 9; group.add(gyro);
-      const r1 = new THREE.Mesh(new THREE.TorusGeometry(1.8, .06, 12, 64), new THREE.MeshBasicMaterial({ transparent: true, opacity: .7 }));
-      const r2 = new THREE.Mesh(new THREE.TorusGeometry(1.4, .05, 12, 64), new THREE.MeshBasicMaterial({ transparent: true, opacity: .7 }));
-      r2.rotation.x = Math.PI / 2; gyro.add(r1, r2);
-
-      const heavy = []; let knot, octa, tetra;
-      if (!low) {
-        knot = new THREE.Mesh(new THREE.TorusKnotGeometry(2.2, .5, 110, 16), new THREE.MeshStandardMaterial({ roughness: .22, metalness: .85, transparent: true, opacity: .8 }));
-        knot.position.set(-8, -3, -5); knot.userData.bx = -8;
-        octa = new THREE.Mesh(new THREE.OctahedronGeometry(1.5), new THREE.MeshStandardMaterial({ roughness: .1, metalness: .9 }));
-        octa.position.set(-4.5, 5.5, -3); octa.userData.bx = -4.5;
-        tetra = new THREE.Mesh(new THREE.TetrahedronGeometry(1.3), new THREE.MeshBasicMaterial({ wireframe: true, transparent: true, opacity: .45 }));
-        tetra.position.set(-6, -7, -2); tetra.userData.bx = -6;
-        group.add(knot, octa, tetra); heavy.push(knot, octa, tetra);
-      }
-
-      const count = low ? 160 : 520;
-      const arr = new Float32Array(count * 3);
-      for (let i = 0; i < count * 3; i += 3) { arr[i] = (Math.random() - .5) * 70; arr[i + 1] = (Math.random() - .5) * 70; arr[i + 2] = (Math.random() - .5) * 45; }
-      const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(arr, 3));
-      const pMat = new THREE.PointsMaterial({ size: .16, transparent: true, depthWrite: false });
-      const pts = new THREE.Points(pg, pMat); scene.add(pts);
-
-      /* every 3D object uses one of the theme's 3 colours: primary / accent / tert */
-      function colors() {
-        try {
-          const p = new THREE.Color(css('--primary')), a = new THREE.Color(css('--accent')), t = new THREE.Color(css('--tert')), bg = new THREE.Color(css('--bg'));
-          const hsl = {}; bg.getHSL(hsl); const light = hsl.l > .55;
-          scene.fog.color.copy(bg);
-          icoMat.color.copy(p); icoMat.emissive.copy(p);
-          wire.material.color.copy(a); core.material.color.copy(t);
-          r1.material.color.copy(p); r2.material.color.copy(t);
-          if (knot) { knot.material.color.copy(a); octa.material.color.copy(t); tetra.material.color.copy(p); }
-          pMat.color.copy(p); pMat.opacity = light ? .55 : .75;
-          pMat.blending = light ? THREE.NormalBlending : THREE.AdditiveBlending; pMat.needsUpdate = true;
-          l1.color.copy(p); l2.color.copy(a);
-          amb.intensity = light ? .95 : .55;
-        } catch (e) {}
-      }
-
-      function layout() {
-        const a = innerWidth / innerHeight;
-        const k = Math.min(1, Math.max(.4, a / 1.7));
-        group.children.forEach(m => { if (m.userData.bx !== undefined) m.position.x = m.userData.bx * k; });
-        group.scale.setScalar(a < 1 ? .75 : 1);
-        camera.aspect = a; camera.updateProjectionMatrix();
-        renderer.setSize(innerWidth, innerHeight, false);
-      }
-
-      let mx = 0, my = 0, tx = 0, ty = 0, sy = 0;
-      addEventListener('mousemove', e => { tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; }, { passive: true });
-      addEventListener('scroll', () => { sy = scrollY; }, { passive: true });
-
-      let raf = 0, running = false, last = 0, t = 0, warm = 0, acc = 0, frames = 0, level = 0;
-      function adapt(avg) {
-        if (avg < .034) return;
-        level++;
-        if (level === 1) { renderer.setPixelRatio(1); renderer.setSize(innerWidth, innerHeight, false); heavy.forEach(m => m.visible = false); }
-        else { stop(); canvas.classList.remove('on'); window.__glOn = false; }
-      }
-      function loop(now) {
-        if (!running) return;
-        raf = requestAnimationFrame(loop);
-        const dt = Math.min((now - last) / 1000, .1); last = now; t += dt;
-        mx += (tx - mx) * .05; my += (ty - my) * .05;
-        ico.rotation.x = t * .18 + my * .6; ico.rotation.y = t * .22 + mx * .6;
-        ico.position.y = 1 + Math.sin(t * .8) * .6;
-        core.rotation.x = -t * .4; core.rotation.y = -t * .5;
-        gyro.rotation.x = t * .35; gyro.rotation.y = t * .45; r2.rotation.z = t * .6;
-        if (knot) {
-          knot.rotation.x = t * .25; knot.rotation.y = t * .3; knot.position.y = -3 + Math.cos(t * .9) * .5;
-          octa.rotation.y = t * .4; octa.rotation.z = t * .2; tetra.rotation.x = t * .3; tetra.rotation.y = t * .5;
-        }
-        pts.rotation.y = t * .03 + mx * .1; pts.rotation.x = my * .1;
-        group.rotation.y = sy * .0004; group.position.y = Math.sin(sy * .0008) * 1.4;
-        l1.position.x = mx * 30; l1.position.y = -my * 30;
-        renderer.render(scene, camera);
-        if (++warm > 60) { acc += dt; frames++; if (frames === 90) { adapt(acc / frames); acc = 0; frames = 0; } }
-      }
-      function start() { if (running) return; running = true; last = performance.now(); raf = requestAnimationFrame(loop); }
-      function stop() { running = false; cancelAnimationFrame(raf); }
-
-      document.addEventListener('visibilitychange', () => document.hidden ? stop() : (level < 2 && start()));
-      addEventListener('resize', layout);
-      addEventListener('themechange', colors);
-
-      window.__glOn = true;
-      const flat = document.getElementById('bg-canvas'); if (flat) flat.style.display = 'none';
-      layout(); colors(); canvas.classList.add('on'); start();
-    }
-
-    if (document.readyState === 'complete') boot(); else addEventListener('load', boot);
-  })();
-  </script>
-
-  <script>
-  /* ===== Background colours rotate every 2 seconds ===== */
-  (function () {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const root = document.documentElement;
-    const vars = ['var(--primary)', 'var(--accent)', 'var(--tert)'];
-    let k = 0;
-    setInterval(() => {
-      if (document.hidden) return;
-      k = (k + 1) % 3;
-      root.style.setProperty('--m1', vars[k % 3]);
-      root.style.setProperty('--m2', vars[(k + 1) % 3]);
-      root.style.setProperty('--m3', vars[(k + 2) % 3]);
-    }, 2000);
-  })();
-  </script>
+  <!-- Enhancements load after the page. If they fail, the page still works with CSS and classic JS. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer crossorigin="anonymous"></script>
+  <script src="{% static 'js/hero-scene.js' %}" defer></script>
+  <script src="{% static 'js/portfolio.js' %}" defer></script>
 </body>
 </html>
